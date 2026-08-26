@@ -19,3 +19,12 @@
 .secondaryList { margin: 8px 0 0; padding-left: 14px; list-style: none; border-left: 2px solid var(--border); }
 .secondaryList li { font-size: 12.5px; color: var(--text-sec); margin: 4px 0; line-height: 1.4; }
 .evidence { font-family: var(--font-mono); font-size: 10.5px; color: var(--dormant); margin-left: 8px; white-space: nowrap; }
+
+/* A proposed secondary is awaiting a human decision, not a finding. It reads
+   differently on purpose. */
+.proposed { border-left: 2px solid var(--blocked); margin-left: -14px; padding-left: 12px; }
+.proposedTag {
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--blocked); border: 1px solid currentColor;
+  border-radius: 3px; padding: 0 4px; margin-left: 6px;
+}

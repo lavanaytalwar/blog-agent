@@ -41,10 +41,17 @@ export default async function KeywordsPage() {
                     {secondaries.length > 0 ? (
                       <ul className={styles.secondaryList}>
                         {secondaries.map((s) => (
-                          <li key={s.keyword}>
+                          <li key={s.keyword} className={s.source === 'proposed' ? styles.proposed : undefined}>
                             {s.keyword}
+                            {/* A proposed term is awaiting a decision, not a finding.
+                                It must never read as evidence-backed. */}
+                            {s.source === 'proposed' ? (
+                              <span className={styles.proposedTag}>proposed</span>
+                            ) : null}
                             <span className={styles.evidence}>
-                              {s.impressions} imp · pos {s.position}
+                              {s.source === 'gsc'
+                                ? `${s.impressions} imp · pos ${s.position}`
+                                : (s.evidence ?? s.source)}
                               {s.variants?.length ? ` · +${s.variants.length} variant${s.variants.length === 1 ? '' : 's'}` : ''}
                             </span>
                           </li>
@@ -57,7 +64,7 @@ export default async function KeywordsPage() {
                     {k.status === 'excluded'
                       ? '—'
                       : secondaries.length > 0
-                        ? secondaries.length
+                        ? `${secondaries.length} ${k.secondary_source}`
                         : <span className={ui.sec}>none</span>}
                   </td>
                   <td className={ui.mono}>

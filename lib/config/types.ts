@@ -33,13 +33,23 @@ export type ClustersConfig = {
 
 export type KeywordStatus = 'available' | 'flagged' | 'unmapped' | 'in_progress' | 'covered' | 'excluded';
 
+export type SecondarySource = 'gsc' | 'serp' | 'proposed';
+
 export type Secondary = {
   keyword: string;
-  source: 'gsc' | 'serp' | 'proposed';
-  impressions: number;
-  position: number;
+  source: SecondarySource;
   window: string;
+  /** Search Console only — a serp or proposed term has no impressions of ours. */
+  impressions?: number;
+  position?: number;
+  /** Surface forms folded into this one. */
   variants?: string[];
+  /**
+   * Required for `serp` and `proposed`: a URL and the heading it came from, or
+   * the vocabulary source. An entry with neither impressions nor evidence is
+   * not writable — see the gsc-keywords skill.
+   */
+  evidence?: string;
 };
 
 export type Keyword = {
@@ -55,7 +65,7 @@ export type Keyword = {
   note?: string;
   source?: string;
   secondary_keywords?: Secondary[];
-  secondary_source?: 'gsc' | 'serp' | 'proposed' | 'none' | 'excluded';
+  secondary_source?: SecondarySource | 'none' | 'excluded';
 };
 
 export type KeywordsConfig = { keywords: Keyword[] };
