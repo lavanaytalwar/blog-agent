@@ -65,6 +65,7 @@ describe('prompt rendering', () => {
 
   test('carries the seasonal audience guard only on that cluster', () => {
     const seasonal = renderSystemPrompt(assembleBrief({
+      additionalKeywords: [],
       primaryKeyword: 'How to reduce wasted catalog ad spend',
     }));
     const other = renderSystemPrompt(assembleBrief({ primaryKeyword: KEYWORD }));
@@ -106,5 +107,33 @@ persona: ecommerce-leadership
 
   test('fails loudly on output that is not a draft', () => {
     assert.throws(() => parseResponse('I cannot write that.'), PipelineError);
+  });
+});
+
+describe('prompt and gates cannot drift', () => {
+  test('every enforced rule is stated in the prompt', async () => {
+    const { RULES } = await import('../gates/rules.js');
+    const prompt = renderSystemPrompt(assembleBrief({ primaryKeyword: KEYWORD }));
+    for (const id of Object.keys(RULES)) {
+      assert.ok(prompt.includes(id), `rule "${id}" is enforced but never stated in the prompt`);
+    }
+  });
+
+  test('the rules the gates actually emit are all in the table', async () => {
+    const { RULES } = await import('../gates/rules.js');
+    const { runGates } = await import('../gates/index.js');
+    const bad = {
+      slug: 'Bad Slug.', title: 'x', h1: 'x', metaDescription: 'y',
+      additionalKeywords: [],
+      primaryKeyword: 'shopify product recommendations',
+      clusterId: 'conversion-rate', personaId: 'ecommerce-leadership',
+      bodyMd: 'It may improve things in some cases. Results are guaranteed. $100/month.',
+    };
+    const report = runGates(bad, { existingSlugs: [], targetedKeywords: [] });
+    for (const r of report.results) {
+      for (const f of r.failures) {
+        assert.ok(f.rule in RULES, `gate emitted "${f.rule}" which is not in lib/gates/rules.ts`);
+      }
+    }
   });
 });

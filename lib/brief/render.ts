@@ -1,3 +1,4 @@
+import { promptRules } from '../gates/rules.js';
 import type { Brief } from './types.js';
 
 const list = (items: string[]) => items.map((i) => `- ${i}`).join('\n');
@@ -26,18 +27,39 @@ ${persona.name} — ${persona.titles.join(', ')}.
 They own: ${persona.owns.join(', ')}.
 Write to the person accountable for the number, not to a buying committee.`);
 
+  const secondaryList = (items: { keyword: string }[]) =>
+    items.length
+      ? list(items.map((s) => `"${s.keyword}"`))
+      : '  (none yet — do not invent any)';
+
   sections.push(`## What this post is about
 
 Cluster: ${cluster.name} (${cluster.key_problem})
-Primary keyword: "${brief.primaryKeyword}"
-${brief.secondaries.length
-    ? `Secondary keywords:\n${list(brief.secondaries.map((s) => `"${s.keyword}"`))}`
-    : 'No secondary keywords exist for this target yet. Do not invent any.'}
+Lead keyword: "${brief.primaryKeyword}"
+Its secondary keywords:
+${secondaryList(brief.secondaries)}
+${brief.additionalTargets.length
+    ? `
+This post was selected to cover ${brief.additionalTargets.length + 1} targets, not one.
+The lead keyword above owns the slug, title, H1 and meta description. These
+others each need a section of their own — an H2 that contains the keyword, and
+at least three real uses in the post. A passing mention is a failure:
+
+${brief.additionalTargets.map((t) => `"${t.keyword}"\n${secondaryList(t.secondaries)}`).join('\n\n')}
+
+Write one coherent post that genuinely covers all of them, not several posts
+stapled together. They share a cluster and a reader, so there is a single
+argument here — find it.`
+    : ''}
 
 Keyword budget, enforced mechanically:
-- primary keyword ${brief.budget.primary[0]}–${brief.budget.primary[1]} times
-- secondaries ${brief.budget.secondariesCombined[0]}–${brief.budget.secondariesCombined[1]} times combined
-Structural placements (title, H1, meta, first 100 words) count toward the primary budget.`);
+- lead keyword ${brief.budget.primary[0]}–${brief.budget.primary[1]} times
+- every other selected keyword at least 3 times, in a section it heads
+- all secondaries ${brief.budget.secondariesCombined[0]}–${brief.budget.secondariesCombined[1]} times combined
+Structural placements (title, H1, meta, first 100 words) count toward the lead budget.
+
+Cover these keywords and nothing else from the keyword list. Every other target
+belongs to a different post.`);
 
   sections.push(`## Numbers
 
@@ -77,7 +99,9 @@ Rules:
 - Open on an outcome or a contrast. Never on a question.
 - Lead the paragraph with the outcome; do not bury it after the mechanism.
 - Name the mechanism at least once — signals, SKU scoring, re-ranking.
-- Most sentences under 15 words. Helium copy is short-sentence copy.
+- Helium copy is short-sentence copy, but vary the rhythm. Runs of identical
+  five-word sentences read like a machine clearing its throat. Aim for most
+  sentences under 15 words with longer ones between them for air.
 - American spelling: personalization, optimization.
 - One metaphor per post, not three.
 ${voice.approvedContrastTargets.length
@@ -92,15 +116,24 @@ ${list(voice.coinedTerms)}`);
 
   sections.push(`## Structure
 
+- **${700 + brief.additionalTargets.length * 400}–${1200 + brief.additionalTargets.length * 400} words.**
+  The pages you are competing with are long buying guides. Anything under
+  ${500 + brief.additionalTargets.length * 250} words is rejected outright and will not rank regardless.
 - Open with a labelled TL;DR.
-- At least one H2.
-- Meta description 140–160 characters, containing the primary keyword.
+- Three or four H2 sections.
+- Meta description **140–160 characters including spaces**, containing the primary
+  keyword. This is a hard range and it is easy to miss — count it. For scale, the
+  line below is exactly 151 characters:
+  "How to improve revenue per visitor on Shopify: read live session signals, reorder what each shopper sees, and lift revenue without buying more traffic."
+- Use the primary keyword 3 to 6 times in total across title, H1, meta and body.
+  More than that reads as stuffing and is rejected.
 - Slug: lowercase ASCII words joined by single hyphens. No apostrophes, no periods.
 - Title and H1 must each contain one of: ${voice.requiredQualifiers.join(', ')}.
   "Helium" collides with the chemical element, Helium 10, and another company
   called Helium AI. A title that stands alone is a title that ranks for nothing.
 - Exactly one call to action, drawn from: ${voice.approvedCtas.join(' · ')}.
-- Link once to ${brief.commercialUrl}.`);
+- Link once to ${brief.commercialUrl}, as a markdown link with real anchor text —
+  [Helium merchandising](url), never a bare URL pasted into a sentence.`);
 
   if (brief.audienceGuard) {
     sections.push(`## Audience guard — this cluster only
@@ -127,6 +160,13 @@ ${brief.serpCoverage.map((s) => `${s.url}\n${list(s.headings.slice(0, 8))}`).joi
 ${list(brief.existingTitles)}`);
   }
 
+  sections.push(`## Every check that will run on what you write
+
+These are executed as code after you finish. Each one either passes or fails;
+there is no partial credit and no reviewer to argue with.
+
+${promptRules()}`);
+
   sections.push(`## Output format
 
 Return only this, with no preamble and no commentary:
@@ -136,7 +176,10 @@ slug: ...
 title: ...
 h1: ...
 meta_description: "..."
-primary_keyword: ${brief.primaryKeyword}
+primary_keyword: ${brief.primaryKeyword}${brief.additionalTargets.length
+    ? `
+additional_keywords: ${brief.additionalTargets.map((t) => t.keyword).join(', ')}`
+    : ''}
 cluster: ${cluster.id}
 persona: ${persona.id}
 ---
@@ -149,13 +192,19 @@ persona: ${persona.id}
 }
 
 export function renderUserMessage(brief: Brief): string {
+  const targets = [brief.primaryKeyword, ...brief.additionalTargets.map((t) => t.keyword)]
+    .map((k) => `"${k}"`);
+  const targeting = targets.length === 1
+    ? `targeting ${targets[0]}`
+    : `targeting ${targets.slice(0, -1).join(', ')} and ${targets.at(-1)}, leading on ${targets[0]}`;
+
   if (brief.attempt > 1 && brief.note) {
     return `This is attempt ${brief.attempt}. The previous draft was rejected.
 
 What to do differently:
 ${brief.note}
 
-Write the post again, targeting "${brief.primaryKeyword}".`;
+Write the post again, ${targeting}.`;
   }
-  return `Write the post, targeting "${brief.primaryKeyword}".`;
+  return `Write the post, ${targeting}.`;
 }

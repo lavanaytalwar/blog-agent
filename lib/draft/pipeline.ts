@@ -29,6 +29,7 @@ export class PipelineDraftSource implements DraftSource {
   async generate(request: DraftRequest): Promise<Draft> {
     const brief = assembleBrief({
       primaryKeyword: request.primaryKeyword,
+      additionalKeywords: request.additionalKeywords,
       personaId: request.personaId,
       attempt: request.attempt,
       note: request.note,
@@ -44,7 +45,13 @@ export class PipelineDraftSource implements DraftSource {
       temperature: 0.7,
     });
 
-    return parseResponse(result.text);
+    // The selection is a fact about the request, not something the model gets a
+    // vote on. Whatever it echoed in the front matter is overwritten here so the
+    // gates check what was actually asked for.
+    return {
+      ...parseResponse(result.text),
+      additionalKeywords: brief.additionalTargets.map((t) => t.keyword),
+    };
   }
 }
 
@@ -60,6 +67,14 @@ export function parseResponse(text: string): Draft {
 
   const start = body.indexOf('---');
   if (start > 0) body = body.slice(start);
+
+  // Models sometimes drop the opening delimiter and begin straight at `slug:`.
+  // Failing an otherwise complete draft over a missing three characters is a
+  // waste of a generation, so put it back.
+  if (!body.startsWith('---') && /^slug:\s*\S/.test(body)) {
+    const close = body.indexOf('\n---');
+    if (close !== -1) body = `---\n${body}`;
+  }
 
   try {
     return parseDraft(body);

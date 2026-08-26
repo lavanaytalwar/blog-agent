@@ -4,7 +4,15 @@ import { result, type Draft, type Failure, type GateResult } from './types.js';
 
 /** How far after a coined term we look for its definition. */
 const DEFINITION_WINDOW = 160;
-const DEFINITION_MARKERS = /\s(?:is|are|means|—|–|:|\(|refers to|describes)\s?/i;
+
+/**
+ * Word markers need a space in front so "this" does not match inside "thistle".
+ * Punctuation markers must not, because the tight appositive —
+ * "session velocity—measuring how fast a shopper moves" — is exactly how
+ * brand-voice.md writes them, and requiring a leading space rejected a
+ * correctly defined term.
+ */
+const DEFINITION_MARKERS = /(?:\s(?:is|are|means|refers to|describes)\s)|[—–:(]/i;
 
 /**
  * Gate 5 — Tone floor.

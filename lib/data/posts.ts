@@ -55,6 +55,7 @@ export async function getPost(id: number): Promise<PostRow | null> {
 
 export async function createPost(input: {
   primaryKeyword: string;
+  additionalKeywords?: string[];
   clusterId: string | null;
   personaId: string | null;
   slug: string;
@@ -62,8 +63,10 @@ export async function createPost(input: {
 }): Promise<number> {
   const db = sql();
   const rows = await db`
-    insert into posts (slug, title, primary_keyword, cluster_id, persona_id, status)
+    insert into posts (slug, title, primary_keyword, additional_keywords,
+                       cluster_id, persona_id, status)
     values (${input.slug}, ${input.title}, ${input.primaryKeyword},
+            ${input.additionalKeywords ?? []},
             ${input.clusterId}, ${input.personaId}, 'drafted')
     returning id
   `;
@@ -74,12 +77,16 @@ export async function createPost(input: {
 export async function cannibalizationContext() {
   const db = sql();
   const rows = await db`
-    select slug, primary_keyword from posts
+    select slug, primary_keyword, additional_keywords from posts
     where status not in ('discarded', 'failed_gates')
   `;
   return {
     slugs: rows.map((r) => String(r.slug)),
-    keywords: rows.map((r) => String(r.primary_keyword ?? '')).filter(Boolean),
+    // Every target an existing post claims, not just its lead — otherwise a new
+    // post could lead on a keyword an older post already absorbed.
+    keywords: rows
+      .flatMap((r) => [String(r.primary_keyword ?? ''), ...((r.additional_keywords as string[]) ?? [])])
+      .filter(Boolean),
   };
 }
 

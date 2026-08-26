@@ -1,5 +1,5 @@
 import { loadConfig } from '../config/load.js';
-import type { Brief, BriefClaim, KeywordBudget, SerpCoverage } from './types.js';
+import type { Brief, BriefClaim, BriefTarget, KeywordBudget, SerpCoverage } from './types.js';
 
 /**
  * Turns a keyword into everything a writer needs, deterministically.
@@ -11,10 +11,23 @@ import type { Brief, BriefClaim, KeywordBudget, SerpCoverage } from './types.js'
 /** From the original brief: primary 4-5 uses, secondaries 4-5 combined. */
 export const BUDGET: KeywordBudget = { primary: [4, 5], secondariesCombined: [4, 5] };
 
+/**
+ * Each additional target brings its own secondaries, so the combined ceiling has
+ * to move with the selection or a two-keyword post fails for doing exactly what
+ * it was asked to do.
+ */
+const SECONDARY_BUDGET_PER_TARGET = 4;
+
 export class BriefError extends Error {}
 
 export type AssembleInput = {
   primaryKeyword: string;
+  /**
+   * Further primaries chosen alongside the lead on the dashboard. Every one of
+   * them, and every secondary attached to them, becomes part of what this post
+   * is allowed and required to cover.
+   */
+  additionalKeywords?: string[];
   personaId?: string | null;
   attempt?: number;
   note?: string;
@@ -25,15 +38,46 @@ export type AssembleInput = {
 export function assembleBrief(input: AssembleInput): Brief {
   const { keywords, clusters, ledger, blocklist } = loadConfig();
 
-  const keyword = keywords.keywords.find(
-    (k) => k.keyword.toLowerCase() === input.primaryKeyword.trim().toLowerCase(),
-  );
-  if (!keyword) throw new BriefError(`"${input.primaryKeyword}" is not in config/keywords.json.`);
-  if (keyword.status === 'excluded') {
-    throw new BriefError(`"${keyword.keyword}" is excluded: ${keyword.exclusion_reason ?? 'no reason recorded'}`);
-  }
-  if (!keyword.cluster_id) {
-    throw new BriefError(`"${keyword.keyword}" has no cluster. A human must map it in config/clusters.json.`);
+  const lookup = (raw: string) => {
+    const found = keywords.keywords.find(
+      (k) => k.keyword.toLowerCase() === raw.trim().toLowerCase(),
+    );
+    if (!found) throw new BriefError(`"${raw}" is not in config/keywords.json.`);
+    if (found.status === 'excluded') {
+      throw new BriefError(`"${found.keyword}" is excluded: ${found.exclusion_reason ?? 'no reason recorded'}`);
+    }
+    if (!found.cluster_id) {
+      throw new BriefError(`"${found.keyword}" has no cluster. A human must map it in config/clusters.json.`);
+    }
+    return found;
+  };
+
+  const keyword = lookup(input.primaryKeyword);
+
+  // Deduplicated against the lead and against each other, so selecting the same
+  // target twice on the dashboard is a no-op rather than a doubled budget.
+  const seen = new Set([keyword.keyword.toLowerCase()]);
+  const additional = (input.additionalKeywords ?? [])
+    .map((k) => k.trim())
+    .filter(Boolean)
+    .map(lookup)
+    .filter((k) => {
+      const key = k.keyword.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+  // One post, one cluster. The persona, the commercial URL and the audience
+  // guard all hang off the cluster, so a selection spanning two of them has no
+  // single correct answer and must be split into two posts instead.
+  const straying = additional.filter((k) => k.cluster_id !== keyword.cluster_id);
+  if (straying.length) {
+    throw new BriefError(
+      `Every keyword in one post must share a cluster. "${keyword.keyword}" is in `
+      + `"${keyword.cluster_id}"; ${straying.map((k) => `"${k.keyword}" is in "${k.cluster_id}"`).join(', ')}. `
+      + 'Generate these as separate posts.',
+    );
   }
 
   const cluster = clusters.clusters.find((c) => c.id === keyword.cluster_id);
@@ -59,13 +103,27 @@ export function assembleBrief(input: AssembleInput): Brief {
     reason: c.blocked_reason,
   }));
 
+  const additionalTargets: BriefTarget[] = additional.map((k) => ({
+    keyword: k.keyword,
+    secondaries: k.secondary_keywords ?? [],
+  }));
+
+  const budget: KeywordBudget = {
+    primary: BUDGET.primary,
+    secondariesCombined: [
+      BUDGET.secondariesCombined[0] + additionalTargets.length * SECONDARY_BUDGET_PER_TARGET,
+      BUDGET.secondariesCombined[1] + additionalTargets.length * SECONDARY_BUDGET_PER_TARGET,
+    ],
+  };
+
   return {
     primaryKeyword: keyword.keyword,
     secondaries: keyword.secondary_keywords ?? [],
+    additionalTargets,
     cluster,
     persona,
     commercialUrl: cluster.commercial_url,
-    budget: BUDGET,
+    budget,
     allowedClaims,
     blockedClaims,
     // The allowlist goes in, never the confidential roster. Handing a model the

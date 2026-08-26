@@ -228,6 +228,97 @@ describe('gate 4 — cannibalization', () => {
     });
     assert.ok(rules(r).includes('slug.unique'));
   });
+
+  // Multi-target selection: the dashboard can ask one post to own several
+  // keywords, and everything the lead is held to applies to the rest.
+  test('an additional target is not foreign to its own post', () => {
+    const r = cannibalizationGate(
+      draft({
+        additionalKeywords: ['How to personalise a Shopify store'],
+        bodyMd: `${passingDraft.bodyMd}\n\nHow to personalise a Shopify store. `
+          + 'How to personalise a Shopify store. How to personalise a Shopify store.',
+      }),
+      { existingSlugs: [], targetedKeywords: [] },
+    );
+    assert.ok(!rules(r).includes('keyword.foreign'), JSON.stringify(r.failures));
+  });
+
+  test('an additional target already owned by another post is rejected', () => {
+    const r = cannibalizationGate(
+      draft({ additionalKeywords: ['How to personalise a Shopify store'] }),
+      { existingSlugs: [], targetedKeywords: ['how to personalise a shopify store'] },
+    );
+    assert.ok(rules(r).includes('keyword.untargeted'));
+  });
+});
+
+describe('multi-target selection', () => {
+  const two = {
+    additionalKeywords: ['How to personalise a Shopify store'],
+  };
+
+  test('a second target needs its own H2', () => {
+    const r = structureGate(draft(two));
+    assert.ok(rules(r).includes('keyword.additional_unheaded'), JSON.stringify(r.failures));
+  });
+
+  test('a second target mentioned once is not covered', () => {
+    const r = structureGate(draft({
+      ...two,
+      bodyMd: `${passingDraft.bodyMd}\n\n## How to personalise a Shopify store\n\nOne mention.`,
+    }));
+    assert.ok(rules(r).includes('keyword.additional_underused'), JSON.stringify(r.failures));
+  });
+
+  test('the word floor rises with each target', () => {
+    const one = structureGate(passingDraft);
+    const many = structureGate(draft({ additionalKeywords: ['a', 'b', 'c'] }));
+    const floorOf = (r: ReturnType<typeof structureGate>) =>
+      r.failures.find((f) => f.rule === 'length.floor')?.message ?? '';
+    assert.ok(floorOf(many).includes('1250'), floorOf(many));
+    assert.ok(!floorOf(one).includes('1250'));
+  });
+
+  test('targets from another cluster are rejected, not silently merged', () => {
+    // "post purchase upsell" is aov-basket; the passing draft leads on a
+    // conversion-rate keyword.
+    const r = strategyGate(draft({ additionalKeywords: ['post purchase upsell'] }));
+    assert.ok(rules(r).includes('cluster.targets_agree'), JSON.stringify(r.failures));
+  });
+
+  test('assembleBrief refuses a cross-cluster selection', async () => {
+    const { assembleBrief, BriefError } = await import('../brief/assemble.js');
+    assert.throws(
+      () => assembleBrief({
+        primaryKeyword: 'How to improve revenue per visitor',
+        additionalKeywords: ['post purchase upsell'],
+      }),
+      BriefError,
+    );
+  });
+
+  test('assembleBrief carries every selected target and its secondaries', async () => {
+    const { assembleBrief } = await import('../brief/assemble.js');
+    const brief = assembleBrief({
+      primaryKeyword: 'How to improve revenue per visitor',
+      additionalKeywords: ['How to personalise a Shopify store', 'How to improve revenue per visitor'],
+    });
+    // The duplicate of the lead is dropped, not double-counted.
+    assert.equal(brief.additionalTargets.length, 1);
+    assert.equal(brief.additionalTargets[0]!.keyword, 'How to personalise a Shopify store');
+    assert.ok(brief.budget.secondariesCombined[1] > 5);
+  });
+
+  test('the prompt states every target it will be gated on', async () => {
+    const { assembleBrief } = await import('../brief/assemble.js');
+    const { renderSystemPrompt } = await import('../brief/render.js');
+    const prompt = renderSystemPrompt(assembleBrief({
+      primaryKeyword: 'How to improve revenue per visitor',
+      additionalKeywords: ['How to personalise a Shopify store'],
+    }));
+    assert.ok(prompt.includes('How to personalise a Shopify store'));
+    assert.match(prompt, /section of their own/);
+  });
 });
 
 describe('gate 5 — tone floor', () => {
@@ -315,5 +406,69 @@ describe('primitives', () => {
 
   test('splits sentences on terminal punctuation', () => {
     assert.equal(sentences('One. Two! Three?').length, 3);
+  });
+});
+
+describe('numeral shapes', () => {
+  test('a plus-count is not the same figure as a percentage', async () => {
+    const { extractNumerals } = await import('./numerals.js');
+    const [plus] = extractNumerals('reads 40+ site-level signals');
+    const [pct] = extractNumerals('CVR up to ~40%');
+    assert.equal(plus?.normalized, pct?.normalized, 'same digits');
+    assert.notEqual(plus?.shape, pct?.shape, 'different quantities');
+  });
+
+  test('a platform mechanism claim is not attributed to a customer', () => {
+    // Real GLM-5.2 output: "40+" appeared in a sentence naming Akiso, and the
+    // digits collided with Lifelong's 40% conversion lift.
+    const r = provenanceGate(draft({
+      bodyMd: `${passingDraft.bodyMd}\n\nAkiso runs on the same engine, which reads 40+ site-level signals.`,
+    }));
+    assert.ok(!rules(r).includes('claim.misattributed'), JSON.stringify(r.failures));
+  });
+});
+
+describe('coined-term definitions', () => {
+  const define = (clause: string) => draft({
+    bodyMd: passingDraft.bodyMd.replace(
+      'Session-aware merchandising is reordering products from live behaviour,\nnot from a segment decided last quarter.',
+      clause,
+    ),
+  });
+
+  test('accepts a tight em-dash appositive', () => {
+    // Real GLM-5.2 output. The first version of this rule required a space
+    // before the dash and rejected a correctly defined term.
+    const r = toneFloorGate(define('Session-aware merchandising—reordering products from live behaviour—lifts revenue.'));
+    assert.ok(!rules(r).includes('tone.coined_term_undefined'), JSON.stringify(r.failures));
+  });
+
+  test('accepts a colon definition', () => {
+    const r = toneFloorGate(define('Session-aware merchandising: reordering products from live behaviour.'));
+    assert.ok(!rules(r).includes('tone.coined_term_undefined'));
+  });
+
+  test('still rejects a term used with no definition at all', () => {
+    const r = toneFloorGate(define('Session-aware merchandising helps a lot and we like it.'));
+    assert.ok(rules(r).includes('tone.coined_term_undefined'));
+  });
+});
+
+describe('overlapping keyword counting', () => {
+  test('a nested secondary is not billed twice', async () => {
+    const { countNonOverlapping } = await import('./text.js');
+    const text = 'revenue per visitor rose. revenue per visitor rose again.';
+    const primary = countNonOverlapping(text, ['revenue per visitor']);
+    assert.equal(primary.total, 2);
+    const secondary = countNonOverlapping(text, ['revenue per visit'], primary.spans);
+    assert.equal(secondary.total, 0, '"revenue per visit" is inside "revenue per visitor"');
+  });
+
+  test('a genuinely separate use of the shorter term still counts', async () => {
+    const { countNonOverlapping } = await import('./text.js');
+    const text = 'revenue per visitor rose. revenue per visit is the metric.';
+    const primary = countNonOverlapping(text, ['revenue per visitor']);
+    const secondary = countNonOverlapping(text, ['revenue per visit'], primary.spans);
+    assert.equal(secondary.total, 1);
   });
 });

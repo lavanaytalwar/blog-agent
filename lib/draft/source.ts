@@ -3,6 +3,8 @@ import type { Draft } from '../gates/types.js';
 
 export type DraftRequest = {
   primaryKeyword: string;
+  /** Further primaries selected alongside the lead. Defaults to none. */
+  additionalKeywords?: string[];
   clusterId: string | null;
   personaId: string | null;
   /** Feedback from a rejected attempt, passed forward to the next one. */
@@ -77,6 +79,7 @@ export class StubDraftSource implements DraftSource {
       h1: title,
       metaDescription: buildMeta(kw),
       primaryKeyword: kw,
+      additionalKeywords: request.additionalKeywords ?? [],
       clusterId: request.clusterId,
       personaId: request.personaId,
       bodyMd: body,

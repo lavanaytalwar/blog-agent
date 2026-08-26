@@ -18,6 +18,7 @@ const BAD: Draft = {
   title: 'Why product recommendations don’t convert on Shopify',
   h1: 'Why product recommendations don’t convert on Shopify',
   metaDescription: 'Short meta.',
+  additionalKeywords: [],
   primaryKeyword: 'shopify product recommendations',
   clusterId: 'conversion-rate',
   personaId: 'ecommerce-leadership',

@@ -159,13 +159,37 @@ Three units, mirroring the reference architecture:
   claims come from the ledger; terminology from `entity-record.md` §10.
 - **pipeline** — orchestrates. Contains no writing rules of its own.
 
+### 4.2b One post, several targets
+
+A post is generated for a **selection** of keywords, not a single one. The
+dashboard offers a lead keyword and then checkboxes for the other untouched
+keywords in the same cluster.
+
+- The **lead** owns the slug, title, H1, meta description and first 100 words.
+- Every **additional** target is enforced exactly like the lead everywhere else:
+  its own H2, at least three uses, and its secondary keywords required.
+- The word floor rises 250 per additional target, and the combined secondary
+  budget rises with it.
+- The selection is stored in `posts.additional_keywords` and re-validated
+  against `config/` on every gate run, so a re-ingest can never silently change
+  what a published post claimed.
+- The selection is a fact about the **request**. The pipeline overwrites
+  whatever the model echoed in the front matter before gating, so the model has
+  no vote in what it is judged against.
+
+Everything outside the selection stays foreign: `keyword.foreign` allows one
+passing mention and no more. This is what stops two posts chasing one query.
+
 ### 4.3 The five gates
 
 All five are **deterministic code**, not model judgment. This is deliberate: it means
 swapping the drafting model changes output quality but can never change what passes.
 
 **Gate 1 — Strategy**
-- primary keyword resolves to an approved keyword record
+- every selected keyword resolves to an approved keyword record
+- all selected keywords share one cluster (`cluster.targets_agree`) — the persona,
+  the commercial URL and the audience guard all hang off the cluster, so a
+  cross-cluster selection has no single correct answer and must be split
 - cluster and persona both mapped
 - title and H1 each contain at least one required qualifier: `Shopify` · `D2C` ·
   `ecommerce` · `personalization` (source: `entity-record.md` §1 disambiguation)
@@ -177,7 +201,10 @@ swapping the drafting model changes output quality but can never change what pas
   *(three live posts violate this today — see §9)*
 - meta description present, 140–160 chars
 - exactly one CTA, drawn from the approved set in `offers.md` §8
-- at least one H2; primary keyword present in title, H1, meta, and first 100 words
+- at least one H2; lead keyword present in title, H1, meta, and first 100 words
+- each additional selected keyword has an H2 containing it and at least three uses
+  (`keyword.additional_unheaded`, `keyword.additional_underused`)
+- word floor of 500, plus 250 for every additional selected keyword
 - majority of sentences under 15 words (`brand-voice.md` §9)
 
 **Gate 3 — Claim provenance**
@@ -188,7 +215,8 @@ swapping the drafting model changes output quality but can never change what pas
 - **no founder name** until conflicts #11 and #12 are resolved (§8)
 
 **Gate 4 — Cannibalization**
-- primary keyword not already targeted by a post in `posts`
+- no selected keyword — lead or additional — already targeted by a post in `posts`
+- no keyword outside the selection used more than once (`keyword.foreign`)
 - slug unique against `posts` and against the live `/blogs` sitemap
 - if an existing post covers the topic, the run stops and reports which post
 

@@ -6,11 +6,32 @@
  * a multiplier, a price, a count, or a time-to-value. Failing on every digit
  * would make the gate unusable; failing on none would make it pointless.
  */
+export type Shape = 'percent' | 'multiplier' | 'currency' | 'count' | 'duration' | 'plain';
+
 export type Numeral = {
   raw: string;        // as written, e.g. "₹45 crore"
   normalized: string; // digits only, e.g. "45"
-  index: number;      // character offset, for proximity checks
+  shape: Shape;       // what kind of quantity it is
+  index: number;      // character offset
 };
+
+/**
+ * A bare numeral loses the thing that gives it meaning. "40+" (site-level
+ * signals) and "40%" (Lifelong's conversion lift) share the digits and share
+ * nothing else, and matching on digits alone attributed a platform mechanism
+ * claim to a customer.
+ */
+export function shapeOf(raw: string): Shape {
+  if (/%/.test(raw)) return 'percent';
+  if (/[×xX]\s*$/.test(raw.trim())) return 'multiplier';
+  if (/[₹$]/.test(raw)) return 'currency';
+  if (/(second|minute|hour|day|week|month)/i.test(raw)) return 'duration';
+  if (/\+/.test(raw) || /\d\s?[MK]\b/i.test(raw) || /(crore|lakh)/i.test(raw)) return 'count';
+  return 'plain';
+}
+
+/** Identity used when comparing a draft figure to a ledger figure. */
+export const key = (n: { normalized: string; shape: Shape }) => `${n.normalized}:${n.shape}`;
 
 const PATTERNS: RegExp[] = [
   /[+~-]?\d[\d,]*\.?\d*\s?%/g,                                  // 30%, ~40%, 0.5%
@@ -37,7 +58,7 @@ export function extractNumerals(text: string): Numeral[] {
       // percentage match are already excluded by the patterns above.
       if (YEAR.test(digits) && !/[%×xX₹$+]/.test(raw)) continue;
 
-      candidates.push({ raw, normalized: normalize(digits), index: m.index ?? 0 });
+      candidates.push({ raw, normalized: normalize(digits), shape: shapeOf(raw), index: m.index ?? 0 });
     }
   }
 
@@ -52,7 +73,7 @@ export function extractNumerals(text: string): Numeral[] {
   let reach = -1;
   for (const c of spans) {
     if (c.end <= reach) continue; // fully covered by a wider match
-    kept.push({ raw: c.raw, normalized: c.normalized, index: c.index });
+    kept.push({ raw: c.raw, normalized: c.normalized, shape: c.shape, index: c.index });
     reach = Math.max(reach, c.end);
   }
   return kept;

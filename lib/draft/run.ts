@@ -23,6 +23,9 @@ export async function generateForPost(postId: number, note?: string): Promise<vo
     const attempt = Number(post.attempt ?? 1);
     const draft = await getDraftSource().generate({
       primaryKeyword: String(post.primary_keyword ?? ''),
+      additionalKeywords: Array.isArray(post.additional_keywords)
+        ? (post.additional_keywords as string[])
+        : [],
       clusterId: post.cluster_id ? String(post.cluster_id) : null,
       personaId: post.persona_id ? String(post.persona_id) : null,
       note,
@@ -33,9 +36,14 @@ export async function generateForPost(postId: number, note?: string): Promise<vo
     const report = runGates(draft, {
       // The post's own row must not make it collide with itself.
       existingSlugs: existing.slugs.filter((s) => s !== String(post.slug)),
-      targetedKeywords: existing.keywords.filter(
-        (k) => k.toLowerCase() !== String(post.primary_keyword ?? '').toLowerCase(),
-      ),
+      // The post's own targets must not make it collide with itself either.
+      targetedKeywords: (() => {
+        const mine = new Set(
+          [String(post.primary_keyword ?? ''), ...((post.additional_keywords as string[]) ?? [])]
+            .map((k) => k.toLowerCase()),
+        );
+        return existing.keywords.filter((k) => !mine.has(k.toLowerCase()));
+      })(),
     });
 
     await db`

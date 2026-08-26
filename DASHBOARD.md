@@ -43,7 +43,7 @@ fixtures, which is the only way to get that screen right.
 | Route | Renders |
 |---|---|
 | `/` | Queue — anything awaiting a decision, then recent activity |
-| `/generate` | Start a draft: keyword picker or free-text topic |
+| `/generate` | Start a draft: lead keyword, plus any same-cluster keywords to cover with it |
 | `/posts` | Every post, filterable by status |
 | `/posts/[id]` | **The main screen.** Draft, gate report, decision |
 | `/keywords` | Coverage map — which targets have a post, which are untouched |
@@ -128,6 +128,12 @@ auto-publish handler stays a stub.
 ## 5. `/generate`
 
 Two ways in:
+
+**Also-cover picker** — once a lead keyword is chosen, the untouched keywords in the
+same cluster appear as checkboxes, each showing how many secondaries it brings. A live
+line reports targets, total secondaries and the resulting word floor, so the cost of
+adding a target is visible before the draft is started rather than after it comes back
+short. Cross-cluster keywords are never offered: one post covers one cluster.
 
 **Keyword picker** — a table of `keywords` joined against `posts`, showing keyword,
 cluster, coverage state, and any `entity_risk`. Excluded keywords are listed but

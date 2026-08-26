@@ -28,7 +28,8 @@
     "serp:headings": "tsx scripts/serp-headings.ts",
     "keywords:serp": "tsx scripts/apply-serp-secondaries.ts",
     "brief": "tsx scripts/brief.ts",
-    "draft": "tsx scripts/draft-once.ts"
+    "draft": "tsx scripts/draft-once.ts",
+    "draft:batch": "tsx scripts/draft-batch.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",

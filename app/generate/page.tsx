@@ -17,6 +17,9 @@ export default async function GeneratePage() {
       clusterId: k.cluster_id,
       clusterName: cluster?.name ?? 'Unmapped',
       personas: cluster?.personas ?? [],
+      // Shown in the picker so the cost of adding a target is visible before
+      // it is added, not after the draft comes back 400 words short.
+      secondaries: (k.secondary_keywords ?? []).map((sec) => sec.keyword),
       disabled: k.status === 'excluded' || k.postId !== null || !k.cluster_id,
       reason:
         k.status === 'excluded' ? (k.exclusion_reason ?? 'excluded')

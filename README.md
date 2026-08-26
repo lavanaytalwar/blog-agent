@@ -32,7 +32,8 @@ On Vercel, pass the same JSON as the `GSC_KEY_JSON` env var instead of a file pa
 | `npm run linear:merchants` | Rebuilds the merchant roster from Linear projects | no |
 | `npm run keywords:secondaries` | Applies mined secondaries to the config | yes |
 | `npm run gate -- <file.md>` | Runs all five gates against a draft file (`--offline` skips the live slug check) | no |
-| `npm test` | 46 gate tests | no |
+| `npm run draft -- "<kw>" ["<also>" ...]` | One real generation, gated, written to `content/drafts/` | no |
+| `npm test` | 98 gate, brief and pipeline tests | no |
 | `npm run status` | Row counts, branded split, keyword coverage | yes |
 | `npm run dev` | Dashboard on :3000 | yes |
 | `npm run seed:demo` | Creates a deliberately failing draft, for exercising the review screen | yes |
@@ -71,7 +72,7 @@ seeded from them — never the other way round.
 | Route | Does |
 |---|---|
 | `/` | Queue: what is awaiting a decision |
-| `/generate` | Pick a target, start a draft |
+| `/generate` | Pick a lead target, add same-cluster targets to cover with it, start a draft |
 | `/posts` · `/posts/[id]` | History, and the review screen |
 | `/keywords` | Coverage map and the remaining-target count |
 | `/measurement` | The non-brand baseline and per-post readings |
@@ -132,9 +133,19 @@ persona: ecommerce-leadership
 ## The writing pipeline
 
 Everything decided before the model runs is decided deterministically. `assembleBrief`
-turns a keyword into the cluster, persona, secondaries, keyword budget, the exact list of
-numbers the draft may state, the customers it may name, the voice rules, and what the
-currently-ranking pages cover. The model's only job is to write.
+turns the selected keywords into the cluster, persona, secondaries, keyword budget, the
+exact list of numbers the draft may state, the customers it may name, the voice rules,
+and what the currently-ranking pages cover. The model's only job is to write.
+
+A post can be generated for several keywords at once. The first leads — it owns the
+slug, title, H1 and meta — and every other selected keyword is enforced the same way
+everywhere else: its own H2, at least three uses, and its secondaries required. The word
+floor rises 250 per additional target. All selected keywords must share a cluster,
+because the persona, commercial URL and audience guard all hang off it.
+
+```bash
+npm run draft -- "how to improve revenue per visitor" "how to personalise a shopify store"
+```
 
 ```bash
 npm run brief -- "AI ecommerce merchandising software" --prompt

@@ -1,85 +1,183 @@
 {
   "_source": "brand-voice.md §6 (Avoid), §8 (Do/Don't), entity-record.md §11 (competitive entities), business-profile.md §6 (public customers).",
   "_rule": "Two tiers, because brand-voice.md §8 distinguishes them: 'Name the competitor category (GA4, Clarity, agencies) and draw the line. Don't attack a named competitor's brand directly.'",
-
   "competitors_banned_in_slug_title_h1": [
-    "Nosto", "Dynamic Yield", "Rebuy", "Unbxd", "Algolia", "Klevu", "Searchspring", "Anchanto",
-    "Bloomreach", "Zoovu", "Depict", "Toolio", "Kimonix"
+    "Nosto",
+    "Dynamic Yield",
+    "Rebuy",
+    "Unbxd",
+    "Algolia",
+    "Klevu",
+    "Searchspring",
+    "Anchanto",
+    "Bloomreach",
+    "Zoovu",
+    "Depict",
+    "Toolio",
+    "Kimonix"
   ],
-
   "approved_contrast_targets": {
     "_note": "Naming these is on-brand and load-bearing in Helium's best-performing post titles. Allowed anywhere, including titles. Restricted to the diagnostics-analytics cluster by clusters.json.",
-    "terms": ["GA4", "Google Analytics", "Microsoft Clarity", "agencies", "creative agencies", "UGC shops", "retainers"]
-  },
-
-  "banned_phrases": {
-    "_source": "brand-voice.md §6 Avoid",
     "terms": [
-      "revolutionary", "cutting-edge", "cutting edge", "seamless", "unlock the power of",
-      "in today's fast-paced", "in today's fast paced", "game-changing", "best-in-class",
-      "delve", "it's not just", "leverage synergies", "world-class"
+      "GA4",
+      "Google Analytics",
+      "Microsoft Clarity",
+      "agencies",
+      "creative agencies",
+      "UGC shops",
+      "retainers"
     ]
   },
-
+  "banned_phrases": {
+    "_source": "brand-voice.md §6 Avoid, plus clichés observed in real generated drafts.",
+    "terms": [
+      "revolutionary",
+      "cutting-edge",
+      "cutting edge",
+      "seamless",
+      "unlock the power of",
+      "in today's fast-paced",
+      "in today's fast paced",
+      "game-changing",
+      "best-in-class",
+      "delve",
+      "it's not just",
+      "leverage synergies",
+      "world-class",
+      "leaving money on the table",
+      "money on the table",
+      "at the end of the day",
+      "needle in a haystack",
+      "low-hanging fruit",
+      "move the needle",
+      "table stakes",
+      "the bottom line is",
+      "when it comes to"
+    ]
+  },
   "banned_ai_mysticism": {
     "_source": "brand-voice.md §6 — 'Helium always names the mechanism'",
-    "terms": ["magic", "magical", "black box", "just works", "powered by advanced AI", "AI-powered magic"]
+    "terms": [
+      "magic",
+      "magical",
+      "black box",
+      "just works",
+      "powered by advanced AI",
+      "AI-powered magic"
+    ]
   },
-
   "hedges": {
     "_source": "brand-voice.md §6 — hedges are banned outright. Gate 5 fails the draft on any match.",
     "terms": [
-      "could help", "may help", "may improve", "might improve", "designed to potentially",
-      "can potentially", "some merchants", "arguably", "in some cases", "tends to",
-      "we believe", "it is possible that", "generally speaking", "more or less"
+      "could help",
+      "may help",
+      "may improve",
+      "might improve",
+      "designed to potentially",
+      "can potentially",
+      "some merchants",
+      "arguably",
+      "in some cases",
+      "tends to",
+      "we believe",
+      "it is possible that",
+      "generally speaking",
+      "more or less"
     ]
   },
-
   "hard_superlatives": {
     "_note": "Claims about the world rather than framing. Banned regardless of how boastful the brief is.",
-    "terms": ["guaranteed", "guarantee", "#1", "number one", "the only", "proven to", "risk-free", "always works"]
+    "terms": [
+      "guaranteed",
+      "guarantee",
+      "#1",
+      "number one",
+      "the only",
+      "proven to",
+      "risk-free",
+      "always works"
+    ]
   },
-
   "enterprise_jargon": {
     "_source": "customer-language.md §7 — none of this appears in how Helium's customers speak",
     "terms": [
-      "customer journey orchestration", "omnichannel engagement fabric",
-      "experience cloud", "hyper-personalization at scale", "digital transformation"
+      "customer journey orchestration",
+      "omnichannel engagement fabric",
+      "experience cloud",
+      "hyper-personalization at scale",
+      "digital transformation"
     ]
   },
-
   "required_title_qualifiers": {
     "_source": "entity-record.md §1 — 'Helium' is a heavily contested token. Never optimize for the bare word.",
     "_rule": "Title and H1 must each contain at least one of these.",
-    "terms": ["Shopify", "D2C", "DTC", "ecommerce", "e-commerce", "personalization", "personalisation", "merchandising"]
+    "terms": [
+      "Shopify",
+      "D2C",
+      "DTC",
+      "ecommerce",
+      "e-commerce",
+      "personalization",
+      "personalisation",
+      "merchandising"
+    ]
   },
-
   "approved_public_customers": {
     "_source": "business-profile.md §6 — names already public in Helium's own marketing. Gate 3 fails any customer name outside this list.",
     "names": [
-      "Lenskart", "Mamaearth", "Marks & Spencer", "Noise", "W for Woman", "SUPERYOU",
-      "Innovist", "Dr. Sheth's", "Salty", "GharSoaps", "Akiso", "Culture", "Aurelia",
-      "Sudathi", "Campus Sutra", "Alchemy Fine Home", "Wanderlooms", "The Biohackers Co.",
-      "Michelle & Kenza", "Bruno Milano", "Lifelong"
+      "Lenskart",
+      "Mamaearth",
+      "Marks & Spencer",
+      "Noise",
+      "W for Woman",
+      "SUPERYOU",
+      "Innovist",
+      "Dr. Sheth's",
+      "Salty",
+      "GharSoaps",
+      "Akiso",
+      "Culture",
+      "Aurelia",
+      "Sudathi",
+      "Campus Sutra",
+      "Alchemy Fine Home",
+      "Wanderlooms",
+      "The Biohackers Co.",
+      "Michelle & Kenza",
+      "Bruno Milano",
+      "Lifelong"
     ]
   },
-
   "approved_ctas": {
     "_source": "offers.md §8. Gate 2 requires exactly one CTA, drawn from this set.",
     "terms": [
-      "Book a call", "See Helium on my store", "Get Your Free 7-Day Analysis",
-      "See it in action", "Watch a live session", "Contact us", "View case study",
-      "Try 5 creatives free", "See Your Real Drivers", "Download Shopify App"
+      "Book a call",
+      "See Helium on my store",
+      "Get Your Free 7-Day Analysis",
+      "See it in action",
+      "Watch a live session",
+      "Contact us",
+      "View case study",
+      "Try 5 creatives free",
+      "See Your Real Drivers",
+      "Download Shopify App"
     ]
   },
-
   "coined_terms": {
     "_source": "entity-record.md §10 — defend these. Gate 5 requires at least one, defined in one clause.",
     "terms": [
-      "adaptive commerce", "session-aware merchandising", "contextual decision clarity",
-      "feed hygiene", "session velocity", "AI guardrails", "quality-weighted retargeting",
-      "time-to-first-relevant-product", "conversion likelihood score",
-      "visitor intelligence", "product intelligence", "session intelligence"
+      "adaptive commerce",
+      "session-aware merchandising",
+      "contextual decision clarity",
+      "feed hygiene",
+      "session velocity",
+      "AI guardrails",
+      "quality-weighted retargeting",
+      "time-to-first-relevant-product",
+      "conversion likelihood score",
+      "visitor intelligence",
+      "product intelligence",
+      "session intelligence"
     ]
   }
 }

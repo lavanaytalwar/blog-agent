@@ -11,18 +11,26 @@ import { writeFileSync } from 'node:fs';
  * cheapest way to see whether a model can actually hold the brief.
  */
 async function main() {
-  const keyword = process.argv.slice(2).filter((a) => !a.startsWith('--')).join(' ');
-  if (!keyword) { console.error('usage: npm run draft -- "<keyword>"'); process.exit(1); }
+  // Each argument is one target. The first leads; the rest are covered
+  // alongside it. Quoting keeps multi-word keywords intact.
+  const targets = process.argv.slice(2).filter((a) => !a.startsWith('--')).map((a) => a.trim()).filter(Boolean);
+  const [keyword, ...additionalKeywords] = targets;
+  if (!keyword) {
+    console.error('usage: npm run draft -- "<keyword>" ["<also cover this>" ...]');
+    process.exit(1);
+  }
 
   const live = await fetchLivePosts();
   const source = new PipelineDraftSource(async (kw) => serpCoverageFor(kw));
 
   console.log(`model    ${source.name}`);
-  console.log(`keyword  ${keyword}\ngenerating…\n`);
+  console.log(`keyword  ${keyword}`);
+  if (additionalKeywords.length) console.log(`also     ${additionalKeywords.join(' · ')}`);
+  console.log('generating…\n');
 
   const started = Date.now();
   const draft = await source.generate({
-    primaryKeyword: keyword, clusterId: null, personaId: null, attempt: 1,
+    primaryKeyword: keyword, additionalKeywords, clusterId: null, personaId: null, attempt: 1,
   });
   console.log(`took     ${((Date.now() - started) / 1000).toFixed(1)}s\n`);
 

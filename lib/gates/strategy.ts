@@ -36,6 +36,35 @@ export function strategyGate(draft: Draft): GateResult {
     });
   }
 
+  // Additional targets are held to the same standard as the lead. A selection
+  // spanning two clusters has no single persona, commercial URL or audience
+  // guard, so it is two posts wearing one slug.
+  for (const extra of draft.additionalKeywords) {
+    const record = keywords.keywords.find((k) => k.keyword.toLowerCase() === extra.toLowerCase());
+    if (!record) {
+      failures.push({
+        rule: 'keyword.known',
+        message: `Additional target "${extra}" is not in config/keywords.json.`,
+        evidence: extra,
+      });
+      continue;
+    }
+    if (record.status === 'excluded') {
+      failures.push({
+        rule: 'keyword.excluded',
+        message: `Additional target "${extra}" is excluded: ${record.exclusion_reason ?? 'no reason recorded'}`,
+        evidence: extra,
+      });
+    }
+    if (keyword?.cluster_id && record.cluster_id && record.cluster_id !== keyword.cluster_id) {
+      failures.push({
+        rule: 'cluster.targets_agree',
+        message: `"${extra}" is in cluster "${record.cluster_id}" but this post leads on "${draft.primaryKeyword}" in "${keyword.cluster_id}". One post, one cluster — split these.`,
+        evidence: extra,
+      });
+    }
+  }
+
   const cluster = clusters.clusters.find((c) => c.id === draft.clusterId);
   if (!draft.clusterId || !cluster) {
     failures.push({

@@ -41,6 +41,7 @@ export function parseDraft(source: string): Draft {
 
   return {
     slug: fields.slug!,
+    additionalKeywords: splitList(fields.additional_keywords),
     title: fields.title!,
     h1: fields.h1!,
     metaDescription: fields.meta_description!,
@@ -51,6 +52,11 @@ export function parseDraft(source: string): Draft {
   };
 }
 
+/** Comma-separated front-matter list. Absent and empty both mean none. */
+function splitList(value: string | undefined): string[] {
+  return (value ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+}
+
 export function serializeDraft(draft: Draft): string {
   return [
     '---',
@@ -59,6 +65,9 @@ export function serializeDraft(draft: Draft): string {
     `h1: ${draft.h1}`,
     `meta_description: "${draft.metaDescription.replace(/"/g, "'")}"`,
     `primary_keyword: ${draft.primaryKeyword}`,
+    ...(draft.additionalKeywords.length
+      ? [`additional_keywords: ${draft.additionalKeywords.join(', ')}`]
+      : []),
     `cluster: ${draft.clusterId ?? ''}`,
     `persona: ${draft.personaId ?? ''}`,
     '---',

@@ -1,7 +1,7 @@
 import { loadConfig } from '../config/load.js';
 import { confidentialNamesIn } from '../linear/merchants.js';
 import { bodyProse, containsPhrase, sentences } from './text.js';
-import { extractNumerals, ledgerForms } from './numerals.js';
+import { extractNumerals, ledgerForms, key as numeralKey } from './numerals.js';
 import { result, type Draft, type Failure, type GateResult } from './types.js';
 
 /**
@@ -69,11 +69,13 @@ export function provenanceGate(draft: Draft): GateResult {
   // up 27% in 4 weeks. Sudathi saw a 25% conversion uplift." the 27% is nearer to
   // "Sudathi" than to the start of "W for Woman", so a proximity rule blames the
   // wrong brand on a correct draft. Sentences are how attribution actually reads.
+  // Owner sets are derived from the claim's written value rather than its bare
+  // numerals array, because the sentence is what carries the units.
   const owners = new Map<string, Set<string>>();
   for (const claim of ledger.claims) {
     if (!claim.customer) continue;
     const set = owners.get(claim.customer) ?? new Set<string>();
-    for (const f of ledgerForms(claim.numerals)) set.add(f);
+    for (const n of extractNumerals(claim.value)) set.add(numeralKey(n));
     owners.set(claim.customer, set);
   }
   const attributable = new Set([...owners.values()].flatMap((set) => [...set]));
@@ -86,8 +88,8 @@ export function provenanceGate(draft: Draft): GateResult {
     for (const n of extractNumerals(sentence)) {
       // Only figures some customer owns are attributable at all. A platform
       // stat in the same sentence as a brand is context, not a claim about it.
-      if (!attributable.has(n.normalized)) continue;
-      if (named.some((name) => owners.get(name)?.has(n.normalized))) continue;
+      if (!attributable.has(numeralKey(n))) continue;
+      if (named.some((name) => owners.get(name)?.has(numeralKey(n)))) continue;
 
       failures.push({
         rule: 'claim.misattributed',

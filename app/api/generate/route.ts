@@ -7,7 +7,12 @@ import { slugify } from '../../../lib/draft/source.js';
 export const maxDuration = 300;
 
 export async function POST(request: Request) {
-  let body: { primaryKeyword?: string; clusterId?: string | null; personaId?: string | null };
+  let body: {
+    primaryKeyword?: string;
+    additionalKeywords?: string[];
+    clusterId?: string | null;
+    personaId?: string | null;
+  };
   try {
     body = await request.json();
   } catch {
@@ -34,8 +39,38 @@ export async function POST(request: Request) {
   const cluster = clusters.clusters.find((c) => c.id === clusterId);
   const personaId = body.personaId ?? cluster?.personas[0] ?? null;
 
+  // Additional targets, deduplicated against the lead and validated here for
+  // the same reason as above: a 400 the user can read beats a post row that
+  // exists only to fail a gate.
+  const seen = new Set([keyword.toLowerCase()]);
+  const additionalKeywords: string[] = [];
+  for (const raw of body.additionalKeywords ?? []) {
+    const extra = String(raw).trim();
+    if (!extra || seen.has(extra.toLowerCase())) continue;
+    seen.add(extra.toLowerCase());
+
+    const found = keywords.keywords.find((k) => k.keyword.toLowerCase() === extra.toLowerCase());
+    if (!found) {
+      return NextResponse.json({ error: `"${extra}" is not in the keyword list.` }, { status: 400 });
+    }
+    if (found.status === 'excluded') {
+      return NextResponse.json(
+        { error: `"${extra}" is excluded: ${found.exclusion_reason ?? 'no reason recorded'}` },
+        { status: 400 },
+      );
+    }
+    if (clusterId && found.cluster_id !== clusterId) {
+      return NextResponse.json(
+        { error: `"${extra}" is in cluster "${found.cluster_id}", not "${clusterId}". One post covers one cluster — generate these separately.` },
+        { status: 400 },
+      );
+    }
+    additionalKeywords.push(found.keyword);
+  }
+
   const postId = await createPost({
     primaryKeyword: keyword,
+    additionalKeywords,
     clusterId,
     personaId,
     slug: slugify(keyword),

@@ -8,7 +8,15 @@ export type Draft = {
   h1: string;
   metaDescription: string;
   bodyMd: string;
+  /** The lead target: the one that owns the slug, title, H1 and meta. */
   primaryKeyword: string;
+  /**
+   * Further primaries this post was asked to own. Set from the generation
+   * request rather than from anything the model wrote, and carried in the draft
+   * file so `npm run gate` on a saved draft checks the same thing the pipeline
+   * did.
+   */
+  additionalKeywords: string[];
   clusterId: string | null;
   personaId: string | null;
 };

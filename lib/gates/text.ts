@@ -58,3 +58,34 @@ export function headings(md: string, level: number): string[] {
 export function bodyProse(md: string): string {
   return toPlainText(md.replace(/^---[\s\S]*?---\n/, ''));
 }
+
+/**
+ * Counts phrase occurrences without double-counting overlaps.
+ *
+ * Long-tail keywords nest: "revenue per visitor" contains "revenue per visit",
+ * so naive counting scores one mention twice and a correctly written post
+ * trips a budget it never exceeded. Longest match at a position wins, and
+ * claimed spans are not reused.
+ */
+export function countNonOverlapping(
+  haystack: string,
+  terms: string[],
+  claimed: [number, number][] = [],
+): { total: number; spans: [number, number][] } {
+  const spans: [number, number][] = [...claimed];
+  const overlaps = (a: number, b: number) => spans.some(([s, e]) => a < e && b > s);
+
+  let total = 0;
+  for (const term of [...terms].sort((a, b) => b.length - a.length)) {
+    if (!term.trim()) continue;
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    for (const m of haystack.matchAll(new RegExp(escaped, 'gi'))) {
+      const start = m.index ?? 0;
+      const end = start + m[0].length;
+      if (overlaps(start, end)) continue;
+      spans.push([start, end]);
+      total++;
+    }
+  }
+  return { total, spans };
+}

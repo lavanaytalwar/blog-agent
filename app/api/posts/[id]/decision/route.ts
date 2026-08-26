@@ -48,6 +48,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       title: post.title,
       h1: post.h1 ?? post.title,
       metaDescription: post.meta_description ?? '',
+      additionalKeywords: [],
       primaryKeyword: post.primary_keyword ?? '',
       clusterId: post.cluster_id,
       personaId: post.persona_id,
