@@ -1,0 +1,74 @@
+{
+  "_note": "Curated by the gsc-keywords skill on 2026-08-26. Every term appears literally in a heading on a page that currently ranks for the primary. Competitor brand names, store-listing chrome, and shopper-intent phrasings were rejected.",
+  "decisions": {
+    "AI ecommerce merchandising software": [
+      { "keyword": "ai merchandising", "evidence": "shopify.com/blog/ai-merchandising — H1 'AI Merchandising: How to Use AI Tools to Increase Sales'" },
+      { "keyword": "visual merchandising", "evidence": "depict.ai/platform — H3 'Visual Merchandising'" },
+      { "keyword": "collection sorting", "evidence": "kimonix.com — H3 'Collection sorting, A/B testing analytics'" },
+      { "keyword": "merchandising rules", "evidence": "depict.ai/platform — H3 'Unified merchandising rules'" },
+      { "keyword": "localized merchandising", "evidence": "kimonix.com — H3 'Localized merchandising per market'" }
+    ],
+    "shopify search & discovery": [
+      { "keyword": "ecommerce search software", "evidence": "theretailexec.com/tools/best-ecommerce-search-software — H1 '10 Best Ecommerce Search Software Ranked for 2026'" },
+      { "keyword": "ecommerce site search", "evidence": "theretailexec.com — H2 'The 10 Best Ecommerce Site Search Software to Choose'" },
+      { "keyword": "ecommerce search engine", "evidence": "blog.expertrec.com/best-search-engines-for-ecommerce — H1 '13 Best Ecommerce Search Engines in 2026'" },
+      { "keyword": "ecommerce search platform", "evidence": "guideflow.com/blog/best-ecommerce-search-software — H2 'How to choose an ecommerce search platform'" },
+      { "keyword": "product discovery", "evidence": "guideflow.com — H3 'Improve poor product discovery'" }
+    ],
+    "AI concierge / AI chatbot for website / AI shopping assistant": [
+      { "keyword": "virtual shopping assistant", "evidence": "shopify.com/blog/virtual-shopping-assistant — H1 'Virtual Shopping Assistant: How It Works and 3 Key Benefits'" },
+      { "keyword": "conversational recommendations", "evidence": "shopify.com/blog/virtual-shopping-assistant — H3 'Accelerate sales through conversational recommendations'" },
+      { "keyword": "size and fit consultation", "evidence": "shopify.com/blog/virtual-shopping-assistant — H3 'Reduce return rate with size and fit consultation'" },
+      { "keyword": "chatbot vs ai shopping assistant", "evidence": "bloomreach.com/en/blog/best-ai-shopping-assistants-for-ecommerce — H2 'What's the Difference Between a Chatbot and an AI Shopping Assistant?'" },
+      { "keyword": "catalog and merchandising integration", "evidence": "bloomreach.com — H3 'Deep Catalog and Merchandising Integration'" }
+    ],
+    "ecommerce product recommendation chatbot": [
+      { "keyword": "ecommerce chatbot", "evidence": "chat-data.com/chatbot-for-ecommerce — H2 'What Is an E-commerce Chatbot?'" },
+      { "keyword": "ai chatbot for ecommerce", "evidence": "chat-data.com/chatbot-for-ecommerce — H1 'AI Chatbot for E-commerce'" },
+      { "keyword": "chatbot for website sales and support", "evidence": "chat-data.com — H2 'Ecommerce Chatbot for Website Sales and Support'" }
+    ],
+    "post purchase upsell": [
+      { "keyword": "upsell vs cross-sell", "evidence": "shopifyagencydirectory.com/blog/best-shopify-upsell-cross-sell-apps-2026 — H2 'Upsell vs Cross-Sell: The Difference'" },
+      { "keyword": "shopify upsell apps", "evidence": "shopifyagencydirectory.com — H2 'The Best Shopify Upsell Apps at a Glance'" },
+      { "keyword": "cross-sell bundles", "evidence": "apps.shopify.com/cross-sell — H2 'Upsell, Cross sell Bundles'" },
+      { "keyword": "product page bundles", "evidence": "shopifyagencydirectory.com — H3 'Frequently Bought Together — Best for Product Page Bundles'" },
+      { "keyword": "pre-purchase offers", "evidence": "shopifyagencydirectory.com — H3 'Candy Rack — Best for Pre-Purchase Offers'" }
+    ],
+    "product landing page": [
+      { "keyword": "landing page vs product page", "evidence": "unbounce.com/landing-page-examples/product-landing-pages — H2 'Landing page vs product page: what's the difference?'" },
+      { "keyword": "product landing page design", "evidence": "unbounce.com — H2 'Product landing page design best practices'" },
+      { "keyword": "types of landing pages", "evidence": "shopify.com/blog/landing-page — H2 'Types of landing pages'" },
+      { "keyword": "click-through landing page", "evidence": "shopify.com/blog/landing-page — H3 'Click-through landing pages'" },
+      { "keyword": "essential elements of a landing page", "evidence": "unbounce.com — H2 'The essential elements of a product landing page'" }
+    ],
+    "A/B testing platform": [
+      { "keyword": "a/b testing tool for ecommerce", "evidence": "convert.com/e-commerce — H1 'Reliable A/B Testing Tool for Ecommerce Teams'" },
+      { "keyword": "product a/b testing software", "evidence": "syncx.com/ab-testing — H2 'Product A/B Testing Software to Optimize Listings and Increase Revenue'" },
+      { "keyword": "full-stack experimentation", "evidence": "convert.com/e-commerce — H3 'Full-Stack Experimentation'" },
+      { "keyword": "price testing", "evidence": "convert.com/e-commerce — H3 'Dedicated Price and Shipping Rate Tests'" }
+    ],
+    "ecommerce analytics software": [
+      { "keyword": "ecommerce analytics tools", "evidence": "putler.com/ecommerce-analytics-tools — H1 '10 Best eCommerce Analytics Tools of 2026'" },
+      { "keyword": "ecommerce analytics connectors", "evidence": "zoho.com/analytics/ecommerce-analytics.html — H2 'Our eCommerce analytics Connectors'" }
+    ],
+    "Ad creative ai": [
+      { "keyword": "meta catalog ads", "evidence": "mhigrowthengine.com/blog/how-to-set-up-catalog-ads-meta — H2 'What Are Meta Catalog Ads?'" },
+      { "keyword": "dynamic product ads", "evidence": "mhigrowthengine.com — H3 'Creating a Dynamic Product Ad Campaign'" },
+      { "keyword": "product feed optimization", "evidence": "getfeeder.co/blog/meta-advantage-catalog — H1 'Meta Advantage+ Catalog: How to Optimize Your Product Feed'" },
+      { "keyword": "advantage+ catalog ads", "evidence": "facebookblueprint.com — H2 'Improve your advertising with Advantage+ catalog ads'" },
+      { "keyword": "catalog feed", "evidence": "feedswift.com/en/blog/meta-catalog-ad-image-optimization — H2 'Meta Catalog required fields'" }
+    ],
+    "ugc ads": [
+      { "keyword": "ugc ad examples", "evidence": "cliploft.com/blog/ugc-ad-examples — H1 'UGC Ad Examples: 9 Formats That Convert (2026)'" },
+      { "keyword": "ugc video ads", "evidence": "cliploft.com/blog/ugc-examples — H2 'UGC video examples by format'" },
+      { "keyword": "ugc platforms", "evidence": "influship.com/blog/best-ugc-platforms — H1 'Best UGC Platforms in 2026'" },
+      { "keyword": "ai ugc", "evidence": "cliploft.com/blog/ugc-examples — H2 'AI UGC examples'" },
+      { "keyword": "testimonial ads", "evidence": "gomarble.ai/library/guides/ugc-ad-examples — H3 'Testimonial UGC'" }
+    ]
+  },
+  "rejected": {
+    "competitor brand in heading": ["Searchspring", "Algolia", "Bloomreach", "Klevu", "Coveo", "Doofinder", "Rebuy", "ReConvert", "Zipify", "Candy Rack", "Stackline", "Glassbox", "Hotjar", "Constructor", "Depict", "Kimonix", "Toolio"],
+    "store-listing chrome": ["Featured images gallery", "Reviews (42)", "Free to install", "Data access", "Log in to your Shopify store"],
+    "off-topic clean-room result": ["best aeo tools", "aeo tools", "hubspot aeo", "semrush ai visibility toolkit"]
+  }
+}

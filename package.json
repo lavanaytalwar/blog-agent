@@ -24,7 +24,9 @@
     "gsc:reclassify": "tsx scripts/reclassify.ts",
     "linear:merchants": "tsx scripts/sync-merchants.ts",
     "gsc:mine": "tsx scripts/gsc-mine.ts",
-    "keywords:secondaries": "tsx scripts/apply-secondaries.ts"
+    "keywords:secondaries": "tsx scripts/apply-secondaries.ts",
+    "serp:headings": "tsx scripts/serp-headings.ts",
+    "keywords:serp": "tsx scripts/apply-serp-secondaries.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",

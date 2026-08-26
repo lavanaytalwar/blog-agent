@@ -10,11 +10,43 @@
       "first_seen": "2026-08-26"
     },
     {
+      "keyword": "a/b testing tool for ecommerce",
+      "fingerprint": "ab ecommerce testing tool",
+      "verdict": "accepted",
+      "reason": "secondary of \"A/B testing platform\" · convert.com/e-commerce",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
       "keyword": "Ad creative ai",
       "fingerprint": "ad ai creative",
       "verdict": "accepted",
       "reason": "in the curated sheet",
       "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "adaptive storefront",
+      "fingerprint": "adaptive storefront",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to personalise a Shopify store\" · entity-record.md §10 owned terminology",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "advantage+ catalog ads",
+      "fingerprint": "ads advantage catalog",
+      "verdict": "accepted",
+      "reason": "secondary of \"Ad creative ai\" · facebookblueprint.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ai chatbot for ecommerce",
+      "fingerprint": "ai chatbot ecommerce",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce product recommendation chatbot\" · chat-data.com/chatbot-for-ecommerce",
+      "source": "serp",
       "first_seen": "2026-08-26"
     },
     {
@@ -34,11 +66,115 @@
       "first_seen": "2026-08-26"
     },
     {
+      "keyword": "ai merchandising",
+      "fingerprint": "ai merchandizing",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI ecommerce merchandising software\" · shopify.com/blog/ai-merchandising",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
       "keyword": "ai personalisation ecommerce",
       "fingerprint": "ai ecommerce personalization",
       "verdict": "accepted",
       "reason": "secondary of \"ecommerce personalization / personalization for ecommerce\" · 14 impressions",
       "source": "gsc",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ai ugc",
+      "fingerprint": "ai ugc",
+      "verdict": "accepted",
+      "reason": "secondary of \"ugc ads\" · cliploft.com/blog/ugc-examples",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "attach rate on essentials",
+      "fingerprint": "attach essential rate",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to increase cart attach rate\" · offers.md §7",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "cart attach rate",
+      "fingerprint": "attach cart rate",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to increase cart attach rate\" · offers.md §3",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "catalog and merchandising integration",
+      "fingerprint": "catalog integration merchandizing",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI concierge / AI chatbot for website / AI shopping assistant\" · bloomreach.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "catalog feed",
+      "fingerprint": "catalog feed",
+      "verdict": "accepted",
+      "reason": "secondary of \"Ad creative ai\" · feedswift.com/en/blog/meta-catalog-ad-image-optimization",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "chatbot for website sales and support",
+      "fingerprint": "chatbot sale support website",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce product recommendation chatbot\" · chat-data.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "chatbot vs ai shopping assistant",
+      "fingerprint": "ai assistant chatbot shopping vs",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI concierge / AI chatbot for website / AI shopping assistant\" · bloomreach.com/en/blog/best-ai-shopping-assistants-for-ecommerce",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "click-through landing page",
+      "fingerprint": "click landing page through",
+      "verdict": "accepted",
+      "reason": "secondary of \"product landing page\" · shopify.com/blog/landing-page",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "collection sorting",
+      "fingerprint": "collection sorting",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI ecommerce merchandising software\" · kimonix.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "contextual decision clarity",
+      "fingerprint": "clarity contextual decision",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to fix mismatched ad and landing-page experiences\" · entity-record.md §10 owned terminology",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "conversational recommendations",
+      "fingerprint": "conversational recommendation",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI concierge / AI chatbot for website / AI shopping assistant\" · shopify.com/blog/virtual-shopping-assistant",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "cross-sell bundles",
+      "fingerprint": "bundle cross sell",
+      "verdict": "accepted",
+      "reason": "secondary of \"post purchase upsell\" · apps.shopify.com/cross-sell",
+      "source": "serp",
       "first_seen": "2026-08-26"
     },
     {
@@ -50,11 +186,51 @@
       "first_seen": "2026-08-26"
     },
     {
+      "keyword": "dynamic product ads",
+      "fingerprint": "ads dynamic product",
+      "verdict": "accepted",
+      "reason": "secondary of \"Ad creative ai\" · mhigrowthengine.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce analytics connectors",
+      "fingerprint": "analytic connector ecommerce",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce analytics software\" · zoho.com/analytics/ecommerce-analytics.html",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
       "keyword": "ecommerce analytics software",
       "fingerprint": "analytic ecommerce software",
       "verdict": "accepted",
       "reason": "in the curated sheet",
       "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce analytics tools",
+      "fingerprint": "analytic ecommerce tool",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce analytics software\" · putler.com/ecommerce-analytics-tools",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce chatbot",
+      "fingerprint": "chatbot ecommerce",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce product recommendation chatbot\" · chat-data.com/chatbot-for-ecommerce",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce funnel drop off analysis",
+      "fingerprint": "analysi drop ecommerce funnel off",
+      "verdict": "proposed",
+      "reason": "secondary of \"Why Shopify conversion rate has stopped growing\" · customer-language.md §6 problem-led set",
+      "source": "proposed",
       "first_seen": "2026-08-26"
     },
     {
@@ -98,6 +274,70 @@
       "first_seen": "2026-08-26"
     },
     {
+      "keyword": "ecommerce search engine",
+      "fingerprint": "ecommerce engine search",
+      "verdict": "accepted",
+      "reason": "secondary of \"shopify search & discovery\" · blog.expertrec.com/best-search-engines-for-ecommerce",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce search platform",
+      "fingerprint": "ecommerce platform search",
+      "verdict": "accepted",
+      "reason": "secondary of \"shopify search & discovery\" · guideflow.com/blog/best-ecommerce-search-software",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce search software",
+      "fingerprint": "ecommerce search software",
+      "verdict": "accepted",
+      "reason": "secondary of \"shopify search & discovery\" · theretailexec.com/tools/best-ecommerce-search-software",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce site search",
+      "fingerprint": "ecommerce search site",
+      "verdict": "accepted",
+      "reason": "secondary of \"shopify search & discovery\" · theretailexec.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "essential elements of a landing page",
+      "fingerprint": "alanding element essential page",
+      "verdict": "accepted",
+      "reason": "secondary of \"product landing page\" · unbounce.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "feed hygiene",
+      "fingerprint": "feed hygiene",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to reduce wasted catalog ad spend\" · entity-record.md §10 owned terminology",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "first-fold personalization",
+      "fingerprint": "first fold personalization",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to reduce ecommerce bounce rate\" · customer-language.md §8",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "full-stack experimentation",
+      "fingerprint": "experimentation full stack",
+      "verdict": "accepted",
+      "reason": "secondary of \"A/B testing platform\" · convert.com/e-commerce",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
       "keyword": "Helium AI",
       "fingerprint": "ai helium",
       "verdict": "accepted",
@@ -127,6 +367,22 @@
       "verdict": "accepted",
       "reason": "in the curated sheet",
       "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "higher aov",
+      "fingerprint": "aov higher",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to increase AOV without excessive discounts\" · customer-language.md §4 desired-outcome language",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "how to convert website visitors into customers",
+      "fingerprint": "convert customer how into visitor website",
+      "verdict": "proposed",
+      "reason": "secondary of \"customer agent\" · keyword sheet, Sheet2",
+      "source": "proposed",
       "first_seen": "2026-08-26"
     },
     {
@@ -162,6 +418,14 @@
       "first_seen": "2026-08-26"
     },
     {
+      "keyword": "how to increase average order value ecommerce",
+      "fingerprint": "average ecommerce how increase order value",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to increase AOV without excessive discounts\" · customer-language.md §6 problem-led set",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
       "keyword": "How to increase cart attach rate",
       "fingerprint": "attach cart how increase rate",
       "verdict": "accepted",
@@ -175,6 +439,14 @@
       "verdict": "accepted",
       "reason": "in the curated sheet",
       "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "how to increase shopify conversion rate",
+      "fingerprint": "conversion how increase rate shopify",
+      "verdict": "proposed",
+      "reason": "secondary of \"Why Shopify conversion rate has stopped growing\" · customer-language.md §6 problem-led set",
+      "source": "proposed",
       "first_seen": "2026-08-26"
     },
     {
@@ -202,6 +474,62 @@
       "first_seen": "2026-08-26"
     },
     {
+      "keyword": "improve roas meta ads ecommerce",
+      "fingerprint": "ads ecommerce improve meta roa",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to increase ecommerce revenue without increasing ad spend\" · customer-language.md §6 problem-led set",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "keep the ad's promise",
+      "fingerprint": "ads keep promize",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to fix mismatched ad and landing-page experiences\" · offers.md §3",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "landing page vs product page",
+      "fingerprint": "landing page product vs",
+      "verdict": "accepted",
+      "reason": "secondary of \"product landing page\" · unbounce.com/landing-page-examples/product-landing-pages",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "localized merchandising",
+      "fingerprint": "localized merchandizing",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI ecommerce merchandising software\" · kimonix.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "marketing efficiency",
+      "fingerprint": "efficiency marketing",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to increase ecommerce revenue without increasing ad spend\" · offers.md §9",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "merchandising rules",
+      "fingerprint": "merchandizing rule",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI ecommerce merchandising software\" · depict.ai/platform",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "meta catalog ads",
+      "fingerprint": "ads catalog meta",
+      "verdict": "accepted",
+      "reason": "secondary of \"Ad creative ai\" · mhigrowthengine.com/blog/how-to-set-up-catalog-ads-meta",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
       "keyword": "Our Apps – Shopify Solutions by Helium",
       "fingerprint": "app helium shopify solution",
       "verdict": "accepted",
@@ -218,11 +546,123 @@
       "first_seen": "2026-08-26"
     },
     {
+      "keyword": "pre-purchase offers",
+      "fingerprint": "offer pre purchase",
+      "verdict": "accepted",
+      "reason": "secondary of \"post purchase upsell\" · shopifyagencydirectory.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "price testing",
+      "fingerprint": "price testing",
+      "verdict": "accepted",
+      "reason": "secondary of \"A/B testing platform\" · convert.com/e-commerce",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "product a/b testing software",
+      "fingerprint": "ab product software testing",
+      "verdict": "accepted",
+      "reason": "secondary of \"A/B testing platform\" · syncx.com/ab-testing",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "product discovery",
+      "fingerprint": "discovery product",
+      "verdict": "accepted",
+      "reason": "secondary of \"shopify search & discovery\" · guideflow.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "product feed optimization",
+      "fingerprint": "feed optimization product",
+      "verdict": "accepted",
+      "reason": "secondary of \"Ad creative ai\" · getfeeder.co/blog/meta-advantage-catalog",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
       "keyword": "product landing page",
       "fingerprint": "landing page product",
       "verdict": "accepted",
       "reason": "in the curated sheet",
       "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "product landing page design",
+      "fingerprint": "design landing page product",
+      "verdict": "accepted",
+      "reason": "secondary of \"product landing page\" · unbounce.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "product page bundles",
+      "fingerprint": "bundle page product",
+      "verdict": "accepted",
+      "reason": "secondary of \"post purchase upsell\" · shopifyagencydirectory.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "quality-weighted retargeting",
+      "fingerprint": "quality retargeting weighted",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to reduce wasted catalog ad spend\" · entity-record.md §10 owned terminology",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "raise basket size without discounting",
+      "fingerprint": "basket discounting raize size without",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to increase AOV without excessive discounts\" · customer-language.md §2 jobs to be done",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "reduce bounce rate on ecommerce website",
+      "fingerprint": "bounce ecommerce rate reduce website",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to reduce ecommerce bounce rate\" · keyword sheet, Sheet2",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "reduce cac for d2c brand",
+      "fingerprint": "brand cac d2c reduce",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to reduce wasted catalog ad spend\" · customer-language.md §6 problem-led set",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "revenue per visit",
+      "fingerprint": "per revenue visit",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to improve revenue per visitor\" · customer-language.md §8",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "revenue per visitor",
+      "fingerprint": "per revenue visitor",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to improve revenue per visitor\" · customer-language.md §4 desired-outcome language",
+      "source": "proposed",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "shopify personalization app",
+      "fingerprint": "app personalization shopify",
+      "verdict": "proposed",
+      "reason": "secondary of \"How to personalise a Shopify store\" · customer-language.md §6 category head terms",
+      "source": "proposed",
       "first_seen": "2026-08-26"
     },
     {
@@ -242,11 +682,91 @@
       "first_seen": "2026-08-26"
     },
     {
+      "keyword": "shopify upsell apps",
+      "fingerprint": "app shopify upsell",
+      "verdict": "accepted",
+      "reason": "secondary of \"post purchase upsell\" · shopifyagencydirectory.com",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "size and fit consultation",
+      "fingerprint": "consultation fit size",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI concierge / AI chatbot for website / AI shopping assistant\" · shopify.com/blog/virtual-shopping-assistant",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "testimonial ads",
+      "fingerprint": "ads testimonial",
+      "verdict": "accepted",
+      "reason": "secondary of \"ugc ads\" · gomarble.ai/library/guides/ugc-ad-examples",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "types of landing pages",
+      "fingerprint": "landing page type",
+      "verdict": "accepted",
+      "reason": "secondary of \"product landing page\" · shopify.com/blog/landing-page",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ugc ad examples",
+      "fingerprint": "ad example ugc",
+      "verdict": "accepted",
+      "reason": "secondary of \"ugc ads\" · cliploft.com/blog/ugc-ad-examples",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
       "keyword": "ugc ads",
       "fingerprint": "ads ugc",
       "verdict": "accepted",
       "reason": "in the curated sheet",
       "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ugc platforms",
+      "fingerprint": "platform ugc",
+      "verdict": "accepted",
+      "reason": "secondary of \"ugc ads\" · influship.com/blog/best-ugc-platforms",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ugc video ads",
+      "fingerprint": "ads ugc video",
+      "verdict": "accepted",
+      "reason": "secondary of \"ugc ads\" · cliploft.com/blog/ugc-examples",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "upsell vs cross-sell",
+      "fingerprint": "cross sell upsell vs",
+      "verdict": "accepted",
+      "reason": "secondary of \"post purchase upsell\" · shopifyagencydirectory.com/blog/best-shopify-upsell-cross-sell-apps-2026",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "virtual shopping assistant",
+      "fingerprint": "assistant shopping virtual",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI concierge / AI chatbot for website / AI shopping assistant\" · shopify.com/blog/virtual-shopping-assistant",
+      "source": "serp",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "visual merchandising",
+      "fingerprint": "merchandizing visual",
+      "verdict": "accepted",
+      "reason": "secondary of \"AI ecommerce merchandising software\" · depict.ai/platform",
+      "source": "serp",
       "first_seen": "2026-08-26"
     },
     {
@@ -263,6 +783,14 @@
       "verdict": "accepted",
       "reason": "secondary of \"shopify product recommendations\" · 25 impressions",
       "source": "gsc",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "why is my shopify conversion rate dropping",
+      "fingerprint": "conversion dropping rate shopify why",
+      "verdict": "proposed",
+      "reason": "secondary of \"Why Shopify conversion rate has stopped growing\" · customer-language.md §6 problem-led set",
+      "source": "proposed",
       "first_seen": "2026-08-26"
     },
     {

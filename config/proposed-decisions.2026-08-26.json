@@ -1,0 +1,47 @@
+{
+  "_note": "Tier 3. NOT evidence-backed. Every term below is drawn from Helium's own customer-language.md — the words its buyers actually use — or from the supporting intents already written in the keyword sheet. Awaiting human acceptance on /keywords.",
+  "decisions": {
+    "How to increase AOV without excessive discounts": [
+      { "keyword": "how to increase average order value ecommerce", "evidence": "customer-language.md §6 problem-led set" },
+      { "keyword": "higher aov", "evidence": "customer-language.md §4 desired-outcome language" },
+      { "keyword": "raise basket size without discounting", "evidence": "customer-language.md §2 jobs to be done" }
+    ],
+    "How to increase cart attach rate": [
+      { "keyword": "cart attach rate", "evidence": "offers.md §3 — attribute-based upsells and contextual cross-sells" },
+      { "keyword": "attach rate on essentials", "evidence": "offers.md §7 — Sudathi case study, improved attach rate on essentials" }
+    ],
+    "How to improve revenue per visitor": [
+      { "keyword": "revenue per visitor", "evidence": "customer-language.md §4 desired-outcome language" },
+      { "keyword": "revenue per visit", "evidence": "customer-language.md §8 — W for Woman quote" }
+    ],
+    "Why Shopify conversion rate has stopped growing": [
+      { "keyword": "why is my shopify conversion rate dropping", "evidence": "customer-language.md §6 problem-led set" },
+      { "keyword": "how to increase shopify conversion rate", "evidence": "customer-language.md §6 problem-led set" },
+      { "keyword": "ecommerce funnel drop off analysis", "evidence": "customer-language.md §6 problem-led set" }
+    ],
+    "How to reduce ecommerce bounce rate": [
+      { "keyword": "reduce bounce rate on ecommerce website", "evidence": "keyword sheet, Sheet2 — supporting intent on 'customer agent'" },
+      { "keyword": "first-fold personalization", "evidence": "customer-language.md §8 — Campus Sutra quote; brand-voice.md §6 owned language" }
+    ],
+    "How to personalise a Shopify store": [
+      { "keyword": "shopify personalization app", "evidence": "customer-language.md §6 category head terms" },
+      { "keyword": "adaptive storefront", "evidence": "entity-record.md §10 owned terminology" }
+    ],
+    "How to fix mismatched ad and landing-page experiences": [
+      { "keyword": "keep the ad's promise", "evidence": "offers.md §3 — Personalized Storefronts positioning" },
+      { "keyword": "contextual decision clarity", "evidence": "entity-record.md §10 owned terminology" }
+    ],
+    "How to reduce wasted catalog ad spend": [
+      { "keyword": "feed hygiene", "evidence": "entity-record.md §10 owned terminology" },
+      { "keyword": "reduce cac for d2c brand", "evidence": "customer-language.md §6 problem-led set" },
+      { "keyword": "quality-weighted retargeting", "evidence": "entity-record.md §10 owned terminology" }
+    ],
+    "How to increase ecommerce revenue without increasing ad spend": [
+      { "keyword": "improve roas meta ads ecommerce", "evidence": "customer-language.md §6 problem-led set" },
+      { "keyword": "marketing efficiency", "evidence": "offers.md §9 — contact form Key Problem taxonomy" }
+    ],
+    "customer agent": [
+      { "keyword": "how to convert website visitors into customers", "evidence": "keyword sheet, Sheet2 — supporting intent written against this keyword" }
+    ]
+  }
+}

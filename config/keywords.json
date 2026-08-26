@@ -12,8 +12,27 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "how to increase average order value ecommerce",
+          "source": "proposed",
+          "evidence": "customer-language.md §6 problem-led set",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "higher aov",
+          "source": "proposed",
+          "evidence": "customer-language.md §4 desired-outcome language",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "raise basket size without discounting",
+          "source": "proposed",
+          "evidence": "customer-language.md §2 jobs to be done",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "How to increase cart attach rate",
@@ -24,8 +43,21 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "cart attach rate",
+          "source": "proposed",
+          "evidence": "offers.md §3 — attribute-based upsells and contextual cross-sells",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "attach rate on essentials",
+          "source": "proposed",
+          "evidence": "offers.md §7 — Sudathi case study, improved attach rate on essentials",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "post purchase upsell",
@@ -48,8 +80,39 @@
       "push_target": "own website - linked to helium main page",
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "upsell vs cross-sell",
+          "source": "serp",
+          "evidence": "shopifyagencydirectory.com/blog/best-shopify-upsell-cross-sell-apps-2026 — H2 'Upsell vs Cross-Sell: The Difference'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "shopify upsell apps",
+          "source": "serp",
+          "evidence": "shopifyagencydirectory.com — H2 'The Best Shopify Upsell Apps at a Glance'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "cross-sell bundles",
+          "source": "serp",
+          "evidence": "apps.shopify.com/cross-sell — H2 'Upsell, Cross sell Bundles'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "product page bundles",
+          "source": "serp",
+          "evidence": "shopifyagencydirectory.com — H3 'Frequently Bought Together — Best for Product Page Bundles'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "pre-purchase offers",
+          "source": "serp",
+          "evidence": "shopifyagencydirectory.com — H3 'Candy Rack — Best for Pre-Purchase Offers'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "AI ecommerce merchandising software",
@@ -72,8 +135,39 @@
       "push_target": null,
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "ai merchandising",
+          "source": "serp",
+          "evidence": "shopify.com/blog/ai-merchandising — H1 'AI Merchandising: How to Use AI Tools to Increase Sales'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "visual merchandising",
+          "source": "serp",
+          "evidence": "depict.ai/platform — H3 'Visual Merchandising'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "collection sorting",
+          "source": "serp",
+          "evidence": "kimonix.com — H3 'Collection sorting, A/B testing analytics'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "merchandising rules",
+          "source": "serp",
+          "evidence": "depict.ai/platform — H3 'Unified merchandising rules'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "localized merchandising",
+          "source": "serp",
+          "evidence": "kimonix.com — H3 'Localized merchandising per market'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "AI concierge / AI chatbot for website / AI shopping assistant",
@@ -96,8 +190,39 @@
       "push_target": "medium,own website - two articles linked to each other",
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "virtual shopping assistant",
+          "source": "serp",
+          "evidence": "shopify.com/blog/virtual-shopping-assistant — H1 'Virtual Shopping Assistant: How It Works and 3 Key Benefits'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "conversational recommendations",
+          "source": "serp",
+          "evidence": "shopify.com/blog/virtual-shopping-assistant — H3 'Accelerate sales through conversational recommendations'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "size and fit consultation",
+          "source": "serp",
+          "evidence": "shopify.com/blog/virtual-shopping-assistant — H3 'Reduce return rate with size and fit consultation'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "chatbot vs ai shopping assistant",
+          "source": "serp",
+          "evidence": "bloomreach.com/en/blog/best-ai-shopping-assistants-for-ecommerce — H2 'What's the Difference Between a Chatbot and an AI Shopping Assistant?'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "catalog and merchandising integration",
+          "source": "serp",
+          "evidence": "bloomreach.com — H3 'Deep Catalog and Merchandising Integration'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "How to improve product discovery",
@@ -120,8 +245,21 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "revenue per visitor",
+          "source": "proposed",
+          "evidence": "customer-language.md §4 desired-outcome language",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "revenue per visit",
+          "source": "proposed",
+          "evidence": "customer-language.md §8 — W for Woman quote",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "How to personalise a Shopify store",
@@ -132,8 +270,21 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "shopify personalization app",
+          "source": "proposed",
+          "evidence": "customer-language.md §6 category head terms",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "adaptive storefront",
+          "source": "proposed",
+          "evidence": "entity-record.md §10 owned terminology",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "How to reduce ecommerce bounce rate",
@@ -144,8 +295,21 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "reduce bounce rate on ecommerce website",
+          "source": "proposed",
+          "evidence": "keyword sheet, Sheet2 — supporting intent on 'customer agent'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "first-fold personalization",
+          "source": "proposed",
+          "evidence": "customer-language.md §8 — Campus Sutra quote; brand-voice.md §6 owned language",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "ecommerce personalization / personalization for ecommerce",
@@ -237,8 +401,27 @@
       "push_target": null,
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "ecommerce chatbot",
+          "source": "serp",
+          "evidence": "chat-data.com/chatbot-for-ecommerce — H2 'What Is an E-commerce Chatbot?'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ai chatbot for ecommerce",
+          "source": "serp",
+          "evidence": "chat-data.com/chatbot-for-ecommerce — H1 'AI Chatbot for E-commerce'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "chatbot for website sales and support",
+          "source": "serp",
+          "evidence": "chat-data.com — H2 'Ecommerce Chatbot for Website Sales and Support'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "product landing page",
@@ -261,8 +444,39 @@
       "push_target": null,
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "landing page vs product page",
+          "source": "serp",
+          "evidence": "unbounce.com/landing-page-examples/product-landing-pages — H2 'Landing page vs product page: what's the difference?'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "product landing page design",
+          "source": "serp",
+          "evidence": "unbounce.com — H2 'Product landing page design best practices'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "types of landing pages",
+          "source": "serp",
+          "evidence": "shopify.com/blog/landing-page — H2 'Types of landing pages'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "click-through landing page",
+          "source": "serp",
+          "evidence": "shopify.com/blog/landing-page — H3 'Click-through landing pages'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "essential elements of a landing page",
+          "source": "serp",
+          "evidence": "unbounce.com — H2 'The essential elements of a product landing page'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "shopify product recommendations",
@@ -317,8 +531,39 @@
       "push_target": null,
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "ecommerce search software",
+          "source": "serp",
+          "evidence": "theretailexec.com/tools/best-ecommerce-search-software — H1 '10 Best Ecommerce Search Software Ranked for 2026'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ecommerce site search",
+          "source": "serp",
+          "evidence": "theretailexec.com — H2 'The 10 Best Ecommerce Site Search Software to Choose'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ecommerce search engine",
+          "source": "serp",
+          "evidence": "blog.expertrec.com/best-search-engines-for-ecommerce — H1 '13 Best Ecommerce Search Engines in 2026'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ecommerce search platform",
+          "source": "serp",
+          "evidence": "guideflow.com/blog/best-ecommerce-search-software — H2 'How to choose an ecommerce search platform'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "product discovery",
+          "source": "serp",
+          "evidence": "guideflow.com — H3 'Improve poor product discovery'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "A/B testing platform",
@@ -341,8 +586,33 @@
       "push_target": null,
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "a/b testing tool for ecommerce",
+          "source": "serp",
+          "evidence": "convert.com/e-commerce — H1 'Reliable A/B Testing Tool for Ecommerce Teams'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "product a/b testing software",
+          "source": "serp",
+          "evidence": "syncx.com/ab-testing — H2 'Product A/B Testing Software to Optimize Listings and Increase Revenue'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "full-stack experimentation",
+          "source": "serp",
+          "evidence": "convert.com/e-commerce — H3 'Full-Stack Experimentation'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "price testing",
+          "source": "serp",
+          "evidence": "convert.com/e-commerce — H3 'Dedicated Price and Shipping Rate Tests'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "Why Shopify conversion rate has stopped growing",
@@ -353,8 +623,27 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "why is my shopify conversion rate dropping",
+          "source": "proposed",
+          "evidence": "customer-language.md §6 problem-led set",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "how to increase shopify conversion rate",
+          "source": "proposed",
+          "evidence": "customer-language.md §6 problem-led set",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ecommerce funnel drop off analysis",
+          "source": "proposed",
+          "evidence": "customer-language.md §6 problem-led set",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "ecommerce analytics software",
@@ -377,8 +666,21 @@
       "push_target": null,
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "ecommerce analytics tools",
+          "source": "serp",
+          "evidence": "putler.com/ecommerce-analytics-tools — H1 '10 Best eCommerce Analytics Tools of 2026'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ecommerce analytics connectors",
+          "source": "serp",
+          "evidence": "zoho.com/analytics/ecommerce-analytics.html — H2 'Our eCommerce analytics Connectors'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "Ad creative ai",
@@ -401,8 +703,39 @@
       "push_target": "own website - linked to helium agentcy",
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "meta catalog ads",
+          "source": "serp",
+          "evidence": "mhigrowthengine.com/blog/how-to-set-up-catalog-ads-meta — H2 'What Are Meta Catalog Ads?'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "dynamic product ads",
+          "source": "serp",
+          "evidence": "mhigrowthengine.com — H3 'Creating a Dynamic Product Ad Campaign'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "product feed optimization",
+          "source": "serp",
+          "evidence": "getfeeder.co/blog/meta-advantage-catalog — H1 'Meta Advantage+ Catalog: How to Optimize Your Product Feed'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "advantage+ catalog ads",
+          "source": "serp",
+          "evidence": "facebookblueprint.com — H2 'Improve your advertising with Advantage+ catalog ads'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "catalog feed",
+          "source": "serp",
+          "evidence": "feedswift.com/en/blog/meta-catalog-ad-image-optimization — H2 'Meta Catalog required fields'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "How to fix mismatched ad and landing-page experiences",
@@ -413,8 +746,21 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "keep the ad's promise",
+          "source": "proposed",
+          "evidence": "offers.md §3 — Personalized Storefronts positioning",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "contextual decision clarity",
+          "source": "proposed",
+          "evidence": "entity-record.md §10 owned terminology",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "How to increase ecommerce revenue without increasing ad spend",
@@ -425,8 +771,21 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "improve roas meta ads ecommerce",
+          "source": "proposed",
+          "evidence": "customer-language.md §6 problem-led set",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "marketing efficiency",
+          "source": "proposed",
+          "evidence": "offers.md §9 — contact form Key Problem taxonomy",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "How to reduce wasted catalog ad spend",
@@ -437,8 +796,27 @@
       "push_target": "own website",
       "status": "available",
       "source": "sheet:Sheet2 problem-led set",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "feed hygiene",
+          "source": "proposed",
+          "evidence": "entity-record.md §10 owned terminology",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "reduce cac for d2c brand",
+          "source": "proposed",
+          "evidence": "customer-language.md §6 problem-led set",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "quality-weighted retargeting",
+          "source": "proposed",
+          "evidence": "entity-record.md §10 owned terminology",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "ugc ads",
@@ -455,8 +833,39 @@
       "push_target": "agentcy website rebranded as ugc ads",
       "status": "available",
       "source": "sheet:Keyword Strategy",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "ugc ad examples",
+          "source": "serp",
+          "evidence": "cliploft.com/blog/ugc-ad-examples — H1 'UGC Ad Examples: 9 Formats That Convert (2026)'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ugc video ads",
+          "source": "serp",
+          "evidence": "cliploft.com/blog/ugc-examples — H2 'UGC video examples by format'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ugc platforms",
+          "source": "serp",
+          "evidence": "influship.com/blog/best-ugc-platforms — H1 'Best UGC Platforms in 2026'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "ai ugc",
+          "source": "serp",
+          "evidence": "cliploft.com/blog/ugc-examples — H2 'AI UGC examples'",
+          "window": "2026-08-26"
+        },
+        {
+          "keyword": "testimonial ads",
+          "source": "serp",
+          "evidence": "gomarble.ai/library/guides/ugc-ad-examples — H3 'Testimonial UGC'",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "serp"
     },
     {
       "keyword": "Our Apps – Shopify Solutions by Helium",
@@ -481,8 +890,15 @@
       "status": "available",
       "source": "sheet:Sheet2",
       "note": "Sheet lists supporting intents: 'how to convert website visitors into customers', 'reduce bounce rate on ecommerce website'.",
-      "secondary_keywords": [],
-      "secondary_source": "none"
+      "secondary_keywords": [
+        {
+          "keyword": "how to convert website visitors into customers",
+          "source": "proposed",
+          "evidence": "keyword sheet, Sheet2 — supporting intent written against this keyword",
+          "window": "2026-08-26"
+        }
+      ],
+      "secondary_source": "proposed"
     },
     {
       "keyword": "helium ecommerce",
