@@ -1,4 +1,5 @@
 import type { Cluster, Persona, Secondary } from '../config/types.js';
+import type { SerpLesson } from '../serp/analyze.js';
 
 export type KeywordBudget = {
   primary: [number, number];
@@ -52,6 +53,18 @@ export type Brief = {
 
   /** What the pages that currently rank actually cover. */
   serpCoverage: SerpCoverage[];
+  /**
+   * Measured off those same pages: how long they run, how they are shaped, how
+   * fresh they are. Absent until `npm run serp:analyze` has been run for this
+   * keyword.
+   */
+  serpLesson?: { takenOn: string; source: string; lesson: SerpLesson };
+  /**
+   * Word target stated in the prompt. Tracks the SERP median where one has been
+   * measured, so a keyword whose SERP is 2,000-word guides is not answered with
+   * a 700-word post.
+   */
+  wordTarget: [number, number];
   /** Titles already published, so the draft does not restate one. */
   existingTitles: string[];
 

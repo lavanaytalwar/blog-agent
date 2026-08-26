@@ -252,6 +252,47 @@ describe('gate 4 — cannibalization', () => {
   });
 });
 
+describe('secondary keyword ceilings', () => {
+  // Real numbers from a 2,187-word draft that the old flat ceiling of 16
+  // rejected: five secondaries used four to six times each, which is 1.05 uses
+  // per hundred words against a rate limit of two.
+  const withSecondaries = (each: number, padWords: number) => {
+    const terms = ['ugc ad examples', 'ugc video ads', 'ugc platforms', 'ai ugc', 'testimonial ads'];
+    const uses = terms.flatMap((t) => Array.from({ length: each }, () => `We ran ${t} last quarter.`));
+    const pad = Array.from({ length: padWords }, (_, i) => `word${i}`).join(' ');
+    return draft({
+      primaryKeyword: 'ugc ads',
+      clusterId: 'marketing-efficiency',
+      personaId: 'performance-marketing',
+      bodyMd: `**TL;DR:** ugc ads.\n\n## ugc ads\n\n${uses.join(' ')}\n\n${pad}\n\nBook a call.`,
+    });
+  };
+
+  test('a long post using many secondaries at a normal rate is not stuffing', () => {
+    const r = structureGate(withSecondaries(5, 2000));
+    assert.ok(!rules(r).includes('keyword.secondary_overused'), JSON.stringify(r.failures));
+    assert.ok(!rules(r).includes('keyword.secondary_repeated'), JSON.stringify(r.failures));
+  });
+
+  test('the same count crammed into a short post is', () => {
+    const r = structureGate(withSecondaries(5, 100));
+    assert.ok(rules(r).includes('keyword.secondary_overused'), JSON.stringify(r.failures));
+  });
+
+  test('one secondary hammered is caught even when the total is fine', () => {
+    const many = Array.from({ length: 14 }, () => 'Our ugc video ads shipped fast.').join(' ');
+    const pad = Array.from({ length: 2000 }, (_, i) => `word${i}`).join(' ');
+    const r = structureGate(draft({
+      primaryKeyword: 'ugc ads',
+      clusterId: 'marketing-efficiency',
+      personaId: 'performance-marketing',
+      bodyMd: `**TL;DR:** ugc ads.\n\n## ugc ads\n\n${many}\n\n${pad}\n\nBook a call.`,
+    }));
+    assert.ok(!rules(r).includes('keyword.secondary_overused'), JSON.stringify(r.failures));
+    assert.ok(rules(r).includes('keyword.secondary_repeated'), JSON.stringify(r.failures));
+  });
+});
+
 describe('multi-target selection', () => {
   const two = {
     additionalKeywords: ['How to personalise a Shopify store'],

@@ -166,9 +166,12 @@ ${list(voice.coinedTerms)}`);
 
   sections.push(`## Structure
 
-- **${700 + brief.additionalTargets.length * 400} to ${1200 + brief.additionalTargets.length * 400} words.**
-  The pages you are competing with are long buying guides. Anything under
-  ${500 + brief.additionalTargets.length * 250} words is rejected outright and will not rank regardless.
+- **${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.**${brief.serpLesson
+    ? ` That range is the measured median of the pages that currently rank for this
+  keyword, not a guess.`
+    : ''}
+  Anything under ${500 + brief.additionalTargets.length * 250} words is rejected outright
+  and will not rank regardless.
 - Open with a labelled TL;DR, written "**TL;DR:**" with a colon and no dash.
 - Three or four H2 sections.
 - Meta description **140 to 160 characters including spaces**, containing the primary
@@ -193,6 +196,20 @@ ${brief.audienceGuard.rule}
 Never use these in the title or H1: ${brief.audienceGuard.avoid.join(', ')}.
 An earlier post in this cluster reached position 7 for shopper queries about
 retail sale dates and converted nobody. Write for the brand operator.`);
+  }
+
+  if (brief.serpLesson) {
+    const { lesson, takenOn, source } = brief.serpLesson;
+    sections.push(`## Why the pages above you are winning
+
+Measured off the live pages on ${takenOn}${source === 'sheet' ? ' (from recorded URLs, not a live search)' : ''}.
+Every line is a count, not an opinion:
+
+${list(lesson.observations)}
+
+Do not copy their shape. Use it to know what the reader has already been shown
+${lesson.analysed} times before they reach you, and open on the thing none of
+them said.`);
   }
 
   if (brief.serpCoverage.length) {

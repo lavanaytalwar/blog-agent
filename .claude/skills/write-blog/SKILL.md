@@ -37,6 +37,76 @@ how to improve revenue per visitor, how to personalise a shopify store
 The first keyword leads: it owns the slug, title, H1 and meta description. The
 rest are covered alongside it in the same post.
 
+## First, read the SERP you are trying to beat
+
+Before generating, check whether this keyword has a current SERP reading:
+
+```
+npm run brief -- "<keyword>" --prompt
+```
+
+If the prompt has no "Why the pages above you are winning" section, or its date
+is more than about two months old, take a fresh reading. A SERP moves in weeks,
+so a stale reading is worse than an honest absence.
+
+**With a search key** (`BRAVE_SEARCH_KEY` or `SERPER_API_KEY` in `.env`), one
+command does the whole thing:
+
+```
+npm run serp:analyze -- "<keyword>"
+```
+
+**Without one**, which is the state today, do the search yourself and hand over
+the URLs. Search the primary keyword, take the top 6 organic results, and pass
+them in order:
+
+```
+npm run serp:analyze -- "<keyword>" <url1> <url2> <url3> <url4> <url5> <url6>
+```
+
+Pass all six even when some look like store listings or product pages. The
+analyser classifies them and reports how many of the top results are not
+editorial, which is itself a finding: a SERP that is five app listings and one
+guide is a different problem from six long guides.
+
+### What it reads, and what it will not
+
+It fetches each page and counts: word count, H2 count, publish or modified date,
+schema types, lists, tables, question-shaped headings, images, outbound
+citations, and how many words run before the first H2. It classifies each page
+as article, listing, product or other, and computes the lesson over the written
+pages only, so an app-store listing cannot drag the median down.
+
+**No model reads those pages.** A model asked "why does this rank" writes a
+confident essay, and a confident essay is exactly what the five gates exist to
+reject. Shape is countable; motive is not. What comes back is counts.
+
+### What it changes
+
+The measured median becomes the post's word target, replacing the 700 to 1,200
+default. This is the single most common reason a draft was never going to
+compete: `ugc ads` measured a median of 1,825 words across the three written
+pages in its top 6, so the target for that post is 1,825 to 2,373, not 700.
+
+The hard gate floor stays at 500 (plus 250 per additional target) and does not
+move with the SERP. A gate that changes what it enforces based on a network
+fetch is a gate that passes different drafts on different days.
+
+The observations go into the prompt verbatim, under an instruction not to copy
+the shape: they tell the writer what the reader has already been shown five
+times before reaching this post.
+
+### Reading the output yourself
+
+Look at it before generating. Two things are worth acting on by hand:
+
+- **Every result is a product or store listing.** The SERP is transactional. A
+  blog post may be the wrong asset for that keyword; say so rather than writing
+  one that cannot place.
+- **The median is above about 2,400 words.** The target is capped there. Tell
+  the user the SERP wants more than this pipeline produces, so the post is
+  competing on angle rather than depth.
+
 ## Run it
 
 ```

@@ -1,4 +1,5 @@
 import { loadConfig } from '../config/load.js';
+import { serpLessonFor } from './serp.js';
 import type { Brief, BriefClaim, BriefTarget, KeywordBudget, SerpCoverage } from './types.js';
 
 /**
@@ -17,6 +18,32 @@ export const BUDGET: KeywordBudget = { primary: [4, 5], secondariesCombined: [4,
  * it was asked to do.
  */
 const SECONDARY_BUDGET_PER_TARGET = 4;
+
+/**
+ * Word target when nothing has been measured for this keyword.
+ *
+ * Once `npm run serp:analyze` has read the pages that actually rank, the target
+ * tracks their median instead. A keyword whose SERP is 2,000-word buying guides
+ * is not answered with a 700-word post just because 700 was the default.
+ */
+const DEFAULT_TARGET: [number, number] = [700, 1200];
+
+/** Above this the post stops being a blog post, whatever the SERP is doing. */
+const TARGET_CEILING = 2400;
+
+function wordTargetFor(
+  medianWords: number | undefined,
+  extraTargets: number,
+): [number, number] {
+  const bump = extraTargets * 400;
+  if (!medianWords || medianWords < DEFAULT_TARGET[0]) {
+    return [DEFAULT_TARGET[0] + bump, DEFAULT_TARGET[1] + bump];
+  }
+  // Match the median, then give the writer room above it. Beating the SERP on
+  // length alone wins nothing, but landing well under it loses by default.
+  const low = Math.min(medianWords, TARGET_CEILING) + bump;
+  return [low, Math.min(Math.round(low * 1.3), TARGET_CEILING + bump)];
+}
 
 export class BriefError extends Error {}
 
@@ -103,6 +130,8 @@ export function assembleBrief(input: AssembleInput): Brief {
     reason: c.blocked_reason,
   }));
 
+  const measured = serpLessonFor(keyword.keyword);
+
   const additionalTargets: BriefTarget[] = additional.map((k) => ({
     keyword: k.keyword,
     secondaries: k.secondary_keywords ?? [],
@@ -143,6 +172,10 @@ export function assembleBrief(input: AssembleInput): Brief {
       hardSuperlatives: blocklist.hard_superlatives.terms,
     },
     serpCoverage: input.serpCoverage ?? [],
+    ...(measured
+      ? { serpLesson: { takenOn: measured.takenOn, source: measured.source, lesson: measured.lesson } }
+      : {}),
+    wordTarget: wordTargetFor(measured?.lesson.medianWords, additionalTargets.length),
     existingTitles: input.existingTitles ?? [],
     ...(cluster.audience_guard
       ? { audienceGuard: { rule: cluster.audience_guard.rule, avoid: cluster.audience_guard.negative_intent_terms } }

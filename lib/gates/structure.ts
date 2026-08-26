@@ -55,11 +55,24 @@ const USES_PER_100_WORDS = 1;
 
 /**
  * The original brief said secondaries 4-5 combined. Real drafts land at 5-13
- * across five distinct terms, which is normal writing rather than stuffing —
- * so this is a ceiling that scales, not the flat number.
+ * across five distinct terms, which is normal writing rather than stuffing, so
+ * this is a ceiling that scales rather than the flat number.
  */
 const SECONDARY_USES_PER_100_WORDS = 2;
-const SECONDARY_ABSOLUTE_MAX = 16;
+
+/**
+ * There used to be a flat combined ceiling of 16 here, derived from drafts that
+ * ran 700 to 900 words. Once the word target started tracking the measured SERP
+ * median, a 2,187-word post using five secondaries four to six times each was
+ * failed for stuffing. It was not stuffing: 23 uses in 2,187 words is 1.05 per
+ * hundred, half the rate limit. The flat number was simply the binding
+ * constraint at every length above about 800 words, so the rate cap it was
+ * supposed to complement never got to run.
+ *
+ * A combined count cannot tell stuffing from length anyway. What stuffing
+ * actually looks like is one term repeated, so that is what is now capped.
+ */
+const SECONDARY_PER_TERM_MAX = (words: number) => Math.min(10, Math.max(4, Math.ceil(words / 200)));
 const maxUses = (words: number) =>
   Math.min(PRIMARY_USES.absoluteMax, Math.max(4, Math.ceil((words / 100) * USES_PER_100_WORDS)));
 
@@ -213,9 +226,9 @@ export function structureGate(draft: Draft): GateResult {
   // primary that contains a secondary is not billed for both.
   const secondaryUses = countNonOverlapping(searchable, secondaries, primary.spans).total;
   const targets = extra.length + 1;
-  const secondaryCeiling = Math.min(
-    SECONDARY_ABSOLUTE_MAX * targets,
-    Math.max(6 * targets, Math.ceil((words / 100) * SECONDARY_USES_PER_100_WORDS)),
+  const secondaryCeiling = Math.max(
+    6 * targets,
+    Math.ceil((words / 100) * SECONDARY_USES_PER_100_WORDS),
   );
   if (secondaryUses > secondaryCeiling) {
     failures.push({
@@ -223,6 +236,20 @@ export function structureGate(draft: Draft): GateResult {
       message: `Secondary keywords appear ${secondaryUses} times in ${words} words; the ceiling here is ${secondaryCeiling}.`,
       evidence: `${secondaryUses} uses`,
     });
+  }
+
+  // The check that actually catches stuffing: one term hammered, rather than
+  // several used at a normal rate across a long post.
+  const perTerm = SECONDARY_PER_TERM_MAX(words);
+  for (const term of secondaries) {
+    const n = countNonOverlapping(searchable, [term], primary.spans).total;
+    if (n > perTerm) {
+      failures.push({
+        rule: 'keyword.secondary_repeated',
+        message: `"${term}" appears ${n} times in ${words} words; no single secondary may exceed ${perTerm}. Use a different one of its siblings.`,
+        evidence: `${term}: ${n} uses`,
+      });
+    }
   }
 
   // The commercial link is the entire commercial point of the post.

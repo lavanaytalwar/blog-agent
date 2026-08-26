@@ -30,6 +30,7 @@ export const RULES = {
   'length.floor': 'At least 500 words. Target 700-1,200.',
   'keyword.additional_underused': 'Every keyword this post was selected for must be used at least three times, not just the lead one.',
   'keyword.additional_unheaded': 'Every additional selected keyword needs its own H2. A second target earns a section, not a mention.',
+  'keyword.secondary_repeated': 'No single secondary keyword may dominate. Spread the uses across the siblings attached to this target.',
   'keyword.secondary_overused': 'Use the secondary keywords roughly twice each, not as a checklist to exhaust.',
   'cta.present': 'Exactly one call to action, from the approved set.',
   'cta.single': 'Only one call to action. Two is a failure, not enthusiasm.',

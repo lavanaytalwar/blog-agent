@@ -180,6 +180,34 @@ keywords in the same cluster.
 Everything outside the selection stays foreign: `keyword.foreign` allows one
 passing mention and no more. This is what stops two posts chasing one query.
 
+### 4.2c Reading the SERP before writing
+
+Before a draft, the pages currently ranking for the keyword are fetched and
+**measured**: word count, H2 count, publish or modified date, schema types,
+lists, tables, question-shaped headings, outbound citations, and words before
+the first H2. Each page is classified article / listing / product / other, and
+the lesson is computed over the written pages only, so an app-store listing
+cannot drag the median.
+
+No model reads those pages. A model asked "why does this rank" produces a
+confident essay, which is what the gates exist to reject. Shape is countable.
+
+Two things come out of it:
+
+- **The word target tracks the measured median**, replacing the 700 to 1,200
+  default. `ugc ads` measured 1,825 across the three written pages in its top 6,
+  so the target became 1,825 to 2,373.
+- **The observations go into the prompt verbatim**, under an instruction not to
+  copy the shape.
+
+The hard gate floor does **not** move with the SERP. A gate whose threshold
+depends on a network fetch passes different drafts on different days.
+
+Search is pluggable (`BRAVE_SEARCH_KEY` or `SERPER_API_KEY`) and never a scrape
+of an engine's results page. With no key, the URLs are supplied by hand and the
+cache records `source: supplied` so a sheet-derived reading is never mistaken
+for a live one. Cached in `config/serp-analysis.json` with the date taken.
+
 ### 4.3 The five gates
 
 All five are **deterministic code**, not model judgment. This is deliberate: it means

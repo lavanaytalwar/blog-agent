@@ -1,0 +1,443 @@
+{
+  "_source": "Written by scripts/serp-analyze.ts. Measured off the live pages, never model-judged.",
+  "_refresh": "npm run serp:analyze -- \"<keyword>\" [urls...]",
+  "keywords": {
+    "post purchase upsell": {
+      "takenOn": "2026-08-26",
+      "source": "sheet",
+      "pages": [
+        {
+          "url": "https://apps.shopify.com/cart-x",
+          "host": "apps.shopify.com",
+          "title": "Cart X ‑ Post Purchase Upsell - Boost your revenue with one click upsells and popups | Shopify App Store",
+          "words": 1046,
+          "h2s": [
+            "Apps by category",
+            "Featured images gallery",
+            "Easily create irresistible pop-ups and post purchase upsells in order to increase your revenue",
+            "Pricing",
+            "Reviews (42)",
+            "Support",
+            "More apps like this",
+            "Want to add an app?",
+            "Log in to your Shopify store",
+            "Install",
+            "This app isn’t compatible with your store"
+          ],
+          "updated": null,
+          "schema": [
+            "SoftwareApplication",
+            "AggregateRating"
+          ],
+          "outbound": 30,
+          "introWords": 26,
+          "kind": "product",
+          "ageDays": null,
+          "lists": 19,
+          "tables": 0,
+          "questions": 1,
+          "images": 37,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://sellq.app/cart",
+          "host": "sellq.app",
+          "title": "SellQ",
+          "words": 1,
+          "h2s": [],
+          "updated": null,
+          "schema": [],
+          "outbound": 0,
+          "introWords": 1,
+          "kind": "other",
+          "ageDays": null,
+          "lists": 0,
+          "tables": 0,
+          "questions": 0,
+          "images": 0,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://apps.shopify.com/cart-x?surface_detail=marketing-and-conversion-upsell-and-bundles-upsell-and-cross-sell&surface_inter_position=1&surface_intra_position=11&surface_type=category&surface_version=redesign",
+          "host": "apps.shopify.com",
+          "title": "Cart X ‑ Post Purchase Upsell - Boost your revenue with one click upsells and popups | Shopify App Store",
+          "words": 1046,
+          "h2s": [
+            "Apps by category",
+            "Featured images gallery",
+            "Easily create irresistible pop-ups and post purchase upsells in order to increase your revenue",
+            "Pricing",
+            "Reviews (42)",
+            "Support",
+            "More apps like this",
+            "Want to add an app?",
+            "Log in to your Shopify store",
+            "Install",
+            "This app isn’t compatible with your store"
+          ],
+          "updated": null,
+          "schema": [
+            "SoftwareApplication",
+            "AggregateRating"
+          ],
+          "outbound": 30,
+          "introWords": 26,
+          "kind": "product",
+          "ageDays": null,
+          "lists": 19,
+          "tables": 0,
+          "questions": 1,
+          "images": 37,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://apps.shopify.com/cross-sell",
+          "host": "apps.shopify.com",
+          "title": "Upsell, Cross sell Bundles - Cross Sell, Upsell and Bundles Across 8 High-Impact Locations | Shopify App Store",
+          "words": 1444,
+          "h2s": [
+            "Apps by category",
+            "Featured images gallery",
+            "Add Upsell, Cross-Sell Bundles in 8 Strategic Locations to Boost Sales, AOV Conversions!",
+            "Pricing",
+            "Reviews (453)",
+            "Support",
+            "More apps like this",
+            "Want to add an app?",
+            "Log in to your Shopify store",
+            "Install",
+            "This app isn’t compatible with your store"
+          ],
+          "updated": null,
+          "schema": [
+            "SoftwareApplication",
+            "AggregateRating"
+          ],
+          "outbound": 32,
+          "introWords": 24,
+          "kind": "product",
+          "ageDays": null,
+          "lists": 24,
+          "tables": 0,
+          "questions": 1,
+          "images": 42,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://apps.shopify.com/flash-cart",
+          "host": "apps.shopify.com",
+          "title": "Flash Cart‑ Drawer Cross‑sells - A fully integrated cart cross-sell system that increases AOV | Shopify App Store",
+          "words": 1128,
+          "h2s": [
+            "Apps by category",
+            "Featured images gallery",
+            "Highly customizable slide-out cart with cross-sells add-ons for a better AOV user experience.",
+            "Pricing",
+            "Reviews (25)",
+            "Support",
+            "More apps like this",
+            "Want to add an app?",
+            "Log in to your Shopify store",
+            "Install",
+            "This app isn’t compatible with your store"
+          ],
+          "updated": null,
+          "schema": [
+            "SoftwareApplication",
+            "AggregateRating"
+          ],
+          "outbound": 28,
+          "introWords": 24,
+          "kind": "product",
+          "ageDays": null,
+          "lists": 20,
+          "tables": 0,
+          "questions": 1,
+          "images": 35,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://shopifyagencydirectory.com/blog/best-shopify-upsell-cross-sell-apps-2026",
+          "host": "shopifyagencydirectory.com",
+          "title": "Best Shopify Upsell Apps in 2026 (Compared) | Shopify Agency Directory",
+          "words": 1401,
+          "h2s": [
+            "Upsell vs Cross-Sell: The Difference",
+            "The Best Shopify Upsell Apps at a Glance",
+            "App-by-App Breakdown",
+            "Choosing by Funnel Stage",
+            "What an App Cannot Do",
+            "Frequently Asked Questions",
+            "The Bottom Line"
+          ],
+          "updated": "2026-06-02",
+          "schema": [
+            "BlogPosting",
+            "WebPage",
+            "Person",
+            "FAQPage",
+            "Question",
+            "Answer",
+            "BreadcrumbList",
+            "ListItem"
+          ],
+          "outbound": 0,
+          "introWords": 208,
+          "kind": "article",
+          "ageDays": 86,
+          "lists": 0,
+          "tables": 2,
+          "questions": 0,
+          "images": 0,
+          "hasAuthor": true,
+          "isNumberedList": false
+        }
+      ],
+      "lesson": {
+        "analysed": 1,
+        "skipped": [
+          {
+            "url": "https://apps.shopify.com/cart-x",
+            "kind": "product"
+          },
+          {
+            "url": "https://sellq.app/cart",
+            "kind": "other"
+          },
+          {
+            "url": "https://apps.shopify.com/cart-x?surface_detail=marketing-and-conversion-upsell-and-bundles-upsell-and-cross-sell&surface_inter_position=1&surface_intra_position=11&surface_type=category&surface_version=redesign",
+            "kind": "product"
+          },
+          {
+            "url": "https://apps.shopify.com/cross-sell",
+            "kind": "product"
+          },
+          {
+            "url": "https://apps.shopify.com/flash-cart",
+            "kind": "product"
+          }
+        ],
+        "medianWords": 1401,
+        "medianH2s": 7,
+        "roundups": 0,
+        "withQuestions": 0,
+        "withTables": 1,
+        "freshWithin12Months": 1,
+        "medianOutbound": 0,
+        "medianIntroWords": 208,
+        "observations": [
+          "The 1 written pages run a median of 1401 words across 7 H2 sections.",
+          "Only 0 of 1 are numbered roundups, so a single-argument piece competes here.",
+          "1 of 1 use a comparison table.",
+          "1 of 1 were updated in the last 12 months. This is a keyword where freshness is being rewarded.",
+          "They answer in a median of 208 words before the first H2.",
+          "5 of the top results are not written pages (product, other), so the SERP is not purely editorial."
+        ]
+      }
+    },
+    "ugc ads": {
+      "takenOn": "2026-08-26",
+      "source": "supplied",
+      "pages": [
+        {
+          "url": "https://www.hunchads.com/blog/a-step-by-step-guide-to-crushing-it-with-ugc-style-ads",
+          "host": "hunchads.com",
+          "title": "How to craft the perfect UGC ad campaign",
+          "words": 2420,
+          "h2s": [
+            "What are UGC ads?",
+            "Key elements of UGC ads",
+            "Your step-by-step guide to creating UGC-style ads",
+            "Use UGC-style ads to boost customer relationships and pull in new followers",
+            "Comparisons",
+            "Categories",
+            "Hunch Punch Newsletter",
+            "SEE HUNCH IN ACTION"
+          ],
+          "updated": null,
+          "schema": [],
+          "outbound": 8,
+          "introWords": 386,
+          "kind": "article",
+          "ageDays": null,
+          "lists": 3,
+          "tables": 0,
+          "questions": 1,
+          "images": 58,
+          "hasAuthor": true,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://invideo.io/make/ugc-ads/",
+          "host": "invideo.io",
+          "title": "UGC Ads: Make Video Ads with AI | Invideo",
+          "words": 0,
+          "h2s": [],
+          "updated": null,
+          "schema": [
+            "FAQPage",
+            "Question",
+            "Answer"
+          ],
+          "outbound": 11,
+          "introWords": 0,
+          "kind": "other",
+          "ageDays": null,
+          "lists": 0,
+          "tables": 0,
+          "questions": 0,
+          "images": 0,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://www.veicolo-agency.com/ugc-ads-user-generated-content-ads",
+          "host": "veicolo-agency.com",
+          "title": "Growth Marketing Services for Fashion Luxury",
+          "words": 6,
+          "h2s": [],
+          "updated": null,
+          "schema": [
+            "Organization",
+            "ImageObject",
+            "PostalAddress",
+            "WebSite",
+            "ProfessionalService"
+          ],
+          "outbound": 0,
+          "introWords": 6,
+          "kind": "other",
+          "ageDays": null,
+          "lists": 0,
+          "tables": 0,
+          "questions": 0,
+          "images": 0,
+          "hasAuthor": true,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://ugcads.ai/",
+          "host": "ugcads.ai",
+          "title": "Home - UGC Ads AI- Video Ads",
+          "words": 1305,
+          "h2s": [
+            "UGC ADS AI",
+            "Create winning ads with",
+            "Create AI UGC Videos in Minutes",
+            "Our Features",
+            "Choose your scene",
+            "Choose your scene",
+            "Real Actors. Real Emotion.",
+            "Real Actors. Real Emotion.",
+            "500+ Licensed Creators",
+            "500+ Licensed Creators",
+            "Our Unbeatable Pricing",
+            "$49.99 /mo",
+            "$99.99 /mo",
+            "$249.99 /mo",
+            "Testimonials",
+            "FAQs"
+          ],
+          "updated": "2025-03-10",
+          "schema": [
+            "WebPage",
+            "ReadAction",
+            "ImageObject",
+            "BreadcrumbList",
+            "ListItem",
+            "WebSite",
+            "SearchAction",
+            "EntryPoint",
+            "PropertyValueSpecification"
+          ],
+          "outbound": 3,
+          "introWords": 29,
+          "kind": "article",
+          "ageDays": 535,
+          "lists": 16,
+          "tables": 0,
+          "questions": 0,
+          "images": 26,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://www.createugc.ai/",
+          "host": "createugc.ai",
+          "title": "AI Video Generator for eCommerce Ads that Sell - CreateUGC",
+          "words": 1825,
+          "h2s": [
+            "Turn any product into a scroll-stopping AI UGC ad",
+            "Trusted by top eComm pros who convert fast",
+            "How it works",
+            "Take Full Control of the Outcome",
+            "Turn Any Product into a High-Converting Video Ad in 60 Sec",
+            "Who s It For? Everyone Who Sells Online.",
+            "Go from manual editing...",
+            "...to AI video production",
+            "Why 85,000+ Marketers Switched to CreateUGC",
+            "Pick Your Plan",
+            "Frequently Asked Questions",
+            "Want Scroll-Stopping Video Ads That Actually Convert?"
+          ],
+          "updated": "2026-07-30",
+          "schema": [
+            "WebPage",
+            "ReadAction",
+            "BreadcrumbList",
+            "ListItem",
+            "WebSite",
+            "SearchAction",
+            "EntryPoint",
+            "PropertyValueSpecification",
+            "Organization",
+            "ImageObject"
+          ],
+          "outbound": 0,
+          "introWords": 69,
+          "kind": "article",
+          "ageDays": 28,
+          "lists": 14,
+          "tables": 0,
+          "questions": 1,
+          "images": 87,
+          "hasAuthor": true,
+          "isNumberedList": false
+        }
+      ],
+      "lesson": {
+        "analysed": 3,
+        "skipped": [
+          {
+            "url": "https://invideo.io/make/ugc-ads/",
+            "kind": "other"
+          },
+          {
+            "url": "https://www.veicolo-agency.com/ugc-ads-user-generated-content-ads",
+            "kind": "other"
+          }
+        ],
+        "medianWords": 1825,
+        "medianH2s": 12,
+        "roundups": 0,
+        "withQuestions": 0,
+        "withTables": 0,
+        "freshWithin12Months": 1,
+        "medianOutbound": 3,
+        "medianIntroWords": 69,
+        "observations": [
+          "The 3 written pages run a median of 1825 words across 12 H2 sections.",
+          "Only 0 of 3 are numbered roundups, so a single-argument piece competes here.",
+          "1 of 3 were updated in the last 12 months. This is a keyword where freshness is being rewarded.",
+          "They answer in a median of 69 words before the first H2.",
+          "2 of the top results are not written pages (other), so the SERP is not purely editorial."
+        ]
+      }
+    }
+  }
+}
