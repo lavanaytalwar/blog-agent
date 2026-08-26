@@ -16,13 +16,23 @@
     "typecheck": "tsc --noEmit",
     "status": "tsx scripts/status.ts",
     "test": "node --import tsx --test lib/gates/*.test.ts",
-    "gate": "tsx scripts/gate.ts"
+    "gate": "tsx scripts/gate.ts",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "seed:demo": "tsx scripts/seed-demo.ts"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.10.4"
+    "@neondatabase/serverless": "^0.10.4",
+    "next": "^15.5.24",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
     "exceljs": "^4.4.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"

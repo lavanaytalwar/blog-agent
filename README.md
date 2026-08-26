@@ -3,8 +3,8 @@
 Gated blog generation for `www.gethelium.co/blogs`. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for the design and the reasoning behind it.
 
-**Built:** Phase 0 (schema, config, Search Console, measurement spine) and
-Phase 1 (the five gates, 46 tests).
+**Built:** Phase 0 (schema, config, Search Console, measurement spine),
+Phase 1 (the five gates, 46 tests), Phase 2 (the dashboard).
 
 ## Setup
 
@@ -29,6 +29,8 @@ On Vercel, pass the same JSON as the `GSC_KEY_JSON` env var instead of a file pa
 | `npm run gate -- <file.md>` | Runs all five gates against a draft file (`--offline` skips the live slug check) | no |
 | `npm test` | 46 gate tests | no |
 | `npm run status` | Row counts, branded split, keyword coverage | yes |
+| `npm run dev` | Dashboard on :3000 | yes |
+| `npm run seed:demo` | Creates a deliberately failing draft, for exercising the review screen | yes |
 | `npm run typecheck` | `tsc --noEmit` | no |
 
 ## Getting a database
@@ -51,6 +53,28 @@ seeded from them — never the other way round.
 | `keywords.json` | topic selection | the Google Sheet, both tabs |
 | `claim-ledger.json` | gate 3 — every number a draft may state | entity-record §5, conflicts ratified 2026-08-26 |
 | `blocklist.json` | gates 1, 2, 5 — competitors, hedges, CTAs, coined terms | brand-voice §6 and §8, entity-record §10 and §11 |
+
+## The dashboard
+
+`npm run dev`, then :3000. Six screens — see [DASHBOARD.md](DASHBOARD.md) for the spec.
+
+| Route | Does |
+|---|---|
+| `/` | Queue: what is awaiting a decision |
+| `/generate` | Pick a target, start a draft |
+| `/posts` · `/posts/[id]` | History, and the review screen |
+| `/keywords` | Coverage map and the remaining-target count |
+| `/measurement` | The non-brand baseline and per-post readings |
+
+Three things worth knowing:
+
+- **Approve is impossible while any gate fails** — enforced by the API, not just a
+  disabled button. If a gate is wrong, change the config and regenerate.
+- **Failure evidence is highlighted inline** in the draft, anchored to the exact
+  substring the rule matched.
+- **Generation runs via `after()`**, continuing past the flushed response inside the
+  same invocation. A once-a-minute cron sweeps up anything orphaned by a cold start.
+  No queue service.
 
 ## The five gates
 

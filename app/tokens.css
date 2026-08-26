@@ -1,0 +1,66 @@
+/*
+ * Design tokens. Every colour and size decision lives here.
+ * Ported from the Claude Design canvas, with two changes: the dark ground is
+ * lifted off pure black (you read 1,200-word drafts on this screen), and
+ * semantic pass/fail/blocked colours are separated from the accent so the
+ * accent means "primary action" and nothing else.
+ */
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f5f5f7;
+  --bg-elevated: #ffffff;
+  --text: #1d1d1f;
+  --text-sec: #6e6e73;
+  --border: #d2d2d7;
+
+  --accent: #0071e3;
+  --accent-wash: rgba(0, 113, 227, 0.08);
+
+  --pass: #17745b;
+  --fail: #b3261e;
+  --fail-wash: rgba(179, 38, 30, 0.08);
+  --blocked: #8a5a00;
+  --dormant: #8b94a3;
+
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --radius: 8px;
+  --sidebar-w: 220px;
+  --content-max: 1200px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e0e10;
+    --bg-subtle: #16171a;
+    --bg-elevated: #1c1c1e;
+    --text: #f5f5f7;
+    --text-sec: #98989d;
+    --border: #2c2c2e;
+
+    --accent: #0a84ff;
+    --accent-wash: rgba(10, 132, 255, 0.16);
+
+    --pass: #49d69c;
+    --fail: #ff8878;
+    --fail-wash: rgba(255, 136, 120, 0.12);
+    --blocked: #ffc861;
+    --dormant: #6c7583;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }

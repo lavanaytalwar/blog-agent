@@ -1,0 +1,79 @@
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 48px; align-items: start; }
+@media (max-width: 1080px) { .grid { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+
+.draft { min-width: 0; }
+.title { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 6px; text-wrap: balance; }
+.meta { font-family: var(--font-mono); font-size: 12px; color: var(--text-sec); margin-bottom: 18px; word-break: break-all; }
+
+.metaBox {
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: 13px; color: var(--text-sec); line-height: 1.55;
+  padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 24px;
+}
+.count, .countBad {
+  font-family: var(--font-mono); font-size: 11px; align-self: flex-end;
+}
+.count { color: var(--text-sec); }
+.countBad { color: var(--fail); }
+
+.p { font-size: 14.5px; line-height: 1.7; margin: 0 0 16px; }
+.h2 { font-size: 16px; font-weight: 600; margin: 28px 0 10px; letter-spacing: -0.005em; }
+.h3 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; }
+.generating { color: var(--text-sec); font-size: 13px; }
+
+.mark {
+  background: var(--fail-wash); color: inherit;
+  border-bottom: 1px solid var(--fail); border-radius: 2px; padding: 0 1px;
+}
+
+.rail { border-left: 1px solid var(--border); padding-left: 32px; min-width: 0; }
+@media (max-width: 1080px) { .rail { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 24px; } }
+
+.railHeading {
+  font-size: 11px; font-weight: 600; color: var(--text-sec);
+  text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 12px;
+}
+.railNote { font-size: 12px; color: var(--text-sec); line-height: 1.6; margin: 8px 0 0; }
+.railDivider { height: 1px; background: var(--border); margin: 24px 0; }
+
+.gate { margin-bottom: 10px; }
+.gateHead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.gatePass { font-size: 13px; color: var(--pass); font-family: var(--font-mono); }
+.gateFail { font-size: 13px; color: var(--fail); font-family: var(--font-mono); }
+.gateCount { font-family: var(--font-mono); font-size: 12px; color: var(--text-sec); font-variant-numeric: tabular-nums; }
+
+.failure { margin: 8px 0 12px 16px; padding-left: 10px; border-left: 2px solid var(--fail); }
+.failureRule { font-family: var(--font-mono); font-size: 11.5px; color: var(--fail); }
+.failureMessage { font-size: 12.5px; line-height: 1.5; margin-top: 3px; }
+.failureEvidence {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-sec);
+  margin-top: 4px; word-break: break-word;
+}
+
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: 12.5px; }
+.kv dt { color: var(--text-sec); }
+.kv dd { margin: 0; word-break: break-word; }
+
+.decision { display: flex; flex-direction: column; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.fieldLabel { font-size: 11px; font-weight: 600; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.04em; }
+.input, .textarea {
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 13px; background: var(--bg); color: var(--text); font-family: var(--font-ui);
+  width: 100%;
+}
+.textarea { resize: vertical; line-height: 1.5; }
+.input:focus-visible, .textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.textarea:disabled { background: var(--bg-subtle); color: var(--text-sec); }
+
+.buttonRow { display: flex; gap: 8px; }
+.approve, .approveDisabled, .secondary {
+  padding: 9px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 500;
+}
+.approve { background: var(--accent); color: #fff; border: none; cursor: pointer; }
+.approveDisabled { background: var(--bg-subtle); color: var(--text-sec); border: 1px solid var(--border); cursor: not-allowed; }
+.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); cursor: pointer; }
+.secondary:hover { background: var(--bg-subtle); }
+
+.error { font-size: 12.5px; color: var(--fail); background: var(--fail-wash); padding: 9px 11px; border-radius: var(--radius); }

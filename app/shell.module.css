@@ -1,0 +1,32 @@
+.page { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  padding: 24px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.logo { font-size: 15px; font-weight: 600; padding: 0 10px 22px; letter-spacing: -0.01em; }
+.spacer { flex: 1; }
+.footer { padding: 10px; font-size: 11px; color: var(--text-sec); }
+
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+.topbar {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 22px 40px; border-bottom: 1px solid var(--border);
+}
+.screenTitle { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+.routeLabel { font-family: var(--font-mono); font-size: 12px; color: var(--text-sec); }
+
+.content { padding: 32px 40px 80px; max-width: var(--content-max); width: 100%; }
+
+@media (max-width: 860px) {
+  .page { flex-direction: column; }
+  .sidebar { width: 100%; flex-direction: row; align-items: center; overflow-x: auto; padding: 12px; }
+  .spacer, .footer { display: none; }
+  .content { padding: 24px 20px 64px; }
+}
