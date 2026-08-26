@@ -10,3 +10,4 @@ node_modules/
 .vercel
 *.tsbuildinfo
 content/drafts/_attempt-*
+content/drafts/_batch/

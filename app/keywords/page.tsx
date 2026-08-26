@@ -1,13 +1,22 @@
 import Link from 'next/link';
 import { keywordCoverage } from '../../lib/data/keywords.js';
+import { listRejections } from '../../lib/keywords/rejections.js';
+import { fingerprint } from '../../lib/keywords/fingerprint.js';
 import { Screen, Section, Table, Pill, ui } from '../ui.js';
 import { MineButton } from './mine-button.js';
+import { RejectButton } from './reject-button.js';
 import styles from './mine.module.css';
 
 export const dynamic = 'force-dynamic';
 
 export default async function KeywordsPage() {
-  const { groups, coverage } = await keywordCoverage();
+  const [{ groups, coverage }, rejections] = await Promise.all([
+    keywordCoverage(),
+    listRejections(),
+  ]);
+  // Fingerprints, not strings: rejecting one surface form rejects them all.
+  const rejected = new Set(rejections.map((r) => r.fingerprint));
+  const isRejected = (k: string) => rejected.has(fingerprint(k));
 
   return (
     <Screen title="Keywords" route="/keywords">
@@ -25,6 +34,36 @@ export default async function KeywordsPage() {
 
       <MineButton />
 
+      {rejections.length > 0 ? (
+        <div className={styles.rejectedBlock}>
+          <div className={styles.title}>
+            {rejections.length} rejected keyword{rejections.length === 1 ? '' : 's'}
+          </div>
+          <div className={styles.sub}>
+            Never proposed again, in any surface form. Run{' '}
+            <code>npm run keywords:rejections</code> to write these into
+            <code> config/keyword-history.json</code> so the decision survives the database.
+          </div>
+          <ul className={styles.rejectedList}>
+            {rejections.map((r) => (
+              <li key={r.fingerprint}>
+                <RejectButton
+                  keyword={r.keyword}
+                  scope={r.scope}
+                  primary={r.primaryKeyword ?? undefined}
+                  rejected
+                />
+                <span className={styles.struck}>{r.keyword}</span>
+                <span className={styles.evidence}>
+                  {r.scope === 'secondary' && r.primaryKeyword ? `secondary of ${r.primaryKeyword}` : r.scope}
+                  {' · '}{r.rejectedAt.slice(0, 10)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       {groups.map(({ cluster, keywords }) => (
         <Section
           key={cluster?.id ?? 'unmapped'}
@@ -37,12 +76,21 @@ export default async function KeywordsPage() {
               return (
                 <tr key={k.keyword}>
                   <td>
-                    {k.keyword}
+                    <span className={styles.keywordRow}>
+                      <RejectButton keyword={k.keyword} scope="primary" rejected={isRejected(k.keyword)} />
+                      <span className={isRejected(k.keyword) ? styles.struck : undefined}>{k.keyword}</span>
+                    </span>
                     {secondaries.length > 0 ? (
                       <ul className={styles.secondaryList}>
                         {secondaries.map((s) => (
                           <li key={s.keyword} className={s.source === 'proposed' ? styles.proposed : undefined}>
-                            {s.keyword}
+                            <RejectButton
+                              keyword={s.keyword}
+                              scope="secondary"
+                              primary={k.keyword}
+                              rejected={isRejected(s.keyword)}
+                            />
+                            <span className={isRejected(s.keyword) ? styles.struck : undefined}>{s.keyword}</span>
                             {/* A proposed term is awaiting a decision, not a finding.
                                 It must never read as evidence-backed. */}
                             {s.source === 'proposed' ? (

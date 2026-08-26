@@ -166,12 +166,17 @@ ${list(voice.coinedTerms)}`);
 
   sections.push(`## Structure
 
-- **${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.**${brief.serpLesson
-    ? ` That range is the measured median of the pages that currently rank for this
-  keyword, not a guess.`
-    : ''}
-  Anything under ${500 + brief.additionalTargets.length * 250} words is rejected outright
-  and will not rank regardless.
+${brief.lengthBounds.from === 'serp'
+    ? `- **Write ${brief.lengthBounds.min} to ${brief.lengthBounds.max} characters of prose.** That is roughly ${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.
+  The number is not a preference: the pages currently ranking for this keyword run a
+  median of ${brief.lengthBounds.median} characters, and the draft is measured against them.
+  Under ${brief.lengthBounds.min} it is rejected as too thin to compete. Over
+  ${brief.lengthBounds.max} it is rejected as padding.`
+    : `- **Write at least ${brief.lengthBounds.min} characters of prose**, roughly ${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.
+  No reading has been taken of the pages ranking for this keyword, so this is the
+  default floor rather than a measured one.`}
+  Characters are counted on prose only. Headings, front matter and the TL;DR label
+  do not count toward it.
 - Open with a labelled TL;DR, written "**TL;DR:**" with a colon and no dash.
 - Three or four H2 sections.
 - Meta description **140 to 160 characters including spaces**, containing the primary

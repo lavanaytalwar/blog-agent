@@ -18,6 +18,14 @@ export type PageAnalysis = {
   kind: PageKind;
   title: string;
   words: number;
+  /**
+   * Characters of prose, whitespace included.
+   *
+   * The enforced unit. Word counts depend on how you split, and a post can pad
+   * its word count with short filler while saying less. Characters cannot be
+   * gamed that way and are measured identically on their pages and on ours.
+   */
+  chars: number;
   h2s: string[];
   /** Last modified or published, whichever is later. */
   updated: string | null;
@@ -122,6 +130,7 @@ export async function analyzePage(url: string): Promise<PageAnalysis | null> {
     const body = html.match(/<article[\s\S]*?<\/article>/i)?.[0] ?? html;
     const text = strip(body);
     const words = text.split(/\s+/).filter(Boolean).length;
+    const chars = text.length;
 
     const title = clean(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? '');
     const h2s = headingsOf(body, 2);
@@ -137,7 +146,7 @@ export async function analyzePage(url: string): Promise<PageAnalysis | null> {
       : words;
 
     return {
-      url, host, title, words, h2s, updated, schema, outbound, introWords,
+      url, host, title, words, chars, h2s, updated, schema, outbound, introWords,
       kind: classify(url, html, schema, words, title),
       ageDays: updated ? Math.round((Date.now() - Date.parse(updated)) / 86_400_000) : null,
       lists: (body.match(/<[uo]l[\s>]/gi) ?? []).length,
@@ -167,6 +176,8 @@ export type SerpLesson = {
   analysed: number;
   skipped: { url: string; kind: PageKind }[];
   medianWords: number;
+  /** The number the length gate is built on. */
+  medianChars: number;
   medianH2s: number;
   /** How many of the written pages are numbered roundups. */
   roundups: number;
@@ -191,6 +202,7 @@ export function lessonFrom(pages: PageAnalysis[]): SerpLesson {
     .map((p) => ({ url: p.url, kind: p.kind }));
 
   const medianWords = median(written.map((p) => p.words));
+  const medianChars = median(written.map((p) => p.chars));
   const medianH2s = median(written.map((p) => p.h2s.length));
   const roundups = written.filter((p) => p.isNumberedList || p.kind === 'listing').length;
   const withQuestions = written.filter((p) => p.questions >= 2).length;
@@ -203,7 +215,7 @@ export function lessonFrom(pages: PageAnalysis[]): SerpLesson {
   if (written.length) {
     const n = written.length;
     const plural = n === 1 ? 'page runs' : 'pages run';
-    obs.push(`The ${n} written ${plural} a median of ${medianWords} words across ${medianH2s} H2 sections.`);
+    obs.push(`The ${n} written ${plural} a median of ${medianChars} characters (about ${medianWords} words) across ${medianH2s} H2 sections.`);
     if (roundups >= Math.ceil(written.length / 2)) {
       obs.push(`${roundups} of ${written.length} are numbered roundups ("10 Best..."). The SERP wants a comparison, so beat it on depth per item rather than by writing another list.`);
     } else {
@@ -222,7 +234,7 @@ export function lessonFrom(pages: PageAnalysis[]): SerpLesson {
   }
 
   return {
-    analysed: written.length, skipped, medianWords, medianH2s, roundups,
+    analysed: written.length, skipped, medianWords, medianChars, medianH2s, roundups,
     withQuestions, withTables, freshWithin12Months: fresh, medianOutbound,
     medianIntroWords, observations: obs,
   };

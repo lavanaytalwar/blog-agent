@@ -311,13 +311,14 @@ describe('multi-target selection', () => {
     assert.ok(rules(r).includes('keyword.additional_underused'), JSON.stringify(r.failures));
   });
 
-  test('the word floor rises with each target', () => {
-    const one = structureGate(passingDraft);
-    const many = structureGate(draft({ additionalKeywords: ['a', 'b', 'c'] }));
-    const floorOf = (r: ReturnType<typeof structureGate>) =>
-      r.failures.find((f) => f.rule === 'length.floor')?.message ?? '';
-    assert.ok(floorOf(many).includes('1250'), floorOf(many));
-    assert.ok(!floorOf(one).includes('1250'));
+  test('the length floor rises with each target', () => {
+    const floorOf = (extra: string[]) => {
+      const r = structureGate(draft({ additionalKeywords: extra }));
+      const m = r.failures.find((f) => f.rule === 'length.floor')?.message ?? '';
+      return Number(m.match(/floor here is (\d+)/)?.[1] ?? 0);
+    };
+    // 1,500 characters per additional target, matching CHARS_PER_ADDITIONAL_TARGET.
+    assert.equal(floorOf(['a', 'b', 'c']) - floorOf(['a', 'b']), 1500);
   });
 
   test('targets from another cluster are rejected, not silently merged', () => {

@@ -65,6 +65,12 @@ export type Brief = {
    * a 700-word post.
    */
   wordTarget: [number, number];
+  /**
+   * The character bounds gate 2 will actually enforce, from lib/serp/cache.ts.
+   * Carried on the brief so the prompt states the same number the gate checks
+   * rather than a parallel one that can drift from it.
+   */
+  lengthBounds: { min: number; max: number | null; from: 'serp' | 'default'; median?: number };
   /** Titles already published, so the draft does not restate one. */
   existingTitles: string[];
 

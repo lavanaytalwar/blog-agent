@@ -236,14 +236,30 @@ confident essay, which is what the gates exist to reject. Shape is countable.
 
 Two things come out of it:
 
-- **The word target tracks the measured median**, replacing the 700 to 1,200
-  default. `ugc ads` measured 1,825 across the three written pages in its top 6,
-  so the target became 1,825 to 2,373.
+- **Length is enforced from the measured median**, in characters, replacing the flat
+  500-word floor. `ugc ads` measures a median of 9,254 characters across the four written
+  pages in its top 6, so gate 2 requires 6,478 to 18,508 and the prompt states exactly those
+  numbers. A draft against that keyword landed at 9,414, within 2% of the pages it is
+  competing with; the same keyword before this change produced 924 words.
 - **The observations go into the prompt verbatim**, under an instruction not to
   copy the shape.
 
-The hard gate floor does **not** move with the SERP. A gate whose threshold
-depends on a network fetch passes different drafts on different days.
+**Why a gate may depend on this.** An earlier revision of this document argued the floor
+must stay flat, because "a gate whose threshold depends on a network fetch passes different
+drafts on different days". That conflated two things. The reading is not fetched at gate
+time: it is `config/serp-analysis.json`, a committed file, read exactly the way the gates
+already read `keywords.json` and `claim-ledger.json`. Given the same config the verdict is
+identical, which is the property that actually matters. A gate that called a search API
+would be the thing that objection describes, and there is none.
+
+**Why characters rather than words.** A word count depends on how you split it, and a draft
+can pad its way to a word target with short filler while saying less. Characters are counted
+the same way on their pages and on ours, so the comparison is direct.
+
+Bounds are `max(3,000, 0.7 x median)` to `2 x median`, plus 1,500 characters per additional
+target. Seventy percent because a shorter post can still win on angle; twice the median
+because at that point it is padding rather than depth. With no reading, the floor falls back
+to 3,000 characters and there is no ceiling, since there is nothing to derive one from.
 
 Search is pluggable — `APIFY_TOKEN`, `BRAVE_SEARCH_KEY` or `SERPER_API_KEY`, checked in that
 order — and this codebase never scrapes an engine's results page itself. Not out of
@@ -285,9 +301,11 @@ swapping the drafting model changes output quality but can never change what pas
 - at least one H2; lead keyword present in title, H1, meta, and first 100 words
 - each additional selected keyword has an H2 containing it and at least three uses
   (`keyword.additional_unheaded`, `keyword.additional_underused`)
-- word floor of 500, plus 250 for every additional selected keyword. This is a hard
-  floor and it does **not** move with the SERP; the SERP-derived number is a target
-  stated in the prompt (§4.2c)
+- length in **characters of prose**, floor and ceiling both derived from the measured
+  SERP median for this keyword (§4.2c), plus 1,500 characters per additional target.
+  `length.floor` rejects a draft too thin to compete; `length.ceiling` rejects padding.
+  The bounds are carried on the brief, so the number the writer is given and the number
+  the gate checks cannot drift apart
 - primary keyword used at least 3 times and at most one per 100 words, capped at 8.
   Expressed in occurrences rather than word-share: standard keyword density,
   (keyword words x uses) / total words, scores a five-word long-tail phrase at 4.5%

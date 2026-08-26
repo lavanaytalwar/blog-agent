@@ -2,6 +2,7 @@ import { loadConfig } from '../config/load.js';
 import {
   bodyProse, containsPhrase, countNonOverlapping, firstWords, headings, sentences, wordCount,
 } from './text.js';
+import { lengthBoundsFor } from '../serp/cache.js';
 import { result, type Draft, type Failure, type GateResult } from './types.js';
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -11,19 +12,21 @@ const LONG_SENTENCE_WORDS = 15;
 const MAX_LONG_SENTENCE_SHARE = 0.4; // brand-voice §9: "mostly under 15 words"
 
 /**
- * A floor, not a target. Measured against real output: a 233-word post was
- * generated for a keyword whose entire SERP is 2,000-word buying guides. It
- * would never rank, and no other gate noticed.
+ * Length is enforced in characters of prose, and the threshold comes from the
+ * pages that actually hold the positions.
+ *
+ * A flat floor could only ever be wrong in one direction or the other: 500
+ * words is generous against a SERP of 800-word posts and absurd against one of
+ * 2,000-word buying guides. The original 500 came from exactly that failure, a
+ * 233-word draft for a keyword whose SERP was all long guides.
+ *
+ * Characters rather than words because a word count depends on how you split it
+ * and can be padded with short filler while saying less. Characters are counted
+ * the same way on their pages and on ours.
+ *
+ * The bounds live in lib/serp/cache.ts and read a committed file, never the
+ * network. See the note there on why that is safe for a gate.
  */
-const MIN_WORDS = 500;
-
-/**
- * Each additional target has to be genuinely covered, not name-dropped. A post
- * asked to own two keywords needs the room to say something real about both, so
- * the floor moves with the selection rather than letting a 500-word post claim
- * three targets.
- */
-const WORDS_PER_ADDITIONAL_TARGET = 250;
 
 /**
  * An additional target earns its place by carrying a section, not by appearing
@@ -161,15 +164,26 @@ export function structureGate(draft: Draft): GateResult {
   }
 
   const extra = draft.additionalKeywords;
-  const floor = MIN_WORDS + extra.length * WORDS_PER_ADDITIONAL_TARGET;
   const words = wordCount(prose);
-  if (words < floor) {
+  const chars = prose.length;
+  const bounds = lengthBoundsFor(draft.primaryKeyword, extra.length);
+  const basis = bounds.from === 'serp'
+    ? `the pages ranking for this keyword run a median of ${bounds.median} characters`
+    : 'no SERP reading exists for this keyword, so the default floor applies';
+
+  if (chars < bounds.min) {
     failures.push({
       rule: 'length.floor',
-      message: extra.length
-        ? `Post is ${words} words and covers ${extra.length + 1} targets. The floor for that many is ${floor}.`
-        : `Post is ${words} words. Below ${floor} it cannot compete with the pages already ranking for this keyword.`,
-      evidence: `${words} words`,
+      message: `Post is ${chars} characters (about ${words} words). The floor here is ${bounds.min}: ${basis}.`
+        + (extra.length ? ` ${extra.length} additional target(s) raise it by ${extra.length * 1500}.` : ''),
+      evidence: `${chars} chars`,
+    });
+  } else if (bounds.max !== null && chars > bounds.max) {
+    // Length is not the enemy; padding is. Twice the median is padding.
+    failures.push({
+      rule: 'length.ceiling',
+      message: `Post is ${chars} characters against a SERP median of ${bounds.median}. Twice the median is padding, not depth. Cut to under ${bounds.max}.`,
+      evidence: `${chars} chars`,
     });
   }
 

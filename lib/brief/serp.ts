@@ -1,6 +1,5 @@
 import { readFileSync, existsSync } from 'node:fs';
 import type { SerpCoverage } from './types.js';
-import type { PageAnalysis, SerpLesson } from '../serp/analyze.js';
 
 type Cached = { coverage: Record<string, SerpCoverage[]> };
 
@@ -21,30 +20,5 @@ export function serpCoverageFor(keyword: string): SerpCoverage[] {
   return cache.coverage[keyword] ?? [];
 }
 
-
-type AnalysisStore = {
-  keywords: Record<string, {
-    takenOn: string;
-    source: 'search' | 'supplied' | 'sheet';
-    pages: PageAnalysis[];
-    lesson: SerpLesson;
-  }>;
-};
-
-let analysis: AnalysisStore | null = null;
-
-/**
- * What the pages currently outranking us do, and when that was measured.
- *
- * Same reasoning as the heading cache: six fetches per draft would make every
- * generation slow and flaky. Refresh with `npm run serp:analyze`.
- */
-export function serpLessonFor(keyword: string): AnalysisStore['keywords'][string] | null {
-  if (!analysis) {
-    const path = `${process.env.CONFIG_DIR ?? 'config'}/serp-analysis.json`;
-    analysis = existsSync(path)
-      ? (JSON.parse(readFileSync(path, 'utf8')) as AnalysisStore)
-      : { keywords: {} };
-  }
-  return analysis.keywords[keyword] ?? null;
-}
+// The analysis cache moved to lib/serp/cache.ts so gate 2 can read it too.
+export { serpLessonFor } from '../serp/cache.js';

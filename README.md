@@ -101,6 +101,10 @@ what lets the drafting model change without the standards changing.
 | `cannibalization` | Duplicate slug, a keyword an existing post already owns |
 | `tone_floor` | Hedging, banned filler, hard superlatives, a missing or undefined coined term, an opening question |
 
+Post length is not a fixed number. Gate 2 measures characters of prose against the median of
+the pages currently ranking for that keyword, so a draft is judged against what it is
+actually competing with rather than against a default someone chose once.
+
 `tone_floor` runs backwards from a normal safety check: it fails drafts for being timid.
 It also fails them for reading like a machine: no dashes anywhere (`tone.em_dash`), and at
 least one informal break per six sentences (`tone.too_polished`) such as a fragment, a

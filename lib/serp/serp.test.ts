@@ -5,7 +5,7 @@ import { organicFrom, SearchError } from './search.js';
 
 const page = (over: Partial<PageAnalysis> = {}): PageAnalysis => ({
   url: 'https://example.com/blog/x', host: 'example.com', kind: 'article',
-  title: 'A guide', words: 1500, h2s: ['One', 'Two', 'Three'], updated: '2026-06-01',
+  title: 'A guide', words: 1500, chars: 9000, h2s: ['One', 'Two', 'Three'], updated: '2026-06-01',
   ageDays: 86, schema: ['Article'], lists: 3, tables: 0, questions: 0, images: 4,
   outbound: 6, introWords: 90, hasAuthor: true, isNumberedList: false, ...over,
 });
@@ -13,9 +13,9 @@ const page = (over: Partial<PageAnalysis> = {}): PageAnalysis => ({
 describe('SERP lesson', () => {
   test('store listings and thin pages are excluded, and said to be excluded', () => {
     const l = lessonFrom([
-      page(), page({ words: 2000 }),
+      page(), page({ words: 2000, chars: 12000 }),
       page({ kind: 'product', url: 'https://apps.shopify.com/a' }),
-      page({ kind: 'other', words: 3, url: 'https://x.io/' }),
+      page({ kind: 'other', words: 3, chars: 18, url: 'https://x.io/' }),
     ]);
     assert.equal(l.analysed, 2);
     assert.equal(l.skipped.length, 2);
@@ -24,8 +24,8 @@ describe('SERP lesson', () => {
 
   test('the median is over written pages only, so a listing cannot drag it', () => {
     const l = lessonFrom([
-      page({ words: 2000 }), page({ words: 1800 }), page({ words: 1900 }),
-      page({ kind: 'product', words: 50 }),
+      page({ words: 2000, chars: 12000 }), page({ words: 1800, chars: 10800 }), page({ words: 1900, chars: 11400 }),
+      page({ kind: 'product', words: 50, chars: 300 }),
     ]);
     assert.equal(l.medianWords, 1900);
   });
@@ -80,12 +80,31 @@ describe('word target', () => {
     if (!brief.serpLesson) assert.deepEqual(brief.wordTarget, [700, 1200]);
   });
 
-  test('the prompt states the target and never a bare default', async () => {
+  test('the prompt states exactly the bounds the gate will enforce', async () => {
     const { assembleBrief } = await import('../brief/assemble.js');
     const { renderSystemPrompt } = await import('../brief/render.js');
     const brief = assembleBrief({ primaryKeyword: 'ugc ads' });
     const prompt = renderSystemPrompt(brief);
-    assert.ok(prompt.includes(`${brief.wordTarget[0]} to ${brief.wordTarget[1]} words`));
+    // The whole point of carrying the bounds on the brief: the number the writer
+    // is given and the number gate 2 checks cannot drift apart.
+    assert.ok(prompt.includes(String(brief.lengthBounds.min)), 'floor missing from prompt');
+    if (brief.lengthBounds.max !== null) {
+      assert.ok(prompt.includes(String(brief.lengthBounds.max)), 'ceiling missing from prompt');
+    }
+  });
+
+  test('the bounds come from the measured median, not a constant', async () => {
+    const { lengthBoundsFor, ABSOLUTE_MIN_CHARS } = await import('./cache.js');
+    const measured = lengthBoundsFor('ugc ads', 0);
+    assert.equal(measured.from, 'serp');
+    assert.ok(measured.median! > 0);
+    assert.equal(measured.min, Math.max(ABSOLUTE_MIN_CHARS, Math.round(measured.median! * 0.7)));
+    assert.equal(measured.max, measured.median! * 2);
+
+    const unmeasured = lengthBoundsFor('How to improve product discovery', 0);
+    assert.equal(unmeasured.from, 'default');
+    assert.equal(unmeasured.min, ABSOLUTE_MIN_CHARS);
+    assert.equal(unmeasured.max, null, 'no ceiling without a reading to derive one from');
   });
 });
 

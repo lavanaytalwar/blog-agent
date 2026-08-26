@@ -83,14 +83,19 @@ reject. Shape is countable; motive is not. What comes back is counts.
 
 ### What it changes
 
-The measured median becomes the post's word target, replacing the 700 to 1,200
-default. This is the single most common reason a draft was never going to
-compete: `ugc ads` measured a median of 1,825 words across the three written
-pages in its top 6, so the target for that post is 1,825 to 2,373, not 700.
+**The measured median sets the length gate**, in characters of prose. This is the
+single most common reason a draft was never going to compete. `ugc ads` measures
+a median of 9,254 characters across the four written pages in its top 6, so gate
+2 requires 6,478 to 18,508 for that post. Before this existed the same keyword
+produced 924 words and passed.
 
-The hard gate floor stays at 500 (plus 250 per additional target) and does not
-move with the SERP. A gate that changes what it enforces based on a network
-fetch is a gate that passes different drafts on different days.
+Characters rather than words because a word count can be padded with short
+filler, and because characters are measured identically on their pages and ours.
+
+Bounds are `max(3,000, 0.7 x median)` to `2 x median`, plus 1,500 per additional
+target. With no reading taken, the floor is a flat 3,000 characters and there is
+no ceiling. That fallback is the reason to take a reading: without one the post
+is written against a default rather than against its competition.
 
 The observations go into the prompt verbatim, under an instruction not to copy
 the shape: they tell the writer what the reader has already been shown five

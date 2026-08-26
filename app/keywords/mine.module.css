@@ -28,3 +28,27 @@
   letter-spacing: 0.06em; color: var(--blocked); border: 1px solid currentColor;
   border-radius: 3px; padding: 0 4px; margin-left: 6px;
 }
+
+/* The minus sign on every keyword. Quiet until it matters — a rejection is a
+   decision the eye should be able to find, but the default state is not a
+   thing you want twenty-eight of shouting on one screen. */
+.reject, .rejectOn {
+  font-family: var(--font-mono); font-size: 12px; line-height: 1;
+  width: 16px; height: 16px; padding: 0; margin-right: 7px;
+  border-radius: 3px; cursor: pointer; flex-shrink: 0;
+  vertical-align: baseline; background: transparent;
+  border: 1px solid var(--border); color: var(--dormant);
+}
+.reject:hover { border-color: var(--fail); color: var(--fail); }
+.rejectOn { border-color: var(--fail); color: var(--fail); background: var(--fail-wash); }
+.reject:disabled, .rejectOn:disabled { cursor: default; opacity: 0.5; }
+
+.keywordRow { display: inline-flex; align-items: baseline; }
+.struck { text-decoration: line-through; color: var(--dormant); }
+
+.rejectedBlock {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 18px; margin-bottom: 28px;
+}
+.rejectedList { margin: 10px 0 0; padding: 0; list-style: none; }
+.rejectedList li { font-size: 12.5px; margin: 4px 0; line-height: 1.5; }

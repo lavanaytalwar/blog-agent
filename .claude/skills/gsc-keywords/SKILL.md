@@ -23,6 +23,22 @@ excluded is in there with a normalised fingerprint. **A keyword in that file is 
 proposed again**, whatever its verdict was. This is the rule that stops the same terms
 resurfacing every run.
 
+Then read the rejection list:
+
+```
+curl -s localhost:3000/api/keywords/rejections
+```
+
+These are terms a human pressed − on in the dashboard. `npm run gsc:mine` already
+subtracts them, but **tier 3 does not** — nothing stops you inventing a term someone has
+already refused. Hold the list in mind before you propose anything, and check any
+`proposed` term against it by fingerprint, not by string: rejecting
+`ecommerce personalisation tools` also rejects `ecommerce personalization tool`.
+
+Run `npm run keywords:rejections` at the start of the run so the rejections are folded
+into `config/keyword-history.json`. After that the ledger alone is sufficient, and the
+decision survives the database.
+
 Note the run date and counts, so step 7 can diff against them.
 
 ## Procedure
@@ -42,11 +58,22 @@ The two lists use different bars, because they answer different questions.
 
 | | Filter | Why |
 |---|---|---|
-| **Striking distance** | ≥10 impressions, average position 11–20 | A page already ranking on page two can be pushed to page one. Below 10 impressions there is no demand to win; above position 20 a rewrite will not close the gap. |
+| **Striking distance** | **10–100 impressions**, average position 11–20 | A page already ranking on page two can be pushed to page one. Below 10 impressions there is no demand to win; above position 20 a rewrite will not close the gap. |
 | **Secondaries** | ≥2 impressions, shares ≥60% of the primary's tokens | A secondary needs evidence and shared intent, not a ranking. Position barely matters. |
 
-Both lists exclude anything already targeted, anything in the history ledger, and
-anything matching `config/query-noise.json`.
+Both lists exclude anything already targeted, anything in the history ledger, anything on
+the rejection list, and anything matching `config/query-noise.json`.
+
+**The impression band on primaries is the niche test, and the ceiling is the half that
+does the work.** The floor says there is demand worth winning. The ceiling says the query
+is not a head term: above roughly 100 impressions in a 90-day window the competition is
+established publishers, and a position-15 average there describes a page that is outgunned
+rather than one revision away. The target is rank 1. A query Helium could only reach page
+one of is not a target, however good the impressions look.
+
+**No ceiling on secondaries, deliberately.** A secondary is a supporting term inside a
+post about the primary, never something ranked for on its own, so "too competitive to
+win" does not apply to it. Do not add one for symmetry.
 
 ### 3. Classify every candidate
 
@@ -177,8 +204,12 @@ containing one. Do not weaken that check, and never write a merchant name into a
   `unmapped` and say so in the report.
 - **Mark a keyword `covered`.** That is derived from posts, not asserted.
 - **Touch `config/claim-ledger.json`.** Different file, different gate, different rules.
-- **Relax a threshold** to produce a nicer-looking result.
+- **Relax a threshold** to produce a nicer-looking result. The 100-impression ceiling is
+  a threshold: a 400-impression query at position 14 is out, and it is out for a reason.
 - **Describe a `proposed` term as evidence-backed.**
+- **Re-propose anything on the rejection list**, in any surface form, at any tier. A
+  rejection is a decision that was already made — re-proposing it as `proposed` because
+  it was never in the ledger is the exact failure the list exists to prevent.
 
 ## Expected outcome
 

@@ -11,6 +11,7 @@
           "host": "apps.shopify.com",
           "title": "Cart X ‑ Post Purchase Upsell - Boost your revenue with one click upsells and popups | Shopify App Store",
           "words": 1046,
+          "chars": 7377,
           "h2s": [
             "Apps by category",
             "Featured images gallery",
@@ -45,6 +46,7 @@
           "host": "sellq.app",
           "title": "SellQ",
           "words": 1,
+          "chars": 5,
           "h2s": [],
           "updated": null,
           "schema": [],
@@ -64,6 +66,7 @@
           "host": "apps.shopify.com",
           "title": "Cart X ‑ Post Purchase Upsell - Boost your revenue with one click upsells and popups | Shopify App Store",
           "words": 1046,
+          "chars": 7377,
           "h2s": [
             "Apps by category",
             "Featured images gallery",
@@ -98,6 +101,7 @@
           "host": "apps.shopify.com",
           "title": "Upsell, Cross sell Bundles - Cross Sell, Upsell and Bundles Across 8 High-Impact Locations | Shopify App Store",
           "words": 1444,
+          "chars": 10122,
           "h2s": [
             "Apps by category",
             "Featured images gallery",
@@ -132,6 +136,7 @@
           "host": "apps.shopify.com",
           "title": "Flash Cart‑ Drawer Cross‑sells - A fully integrated cart cross-sell system that increases AOV | Shopify App Store",
           "words": 1128,
+          "chars": 7678,
           "h2s": [
             "Apps by category",
             "Featured images gallery",
@@ -166,6 +171,7 @@
           "host": "shopifyagencydirectory.com",
           "title": "Best Shopify Upsell Apps in 2026 (Compared) | Shopify Agency Directory",
           "words": 1401,
+          "chars": 8911,
           "h2s": [
             "Upsell vs Cross-Sell: The Difference",
             "The Best Shopify Upsell Apps at a Glance",
@@ -223,6 +229,7 @@
           }
         ],
         "medianWords": 1401,
+        "medianChars": 8911,
         "medianH2s": 7,
         "roundups": 0,
         "withQuestions": 0,
@@ -231,7 +238,7 @@
         "medianOutbound": 0,
         "medianIntroWords": 208,
         "observations": [
-          "The 1 written pages run a median of 1401 words across 7 H2 sections.",
+          "The 1 written page runs a median of 8911 characters (about 1401 words) across 7 H2 sections.",
           "Only 0 of 1 are numbered roundups, so a single-argument piece competes here.",
           "1 of 1 use a comparison table.",
           "1 of 1 were updated in the last 12 months. This is a keyword where freshness is being rewarded.",
@@ -249,6 +256,7 @@
           "host": "hunchads.com",
           "title": "How to craft the perfect UGC ad campaign",
           "words": 2420,
+          "chars": 14639,
           "h2s": [
             "What are UGC ads?",
             "Key elements of UGC ads",
@@ -277,6 +285,7 @@
           "host": "invideo.io",
           "title": "UGC Ads: Make Video Ads with AI | Invideo",
           "words": 0,
+          "chars": 0,
           "h2s": [],
           "updated": null,
           "schema": [
@@ -298,9 +307,28 @@
         {
           "url": "https://www.veicolo-agency.com/ugc-ads-user-generated-content-ads",
           "host": "veicolo-agency.com",
-          "title": "Growth Marketing Services for Fashion Luxury",
-          "words": 6,
-          "h2s": [],
+          "title": "What are UGC Ads?",
+          "words": 1656,
+          "chars": 6782,
+          "h2s": [
+            "D e f i n i t i o n",
+            "W h y U G C A d s W o r k",
+            "W h a t ' s I n c l u d e d i n O u r U G C A d s S e r v i c e",
+            "H o w W e W o r k s",
+            "T y p e s o f U G C A d s W e C r e a t e",
+            "Why Work With Us",
+            "Frequently Asked Questions",
+            "R e l a t e d G l o s s a r y T e r m s",
+            "News From Us",
+            "News From Us",
+            "News From Us",
+            "Let's Talk",
+            "Growth",
+            "Let's Talk",
+            "Growth",
+            "Let's Talk",
+            "Growth"
+          ],
           "updated": null,
           "schema": [
             "Organization",
@@ -309,14 +337,14 @@
             "WebSite",
             "ProfessionalService"
           ],
-          "outbound": 0,
-          "introWords": 6,
-          "kind": "other",
+          "outbound": 6,
+          "introWords": 42,
+          "kind": "article",
           "ageDays": null,
-          "lists": 0,
+          "lists": 5,
           "tables": 0,
           "questions": 0,
-          "images": 0,
+          "images": 35,
           "hasAuthor": true,
           "isNumberedList": false
         },
@@ -325,6 +353,7 @@
           "host": "ugcads.ai",
           "title": "Home - UGC Ads AI- Video Ads",
           "words": 1305,
+          "chars": 7621,
           "h2s": [
             "UGC ADS AI",
             "Create winning ads with",
@@ -371,6 +400,7 @@
           "host": "createugc.ai",
           "title": "AI Video Generator for eCommerce Ads that Sell - CreateUGC",
           "words": 1825,
+          "chars": 10886,
           "h2s": [
             "Turn any product into a scroll-stopping AI UGC ad",
             "Trusted by top eComm pros who convert fast",
@@ -411,31 +441,29 @@
         }
       ],
       "lesson": {
-        "analysed": 3,
+        "analysed": 4,
         "skipped": [
           {
             "url": "https://invideo.io/make/ugc-ads/",
             "kind": "other"
-          },
-          {
-            "url": "https://www.veicolo-agency.com/ugc-ads-user-generated-content-ads",
-            "kind": "other"
           }
         ],
-        "medianWords": 1825,
-        "medianH2s": 12,
+        "medianWords": 1741,
+        "medianChars": 9254,
+        "medianH2s": 14,
         "roundups": 0,
         "withQuestions": 0,
         "withTables": 0,
         "freshWithin12Months": 1,
-        "medianOutbound": 3,
-        "medianIntroWords": 69,
+        "medianOutbound": 5,
+        "medianIntroWords": 56,
         "observations": [
-          "The 3 written pages run a median of 1825 words across 12 H2 sections.",
-          "Only 0 of 3 are numbered roundups, so a single-argument piece competes here.",
-          "1 of 3 were updated in the last 12 months. This is a keyword where freshness is being rewarded.",
-          "They answer in a median of 69 words before the first H2.",
-          "2 of the top results are not written pages (other), so the SERP is not purely editorial."
+          "The 4 written pages run a median of 9254 characters (about 1741 words) across 14 H2 sections.",
+          "Only 0 of 4 are numbered roundups, so a single-argument piece competes here.",
+          "1 of 4 were updated in the last 12 months. This is a keyword where freshness is being rewarded.",
+          "They cite a median of 5 external sources.",
+          "They answer in a median of 56 words before the first H2.",
+          "1 of the top results are not written pages (other), so the SERP is not purely editorial."
         ]
       }
     }
