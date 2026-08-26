@@ -51,7 +51,7 @@ export class StubDraftSource implements DraftSource {
     const title = `${kw} on a Shopify store`;
 
     const body = [
-      `**TL;DR** — ${kw}: stop buying more traffic.`,
+      `**TL;DR:** ${kw}: stop buying more traffic.`,
       `Reorder what the traffic already sees. Helium merchants see 30% higher conversion.`,
       '',
       '## Why more traffic stops working',

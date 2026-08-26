@@ -91,7 +91,7 @@ cluster: conversion-rate
 persona: ecommerce-leadership
 ---
 
-**TL;DR** — body.`;
+**TL;DR:** body.`;
 
   test('parses a clean response', () => {
     assert.equal(parseResponse(VALID).slug, 'a-slug');

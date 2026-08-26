@@ -33,7 +33,7 @@ On Vercel, pass the same JSON as the `GSC_KEY_JSON` env var instead of a file pa
 | `npm run keywords:secondaries` | Applies mined secondaries to the config | yes |
 | `npm run gate -- <file.md>` | Runs all five gates against a draft file (`--offline` skips the live slug check) | no |
 | `npm run draft -- "<kw>" ["<also>" ...]` | One real generation, gated, written to `content/drafts/` | no |
-| `npm test` | 98 gate, brief and pipeline tests | no |
+| `npm test` | 107 gate, brief and pipeline tests | no |
 | `npm run status` | Row counts, branded split, keyword coverage | yes |
 | `npm run dev` | Dashboard on :3000 | yes |
 | `npm run seed:demo` | Creates a deliberately failing draft, for exercising the review screen | yes |
@@ -101,6 +101,9 @@ what lets the drafting model change without the standards changing.
 | `tone_floor` | Hedging, banned filler, hard superlatives, a missing or undefined coined term, an opening question |
 
 `tone_floor` runs backwards from a normal safety check: it fails drafts for being timid.
+It also fails them for reading like a machine: no dashes anywhere (`tone.em_dash`), and at
+least one informal break per six sentences (`tone.too_polished`) such as a fragment, a
+sentence opening on "But", or an aside in parentheses.
 Only four things stay banned outright — `guaranteed`, `#1`, `the only`, `proven to` —
 because those are claims about the world rather than ways of framing one.
 

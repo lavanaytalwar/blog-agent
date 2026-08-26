@@ -92,7 +92,7 @@ describe('gate 2 — structure', () => {
   });
 
   test('requires a TL;DR', () => {
-    const r = structureGate(draft({ bodyMd: passingDraft.bodyMd.replace('**TL;DR** — ', '') }));
+    const r = structureGate(draft({ bodyMd: passingDraft.bodyMd.replace('**TL;DR:** ', '') }));
     assert.ok(rules(r).includes('structure.tldr'));
   });
 
@@ -124,7 +124,7 @@ describe('gate 2 — structure', () => {
 
   test('rejects long-winded prose', () => {
     const long = 'This particular sentence has been constructed deliberately so that it runs well past the fifteen word ceiling that the brand voice document sets out for us. ';
-    const r = structureGate(draft({ bodyMd: `**TL;DR** — short.\n\n## H\n\n${long.repeat(6)}\n\nBook a call.` }));
+    const r = structureGate(draft({ bodyMd: `**TL;DR:** short.\n\n## H\n\n${long.repeat(6)}\n\nBook a call.` }));
     assert.ok(rules(r).includes('sentence.length'));
   });
 });
@@ -370,7 +370,7 @@ describe('gate 5 — tone floor', () => {
 
   test('fails an opening question', () => {
     const r = toneFloorGate(draft({
-      bodyMd: `**TL;DR** — Why does revenue per visitor stall?\n\n## H\n\nBook a call.`,
+      bodyMd: `**TL;DR:** Why does revenue per visitor stall?\n\n## H\n\nBook a call.`,
     }));
     assert.ok(rules(r).includes('tone.opens_on_question'));
   });
@@ -428,6 +428,73 @@ describe('numeral shapes', () => {
   });
 });
 
+describe('dashes and cadence', () => {
+  test('an em dash fails the draft', () => {
+    const r = toneFloorGate(draft({
+      bodyMd: `${passingDraft.bodyMd}\n\nThe grid reorders itself — every session.`,
+    }));
+    assert.ok(rules(r).includes('tone.em_dash'), JSON.stringify(r.failures));
+  });
+
+  test('an en dash and a double hyphen fail too', () => {
+    for (const body of ['A lift of 20–30 percent.', 'The grid reorders--every session.']) {
+      const r = toneFloorGate(draft({ bodyMd: `${passingDraft.bodyMd}\n\n${body}` }));
+      assert.ok(rules(r).includes('tone.em_dash'), body);
+    }
+  });
+
+  test('a dash in the title or meta is caught, not just the body', () => {
+    const r = toneFloorGate(draft({ title: 'Revenue per visitor — the Shopify guide' }));
+    assert.ok(rules(r).includes('tone.em_dash'));
+  });
+
+  test('a hyphenated word is not a dash', () => {
+    const r = toneFloorGate(draft({
+      bodyMd: `${passingDraft.bodyMd}\n\nA well-built session-aware storefront.`,
+    }));
+    assert.ok(!rules(r).includes('tone.em_dash'), JSON.stringify(r.failures));
+  });
+
+  // Built from scratch rather than appended to the fixture: the fixture already
+  // breaks form twelve times on its own, which is the brand voice agreeing with
+  // this rule but makes it useless as a negative case.
+  const flat = (n: number) => Array.from({ length: n }, (_, i) =>
+    `The storefront reorders its product grid for the shopper in position ${i} today.`).join(' ');
+  const body = (tail: string) =>
+    `**TL;DR:** Revenue per visit rises when the grid reorders itself.\n\n`
+    + `## The mechanism\n\n`
+    + `Session-aware merchandising is reordering products from live behaviour.\n\n`
+    + `${tail}\n\nBook a call.`;
+
+  test('prose that never breaks form is rejected', () => {
+    const r = toneFloorGate(draft({ bodyMd: body(flat(18)) }));
+    assert.ok(rules(r).includes('tone.too_polished'), JSON.stringify(r.failures));
+  });
+
+  test('conjunction openers, fragments, ellipses and asides all count as breaks', () => {
+    const broken = `${flat(18)} And it works. Every time. Not the ad... `
+      + `(the fold, actually) is where the money was sitting. `
+      + `But the grid had to move first. So it did. Which is the whole point.`;
+    const r = toneFloorGate(draft({ bodyMd: body(broken) }));
+    assert.ok(!rules(r).includes('tone.too_polished'), JSON.stringify(r.failures));
+  });
+
+  test('a short post is not required to break form', () => {
+    const r = toneFloorGate(passingDraft);
+    assert.ok(!rules(r).includes('tone.too_polished'), JSON.stringify(r.failures));
+  });
+
+  test('the prompt contains no dash it tells the writer not to use', async () => {
+    const { assembleBrief } = await import('../brief/assemble.js');
+    const { renderSystemPrompt } = await import('../brief/render.js');
+    for (const kw of ['post purchase upsell', 'ugc ads', 'ecommerce analytics software']) {
+      const prompt = renderSystemPrompt(assembleBrief({ primaryKeyword: kw }));
+      const found = prompt.match(/[—–]/g);
+      assert.equal(found, null, `prompt for "${kw}" contains ${found?.length} dash(es)`);
+    }
+  });
+});
+
 describe('coined-term definitions', () => {
   const define = (clause: string) => draft({
     bodyMd: passingDraft.bodyMd.replace(
@@ -436,11 +503,18 @@ describe('coined-term definitions', () => {
     ),
   });
 
-  test('accepts a tight em-dash appositive', () => {
-    // Real GLM-5.2 output. The first version of this rule required a space
-    // before the dash and rejected a correctly defined term.
-    const r = toneFloorGate(define('Session-aware merchandising—reordering products from live behaviour—lifts revenue.'));
+  test('accepts a tight comma appositive', () => {
+    // This used to be written with em dashes, which is how GLM-5.2 produced it
+    // and how brand-voice.md wrote it. Dashes are banned now, so the appositive
+    // carries a comma and the gate has to accept that instead.
+    const r = toneFloorGate(define('Session-aware merchandising, reordering products from live behaviour, lifts revenue.'));
     assert.ok(!rules(r).includes('tone.coined_term_undefined'), JSON.stringify(r.failures));
+  });
+
+  test('a bare comma is not a definition', () => {
+    const r = toneFloorGate(define('Session-aware merchandising, which we like, is worth having.'
+      .replace('which we like, is worth having', 'and other things, matter here')));
+    assert.ok(rules(r).includes('tone.coined_term_undefined'), JSON.stringify(r.failures));
   });
 
   test('accepts a colon definition', () => {

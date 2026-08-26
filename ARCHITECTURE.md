@@ -221,6 +221,15 @@ swapping the drafting model changes output quality but can never change what pas
 - if an existing post covers the topic, the run stops and reports which post
 
 **Gate 5 — Tone floor** *(Helium-specific; runs opposite to a normal safety check)*
+- **no em dash, en dash or double hyphen anywhere**, title and meta included
+  (`tone.em_dash`). Nothing is wrong with the mark; it is banned because almost
+  nobody types one and a page full of them is the loudest signal that a machine
+  wrote the copy. The system prompt is held to the same rule, with a test
+  asserting it, because a model shown forty dashes will write them.
+- **at least one informal break per six sentences** (`tone.too_polished`): a
+  sentence opening on a conjunction, a clipped fragment, a trailing ellipsis, or
+  an aside in parentheses. Prose where every sentence is correctly closed reads
+  like a template. This is informal punctuation, never introduced errors.
 - hedge blocklist fails the draft: `could help`, `may improve`, `might`,
   `designed to potentially`, `some merchants`, `arguably`, `in some cases`
   (source: `brand-voice.md` §6 bans hedges outright)

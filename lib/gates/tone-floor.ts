@@ -7,12 +7,53 @@ const DEFINITION_WINDOW = 160;
 
 /**
  * Word markers need a space in front so "this" does not match inside "thistle".
- * Punctuation markers must not, because the tight appositive —
- * "session velocity—measuring how fast a shopper moves" — is exactly how
- * brand-voice.md writes them, and requiring a leading space rejected a
- * correctly defined term.
+ * Punctuation markers must not.
+ *
+ * The em dash used to be in this set: the tight appositive
+ * "session velocity, measuring how fast a shopper moves" was written with one
+ * and the gate rejected it. Dashes are now banned outright as the loudest
+ * machine tell in English prose, so the appositive is written with a comma.
+ *
+ * That comma branch is anchored and must be followed by a participle or a
+ * relative pronoun. A bare comma would make this rule satisfiable by any
+ * sentence that happens to have one, which is not a definition.
  */
-const DEFINITION_MARKERS = /(?:\s(?:is|are|means|refers to|describes)\s)|[—–:(]/i;
+const DEFINITION_MARKERS =
+  /(?:\s(?:is|are|means|refers to|describes)\s)|[:(]|^,\s+(?:\w+ing|which|where|meaning)\b/i;
+
+/**
+ * Em and en dashes, plus the double hyphen people reach for instead.
+ *
+ * Nothing is wrong with an em dash. It is banned because almost no one types
+ * one, and a page full of them is the single most reliable signal that a
+ * machine wrote the copy. A comma, a colon or a full stop does the same work.
+ */
+const DASHES = /[—–]|(?<=\S)--(?=\S)/g;
+
+/**
+ * How often the prose is required to break form. One in six sentences, matching
+ * the ask: a post where every sentence is correctly closed reads like a
+ * template being filled in.
+ */
+const INFORMAL_EVERY = 6;
+
+/**
+ * What counts as breaking form. Deliberately not a grammar check — these are
+ * the marks of someone talking, and every one of them is safe to publish:
+ * a sentence opening on a conjunction, a clipped fragment, a trailing
+ * ellipsis, or an aside in parentheses.
+ */
+function informalBreaks(list: string[]): number {
+  return list.filter((raw) => {
+    const t = raw.trim();
+    if (/^(and|but|so|or|because|yet|then|which)\b/i.test(t)) return true;
+    if (/\.{3}|…/.test(t)) return true;
+    if (/\([^)]+\)/.test(t)) return true;
+    // A clipped fragment. "Every time." "Not the ad."
+    if (t.split(/\s+/).filter(Boolean).length <= 4) return true;
+    return false;
+  }).length;
+}
 
 /**
  * Gate 5 — Tone floor.
@@ -77,11 +118,17 @@ export function toneFloorGate(draft: Draft): GateResult {
       message: `Use at least one coined term and define it in one clause: ${candidates.join(' · ')}`,
     });
   } else {
+    // Every occurrence, not just the first. The first is almost always the H2
+    // heading, and the definition lands in the paragraph under it. Checking
+    // only index 0 failed correctly-defined terms.
     const defined = used.some((term) => {
-      const at = all.toLowerCase().indexOf(term.toLowerCase());
-      if (at === -1) return false;
-      const after = all.slice(at + term.length, at + term.length + DEFINITION_WINDOW);
-      return DEFINITION_MARKERS.test(after);
+      const hay = all.toLowerCase();
+      const needle = term.toLowerCase();
+      for (let at = hay.indexOf(needle); at !== -1; at = hay.indexOf(needle, at + 1)) {
+        const after = all.slice(at + term.length, at + term.length + DEFINITION_WINDOW);
+        if (DEFINITION_MARKERS.test(after)) return true;
+      }
+      return false;
     });
     if (!defined) {
       failures.push({
@@ -92,8 +139,34 @@ export function toneFloorGate(draft: Draft): GateResult {
     }
   }
 
+  // The dash is the loudest machine tell in English prose. Checked across
+  // everything a reader sees, meta and title included — those are the two lines
+  // that show up in a search result.
+  const dashes = all.match(DASHES);
+  if (dashes) {
+    const at = prose.match(/[^.!?\n]*[—–][^.!?\n]*/)?.[0] ?? '';
+    failures.push({
+      rule: 'tone.em_dash',
+      message: `${dashes.length} dash${dashes.length === 1 ? '' : 'es'} in the draft. Use a comma, a colon, or two sentences.`,
+      evidence: at.trim().slice(0, 90),
+    });
+  }
+
+  // Prose that never breaks form reads like a template. One sentence in six has
+  // to sound like someone talking.
+  const proseSentences = sentences(prose);
+  const wanted = Math.floor(proseSentences.length / INFORMAL_EVERY);
+  const got = informalBreaks(proseSentences);
+  if (wanted > 0 && got < wanted) {
+    failures.push({
+      rule: 'tone.too_polished',
+      message: `Only ${got} of ${proseSentences.length} sentences break form; this post needs at least ${wanted}. Start one on "And" or "But", clip one to a fragment, drop an aside in parentheses.`,
+      evidence: `${got}/${wanted}`,
+    });
+  }
+
   // brand-voice §9: "Does the first line state an outcome or a contrast?"
-  const first = sentences(prose)[0] ?? '';
+  const first = proseSentences[0] ?? '';
   if (first.trim().endsWith('?')) {
     failures.push({
       rule: 'tone.opens_on_question',

@@ -32,7 +32,7 @@ cluster: conversion-rate
 persona: ecommerce-leadership
 ---
 
-**TL;DR** — Ecommerce personalization is not a widget. It is what the shopper sees first.
+**TL;DR:** Ecommerce personalization is not a widget. It is what the shopper sees first.
 Helium merchants see 30% higher conversion.
 
 ## Why more traffic stops working
