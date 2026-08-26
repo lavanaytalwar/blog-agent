@@ -1,0 +1,468 @@
+{
+  "_source": "Google Sheet 1NSLIqpO2W4GmTK3ZxiEPTD0KNNbdN3iyljzeVFtpxEY — tabs 'Keyword Strategy' and 'Sheet2'. Regenerate with npm run keywords:ingest.",
+  "_generated_at": "2026-08-26",
+  "_note": "No search-volume data available (no SEMrush/Ahrefs seat), so priority is unranked. See ARCHITECTURE.md §05.",
+  "keywords": [
+    {
+      "keyword": "How to increase AOV without excessive discounts",
+      "cluster_id": "aov-basket",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "How to increase cart attach rate",
+      "cluster_id": "aov-basket",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "post purchase upsell",
+      "cluster_id": "aov-basket",
+      "outline": "1. Define the topic and the point in the customer journey where it matters.\n2. Explain the problems, opportunities and boundaries involved.\n3. Present relevant approaches or offer types flexibly, based on final research.\n4. Describe the experience or setup at a high level.\n5. Include appropriate customer examples, screenshots or case-study material when available.\n6. Cover suitable success measures, safeguards and optimisation principles.\n7. Answer practical questions and guide readers to the next relevant page.",
+      "serp_competitors": [
+        "https://apps.shopify.com/cart-x",
+        "https://sellq.app/cart",
+        "https://apps.shopify.com/cart-x?surface_detail=marketing-and-conversion-upsell-and-bundles-upsell-and-cross-sell&surface_inter_position=1&surface_intra_position=11&surface_type=category&surface_version=redesign",
+        "https://apps.shopify.com/cross-sell",
+        "https://apps.shopify.com/flash-cart"
+      ],
+      "clean_room_top5": [
+        "https://shopifyagencydirectory.com/blog/best-shopify-upsell-cross-sell-apps-2026",
+        "https://www.growthsuite.net/resources/shopify-upsell-cross-sell/best-apps",
+        "https://www.libautech.com/best-shopify-apps/top-upsell-and-cross-sell-apps-to-boost-your-shopify-sales",
+        "https://botapolis.com/best/best-upsell-app-shopify",
+        "https://worldmetrics.org/best/cross-selling-software/"
+      ],
+      "push_target": "own website - linked to helium main page",
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "AI ecommerce merchandising software",
+      "cluster_id": "catalog-ops",
+      "outline": "1. Define the category and the commercial outcome it is intended to support.\n2. Set up the decisions or friction the reader needs help with.\n3. Explain the main capability areas without locking the page into a fixed feature list.\n4. Describe the inputs, decision process, actions and controls at a flexible level.\n5. Use appropriate original visuals, examples and customer evidence if available.\n6. Cover implementation, review and measurement at the level suited to the final product scope.\n7. Answer evaluation questions, connect to adjacent capabilities and offer the next step.",
+      "serp_competitors": [
+        "https://www.shopify.com/blog/ai-merchandising",
+        "https://www.toolio.com/",
+        "https://depict.ai/platform",
+        "https://www.kimonix.com/",
+        "https://zoovu.com/merchandising"
+      ],
+      "clean_room_top5": [
+        "https://learn.g2.com/best-e-merchandising-software",
+        "https://www.gartner.com/reviews/market/e-commerce-merchandising-solutions-for-unified-retail-commerce/",
+        "https://www.shopify.com/blog/ai-merchandising",
+        "https://zipdo.co/best/ecommerce-merchandising-software/",
+        "https://www.kimonix.com/blog/8-ai-powered-merchandising-tools-for-shopify-brands"
+      ],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "AI concierge / AI chatbot for website / AI shopping assistant",
+      "cluster_id": "conversion-rate",
+      "outline": "1. Define AI concierge, website chatbot and AI shopping assistant; explain when a commerce team should evaluate this category.\n2. Describe the customer problems it can solve, keeping the final examples flexible and based on the target store.\n3. Give a high-level view of the information, responses, product matching, accuracy and support handoff involved.\n4. Compare the five closest ecommerce shopping-assistant providers at publication time, using a transparent selection method. Do not simply copy the five SERP URLs, because guides and consumer products are not comparable providers.\n5. Use a comparison matrix covering ecommerce use case, catalog/product grounding, live inventory/price/policy accuracy, product recommendations and comparisons, personalisation, Shopify/other integrations, merchant controls, human handoff, analytics/experimentation, security/privacy, implementation/support, pricing model and limitations.\n6. Use original screenshots, product examples, step-by-step documentation and genuine case-study/author insight where available; clearly separate evidence from marketing claims.\n7. Link this hub to focused pages for the individual keyword variations and publish reusable original research or examples that other relevant sites can cite.\n8. Answer direct buyer questions and give the next relevant action.",
+      "serp_competitors": [
+        "https://www.shopify.com/blog/virtual-shopping-assistant",
+        "https://www.bloomreach.com/en/blog/best-ai-shopping-assistants-for-ecommerce",
+        "https://www.shoppingassistant.co/",
+        "https://www.bigcommerce.com/articles/ecommerce/ai-shopping-assistant/",
+        "https://fin.ai/learn/best-ai-shopping-assistants-ecommerce"
+      ],
+      "clean_room_top5": [
+        "https://www.bloomreach.com/en/blog/best-ai-shopping-assistants-for-ecommerce",
+        "https://www.askdialog.com/resources/best-ai-shopping-assistants-for-ecommerce",
+        "https://www.aboutamazon.com/news/retail/amazon-rufus-ai-assistant-personalized-shopping-features",
+        "https://fin.ai/learn/best-ai-shopping-assistants-ecommerce",
+        "https://www.brambles.ai/best-ai-shopping-assistants"
+      ],
+      "push_target": "medium,own website - two articles linked to each other",
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "How to improve product discovery",
+      "cluster_id": "conversion-rate",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "How to improve revenue per visitor",
+      "cluster_id": "conversion-rate",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "How to personalise a Shopify store",
+      "cluster_id": "conversion-rate",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "How to reduce ecommerce bounce rate",
+      "cluster_id": "conversion-rate",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "ecommerce personalization / personalization for ecommerce",
+      "cluster_id": "conversion-rate",
+      "outline": "1. Give a clear, non-technical definition and why the topic matters.\n2. Explain the shopper or business problem the page addresses.\n3. Group the most relevant methods or use cases; choose the detail from final keyword research.\n4. Describe the process at a high level, adapting the steps to the eventual solution or guide.\n5. Use the most relevant real examples, screenshots, data or case-study evidence available.\n6. Add flexible implementation, selection or measurement guidance.\n7. Answer common questions, link to supporting pages and give the next step.",
+      "serp_competitors": [
+        "https://www.shopify.com/blog/ai-personalization-ecommerce",
+        "https://helloretail.com/en/learn/ecommerce-personalization/",
+        "https://www.zoho.com/commerce/academy/ai-ecommerce-personalization.html",
+        "https://www.shopify.com/ca/enterprise/blog/ecommerce-personalization-examples",
+        "https://helloretail.com/en/learn/ecommerce-personalization/ecommerce-personalization-platform/"
+      ],
+      "clean_room_top5": [
+        "https://www.experro.com/blog/best-ecommerce-personalization-tools/",
+        "https://maestra.io/blog/comparisons/ecommerce-personalization-tools-guide",
+        "https://www.g2.com/categories/e-commerce-personalization",
+        "https://helloretail.com/en/learn/ecommerce-personalization/",
+        "https://www.bloomreach.com/en/blog/best-ecommerce-personalization-platforms"
+      ],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "ecommerce product recommendation chatbot",
+      "cluster_id": "conversion-rate",
+      "outline": "1. Define the category and clarify the user problem it solves.\n2. Explain how a visitor moves from a question or need to a suitable product choice.\n3. Cover the main parts of the experience in a flexible, non-prescriptive way.\n4. Describe the information, process and controls required at the level appropriate to the final page.\n5. Include suitable real examples, documentation, screenshots or case evidence when available.\n6. Give adaptable guidance for adopting, reviewing or measuring the approach.\n7. Address technical and buyer questions, then link to the relevant cluster.",
+      "serp_competitors": [
+        "https://aws.amazon.com/blogs/machine-learning/build-an-ecommerce-product-recommendation-chatbot-with-amazon-bedrock-agents/",
+        "https://www.chat-data.com/chatbot-for-ecommerce",
+        "https://chatbotedge.com/guides/ecommerce-ai-chatbot-product-questions/",
+        "https://www.klaviyo.com/solutions/ai/customer-agent/product-recommendations",
+        "https://www.conferbot.com/templates/b2b-services/e-commerce-product-recommendation-bot/e-commerce-product-recommendation-bot"
+      ],
+      "clean_room_top5": [
+        "https://pivotpointai.tech/best-chatbot-for-ecommerce-product-recommendation/",
+        "https://www.concie.co/blog/best-ai-product-recommendation-tools",
+        "https://chatbotedge.com/guides/shopify-ai-chatbot-product-recommendations/",
+        "https://vatdi.com/best-ai-chatbot-for-product-recommendations",
+        "https://triedbyhumans.com/best/best-chatbot-for-ecommerce"
+      ],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "product landing page",
+      "cluster_id": "conversion-rate",
+      "outline": "1. Define the page type and its role in a customer journey.\n2. Explain when a reader should use this page type and what it should achieve.\n3. Cover the important content building blocks at a high level; keep the final elements adaptable to the audience and offer.\n4. Describe a flexible planning, production and review process.\n5. Use the most relevant annotated examples, screenshots or case material available.\n6. Include adaptable testing, measurement and learning guidance.\n7. Answer common questions and guide readers to connected content or the next step.",
+      "serp_competitors": [
+        "https://unbounce.com/landing-page-examples/product-landing-pages/",
+        "https://www.shopify.com/blog/landing-page",
+        "https://www.shopify.com/blog/ecommerce-landing-page",
+        "https://www.ceros.com/templates/product-landing-page/",
+        "https://leadpages.com/blog/product-landing-page"
+      ],
+      "clean_room_top5": [
+        "https://unbounce.com/landing-page-examples/product-landing-pages/",
+        "https://www.leadpages.com/blog/best-product-landing-pages",
+        "https://www.engagebay.com/blog/product-landing-page-examples/",
+        "https://www.shopify.com/blog/ecommerce-landing-page",
+        "https://www.optimizepress.com/product-landing-page-examples/"
+      ],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "shopify product recommendations",
+      "cluster_id": "conversion-rate",
+      "outline": "1. Define the Shopify topic and clarify key terminology.\n2. Explain why merchants use it and which customer moments it can support.\n3. Organize the relevant choices or methods; final detail can flex with the store’s needs.\n4. Give an adaptable implementation path rather than a fixed sequence.\n5. Cover how merchants can judge relevance, quality and commercial impact.\n6. Clearly separate native Shopify behaviour from any verified Helium role and add real examples if available.\n7. Resolve setup questions and link to connected Shopify/ecommerce content.",
+      "serp_competitors": [
+        "https://helloretail.com/en/learn/product-recommendations/",
+        "https://wisepops.com/blog/ecommerce-product-recommendations",
+        "https://www.shopify.com/sg/blog/ai-recommendation-system",
+        "https://fitsmallbusiness.com/ecommerce-product-recommendation/",
+        "https://stylitics.com/resources/blog/fashion-product-recommendations/"
+      ],
+      "clean_room_top5": [
+        "https://helloretail.com/en/learn/product-recommendations/",
+        "https://wisepops.com/blog/ecommerce-product-recommendations",
+        "https://stylitics.com/resources/blog/fashion-product-recommendations/",
+        "https://personalizerai.com/blog/ai-product-recommendations-for-fashion-brands-on-shopify",
+        "https://blog.boostcommerce.net/posts/best-product-recommendation-strategies-for-fashion-stores"
+      ],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "shopify search & discovery",
+      "cluster_id": "conversion-rate",
+      "outline": "1. Define the Shopify topic and clarify its scope.\n2. Explain the information, setup or prerequisites a merchant should consider.\n3. Organize the most relevant functions into a simple, adaptable overview.\n4. Provide a high-level walkthrough; the final steps and screenshots can follow the merchant’s exact setup.\n5. Cover how to review results, identify issues and improve over time.\n6. Distinguish native capability from any verified Helium role and use real documentation where possible.\n7. Link to the connected Shopify and ecommerce topics, with a relevant next step.",
+      "serp_competitors": [
+        "https://www.g2.com/categories/e-commerce-search",
+        "https://theretailexec.com/tools/best-ecommerce-search-software/",
+        "https://www.g2.com/categories/site-search-software/themes/e-commerce-search",
+        "https://helloretail.com/en/learn/ecommerce-search-buyers-guide/",
+        "https://www.g2.com/de/categories/e-commerce-search/themes/site-search-software"
+      ],
+      "clean_room_top5": [
+        "https://www.techradar.com/pro/i-tested-the-7-best-aeo-tools",
+        "https://theretailexec.com/tools/best-ecommerce-search-software/",
+        "https://www.g2.com/categories/e-commerce-search",
+        "https://www.guideflow.com/blog/best-ecommerce-search-software",
+        "https://blog.expertrec.com/best-search-engines-for-ecommerce/"
+      ],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "A/B testing platform",
+      "cluster_id": "diagnostics-analytics",
+      "outline": "1. Explain the topic and the outcome it is designed to improve.\n2. State when this approach is relevant and any important limits or prerequisites.\n3. Present the general method, allowing the detailed steps to vary by the page’s final scope.\n4. Include the most useful example categories rather than a fixed list.\n5. Use real tests, screenshots or lessons where available; be clear about uncertainty.\n6. Offer flexible planning, measurement and rollout guidance.\n7. Address common questions and direct readers to related educational or solution pages.",
+      "serp_competitors": [
+        "https://www.convert.com/e-commerce/",
+        "https://www.syncx.com/ab-testing",
+        "https://www.amboras.com/",
+        "https://www.customfit.ai/",
+        "https://www.compose.co/"
+      ],
+      "clean_room_top5": [
+        "https://varify.io/en/ab-testing-tools-for-ecommerce/",
+        "https://www.shopify.com/ca/blog/ab-testing-tools",
+        "https://www.intelligems.io/resources/blog/best-testing-tools-for-shopify",
+        "https://dripagency.de/blog/ab-testing-tools-guide",
+        "https://www.mida.so/blog/best-ab-testing-tools"
+      ],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "Why Shopify conversion rate has stopped growing",
+      "cluster_id": "diagnostics-analytics",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "ecommerce analytics software",
+      "cluster_id": "diagnostics-analytics",
+      "outline": "1. Define the category and the decision the reader is trying to make.\n2. Explain who the page is for and the problems they need to solve.\n3. Cover the criteria readers should assess; let the exact criteria reflect current research.\n4. Show how the category is used to turn information into action.\n5. Include relevant product views, examples, customer evidence or expert perspective where available.\n6. Provide adaptable guidance for assessing, adopting or using a solution.\n7. Resolve buyer questions and guide readers to the next appropriate page.",
+      "serp_competitors": [
+        "https://www.g2.com/categories/e-commerce-analytics",
+        "https://www.trustradius.com/categories/ecommerce-analytics",
+        "https://www.zoho.com/analytics/ecommerce-analytics.html",
+        "https://www.putler.com/ecommerce-analytics-tools/",
+        "https://learn.g2.com/best-e-commerce-analytics-software?hs_amp=true"
+      ],
+      "clean_room_top5": [
+        "https://www.techradar.com/pro/i-tested-the-7-best-aeo-tools",
+        "https://learn.g2.com/best-e-commerce-analytics-software",
+        "https://www.g2.com/categories/e-commerce-analytics",
+        "https://www.putler.com/ecommerce-analytics-tools/",
+        "https://www.stormly.com/blog/best-ecommerce-analytics-tools-2026"
+      ],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "Ad creative ai",
+      "cluster_id": "marketing-efficiency",
+      "outline": "1. Position the topic in the most relevant ecommerce context.\n2. Explain the creative or performance challenge behind the search.\n3. Outline the broad workflow or solution choices without prescribing individual assets.\n4. Cover the key checks, constraints and approvals appropriate to the final content.\n5. Use the strongest available original examples, documentation or case-study evidence.\n6. Explain how a reader can assess outcomes and refine the approach over time.\n7. Support common evaluation questions and route readers to related pages.",
+      "serp_competitors": [
+        "https://feedswift.com/en/blog/meta-catalog-ad-image-optimization",
+        "https://www.nx-feed.com/articles/meta-facebook-catalog-feed-optimization",
+        "https://www.facebookblueprint.com/student/path/219706-power-your-advertising-with-advantage-catalog-ads?collection_id=606095&curriculum_activity_id=607451&sid=23a173c6-7118-4079-b43c-f24a5fe7fff2&sid_i=11",
+        "https://mhigrowthengine.com/blog/how-to-set-up-catalog-ads-meta/",
+        "https://www.richclicks.co.uk/digital-magazine/catalog-ads-on-meta-a-quick-guide-for-e-commerce"
+      ],
+      "clean_room_top5": [
+        "https://feedswift.com/en/blog/meta-catalog-ad-image-optimization",
+        "https://www.accelerateddigitalmedia.com/insights/tips-for-meta-catalog-ads/",
+        "https://mhigrowthengine.com/blog/how-to-set-up-catalog-ads-meta/",
+        "https://getfeeder.co/blog/meta-advantage-catalog",
+        "https://www.marpipe.com/blog/how-to-scale-catalog-ads-with-promo-overlaysed"
+      ],
+      "push_target": "own website - linked to helium agentcy",
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "How to fix mismatched ad and landing-page experiences",
+      "cluster_id": "marketing-efficiency",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "How to increase ecommerce revenue without increasing ad spend",
+      "cluster_id": "marketing-efficiency",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "How to reduce wasted catalog ad spend",
+      "cluster_id": "marketing-efficiency",
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": "own website",
+      "status": "available",
+      "source": "sheet:Sheet2 problem-led set"
+    },
+    {
+      "keyword": "ugc ads",
+      "cluster_id": "marketing-efficiency",
+      "outline": "1. Define the topic and its role in ecommerce marketing.\n2. Explain the audience, business goal and channel context.\n3. Group the relevant options flexibly; choose the final depth from current creative and SERP research.\n4. Cover the general process, quality considerations and constraints without fixing specific assets.\n5. Use original creative, case-study evidence or practitioner perspective where available.\n6. Explain the measurement and iteration principles appropriate to the campaign.\n7. Answer common questions and link to the most relevant creative, landing-page or ecommerce content.",
+      "serp_competitors": [
+        "https://cliploft.com/blog/ugc-examples",
+        "https://www.gomarble.ai/library/guides/ugc-ad-examples/",
+        "https://cliploft.com/blog/ugc-ad-examples",
+        "https://www.influship.com/blog/best-ugc-platforms",
+        "https://www.addogs.ai/ad-examples/ugc-ads"
+      ],
+      "clean_room_top5": [],
+      "push_target": "agentcy website rebranded as ugc ads",
+      "status": "available",
+      "source": "sheet:Keyword Strategy"
+    },
+    {
+      "keyword": "Our Apps – Shopify Solutions by Helium",
+      "cluster_id": null,
+      "outline": "on website",
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": null,
+      "status": "excluded",
+      "source": "sheet:Sheet2",
+      "exclusion_reason": "Not a search keyword — it is a site navigation label from the sheet's 'on website' column. Belongs to site IA, not the content programme."
+    },
+    {
+      "keyword": "customer agent",
+      "cluster_id": "conversion-rate",
+      "outline": "how to convert website visitors into customers,reduce bounce rate on ecommerce website",
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": null,
+      "status": "available",
+      "source": "sheet:Sheet2",
+      "note": "Sheet lists supporting intents: 'how to convert website visitors into customers', 'reduce bounce rate on ecommerce website'."
+    },
+    {
+      "keyword": "helium ecommerce",
+      "cluster_id": "conversion-rate",
+      "outline": "1. State clearly what Helium AI does for ecommerce.\n2. Explain the commercial or customer-experience problems the hub addresses.\n3. Organize the major jobs-to-be-done without fixing the depth of any individual module.\n4. Give a simple overall workflow that can link to deeper feature pages.\n5. Use the strongest available cases, product visuals and transparent operational learnings.\n6. Cover the considerations readers need before adopting the platform.\n7. Connect each capability to its keyword page and guide visitors to the next action.",
+      "serp_competitors": [
+        "https://gethelium.com/",
+        "https://www.gethelium.co/",
+        "https://www.gethelium.co/catalog-optimization",
+        "https://www.gethelium.co/blogs/generative-ai-personalisation-ecommerce",
+        "https://gethelium.com/flightplan/"
+      ],
+      "clean_room_top5": [
+        "https://www.g2.com/products/helium-2024-07-26/competitors/alternatives",
+        "https://bagengine.com/articles/helium-10-review",
+        "https://gethelium.com/",
+        "https://www.g2.com/products/helium/reviews",
+        "https://www.gethelium.co/catalog-optimization"
+      ],
+      "push_target": "own website rebranded and redirecting",
+      "status": "flagged",
+      "source": "sheet:Keyword Strategy",
+      "entity_risk": "Contested by gethelium.com, a different company on a near-identical domain, currently outranking gethelium.co.",
+      "note": "Allowed but requires a qualifier in title and H1 per entity-record §1. Gate 1 enforces this for every keyword, but this one is the reason the rule exists."
+    },
+    {
+      "keyword": "Helium AI",
+      "cluster_id": null,
+      "outline": "1. Make the brand and its ecommerce role immediately clear.\n2. Explain the problems Helium is intended to help solve.\n3. Present product areas as a flexible map, with deeper detail on linked pages.\n4. Give a simple, adaptable explanation of the overall approach.\n5. Use real customer evidence, original product screens, team/author voice and transparent learnings where available.\n6. Cover the information readers need to assess legitimacy, readiness and fit.\n7. Link to all solution, feature and use-case pages and provide the primary conversion action.",
+      "serp_competitors": [
+        "https://ai.helium.com/",
+        "https://apps.apple.com/us/app/helium-ai/id6759967773",
+        "https://he2.ai/",
+        "https://play.google.com/store/apps/details?id=com.neuralarc.helium2_app",
+        "https://apps.apple.com/ca/app/helium-ai/id6759967773"
+      ],
+      "clean_room_top5": [
+        "https://www.g2.com/products/helium-ai/competitors/alternatives",
+        "https://bagengine.com/articles/ai-listing-optimizer-review",
+        "https://ai.helium.com/",
+        "https://arxiv.org/abs/2603.16104",
+        "https://bagengine.com/articles/helium-10-review"
+      ],
+      "push_target": null,
+      "status": "excluded",
+      "source": "sheet:Keyword Strategy",
+      "exclusion_reason": "SERP belongs to a different company (ai.helium.com, he2.ai)."
+    },
+    {
+      "keyword": "helium chatbot",
+      "cluster_id": null,
+      "outline": null,
+      "serp_competitors": [],
+      "clean_room_top5": [],
+      "push_target": null,
+      "status": "excluded",
+      "source": "sheet:Sheet2",
+      "exclusion_reason": "Bare-brand variant of an already-contested token; no ecommerce SERP to win."
+    },
+    {
+      "keyword": "helium recommendations",
+      "cluster_id": null,
+      "outline": "1. Explain the relevant ecommerce meaning of the topic without forcing an off-topic exact-match page.\n2. Define the applicable product-recommendation concept for readers.\n3. Explain the problems and outcomes the approach can address.\n4. Present the relevant approaches or capability areas flexibly.\n5. Use suitable workflows, product examples, screens or evidence based on the final page.\n6. Provide adaptable guidance for launching and reviewing the experience.\n7. Build the correct brand association through internal links and lead to the appropriate demo or next step.",
+      "serp_competitors": [
+        "https://my.clevelandclinic.org/health/treatments/heliox",
+        "https://www.aps.org/publications/reports/liquid-helium-crisis",
+        "https://www.acs.org/green-chemistry-sustainability/research-innovation/endangered-elements/helium.html",
+        "https://www.nationalacademies.org/read/27830/chapter/10",
+        "https://www.blm.gov/programs/energy-and-minerals/helium/about-helium"
+      ],
+      "clean_room_top5": [
+        "https://testix.co.uk/test/best-helium-canister",
+        "https://siemens-mobile.com/best-helium-tank-kits-for-balloons/",
+        "https://heliumlocator.com/diy-helium-guide/",
+        "https://heliumlocator.com/helium-101/",
+        "https://testix.se/test/heliumtub"
+      ],
+      "push_target": "own website rebranded and redirecting",
+      "status": "excluded",
+      "source": "sheet:Keyword Strategy",
+      "exclusion_reason": "SERP is helium the chemical element. The sheet itself records an entity-intent mismatch."
+    }
+  ]
+}

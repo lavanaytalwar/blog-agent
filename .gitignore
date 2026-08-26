@@ -1,0 +1,10 @@
+.secrets/
+.env
+.env.local
+*.pem
+node_modules/
+.next/
+.DS_Store
+.vercel
+.env*
+.vercel

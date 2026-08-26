@@ -1,0 +1,28 @@
+{
+  "name": "helium-blogeo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "migrate": "tsx scripts/migrate.ts",
+    "seed": "tsx scripts/seed-config.ts",
+    "gsc:sync": "tsx scripts/gsc-sync.ts",
+    "gsc:probe": "tsx scripts/gsc-probe.ts",
+    "sitemap:crawl": "tsx scripts/crawl-sitemap.ts",
+    "keywords:ingest": "tsx scripts/ingest-keywords.ts",
+    "typecheck": "tsc --noEmit",
+    "status": "tsx scripts/status.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "exceljs": "^4.4.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "_source": "Derived from offers.md §9 (Key Problem taxonomy), customer-language.md §1 (personas) and §6b (content engines), entity-record.md §10 (owned terminology). Live-post evidence from www.gethelium.co/blogs sitemap, GSC 90d pull 2026-08-26.",
+  "_rule": "Gate 1 fails any draft whose primary keyword does not map to exactly one cluster and at least one persona.",
+
+  "personas": [
+    {
+      "id": "growth-performance",
+      "name": "Growth / performance marketing",
+      "titles": ["Growth Manager", "Performance Marketing Manager"],
+      "owns": ["ROAS", "CAC", "blended efficiency", "creative volume"],
+      "evidence": "customer-language.md §1 — Alchemy Fine Home, Wanderlooms, Akiso, Marks & Spencer, Campus Sutra"
+    },
+    {
+      "id": "ecommerce-leadership",
+      "name": "Ecommerce leadership",
+      "titles": ["Head of eCommerce", "COO", "VP of Product"],
+      "owns": ["conversion rate", "AOV", "revenue per visit", "site experience"],
+      "evidence": "customer-language.md §1 — W for Woman, Akiso Store, Noise"
+    },
+    {
+      "id": "founder-owner",
+      "name": "Founder / owner",
+      "titles": ["Founder", "Co-founder"],
+      "owns": ["total revenue", "payback", "whether the vendor beats a retainer"],
+      "evidence": "customer-language.md §1 — Bruno Milano, Michelle & Kenza, The Biohackers Co."
+    },
+    {
+      "id": "merchandising-ops",
+      "name": "Merchandising / catalog ops",
+      "titles": ["Merchandiser", "Catalog Manager"],
+      "owns": ["catalog hygiene", "tagging accuracy", "collection curation"],
+      "evidence": "customer-language.md §1 (implied) — Michelle & Kenza tagging quote"
+    }
+  ],
+
+  "clusters": [
+    {
+      "id": "conversion-rate",
+      "name": "Conversion rate",
+      "key_problem": "Conversion rates",
+      "personas": ["ecommerce-leadership", "founder-owner"],
+      "commercial_url": "https://www.gethelium.co/merchandising",
+      "coined_terms": ["adaptive commerce", "session-aware merchandising", "contextual decision clarity", "time-to-first-relevant-product"],
+      "sheet_keywords": ["ecommerce personalization", "shopify product recommendations", "ecommerce product recommendation chatbot", "AI concierge / AI chatbot for website / AI shopping assistant", "shopify search & discovery", "product landing page"],
+      "live_posts": ["/blogs/why-product-recommendations-don't-convert", "/blogs/real-time-personalization-vs.-segmentation-what's-the-difference", "/blogs/top-10-personalisation-strategies-to-boost-d2c-conversion-rates-in-india"],
+      "engine": "diagnostic",
+      "notes": "Carries the adaptive-commerce category bet. entity-record.md §10: every post should ladder back to it."
+    },
+    {
+      "id": "aov-basket",
+      "name": "AOV and basket size",
+      "key_problem": "AOV improvement",
+      "personas": ["ecommerce-leadership", "merchandising-ops"],
+      "commercial_url": "https://www.gethelium.co/merchandising",
+      "coined_terms": ["contextual decision clarity", "session-aware merchandising"],
+      "sheet_keywords": ["post purchase upsell"],
+      "live_posts": [],
+      "engine": "diagnostic",
+      "stance": "Anti-discount. offers.md §10 — Helium ships no discount- or coupon-led offers, and customer-language.md §6b shows buyers phrase this themselves as 'without going discount-crazy'. Never propose discounting as the AOV mechanism.",
+      "notes": "Thinnest cluster — one sheet keyword, zero live posts. Highest-headroom place to add coverage."
+    },
+    {
+      "id": "marketing-efficiency",
+      "name": "Paid efficiency and creative",
+      "key_problem": "Marketing efficiency",
+      "personas": ["growth-performance", "founder-owner"],
+      "commercial_url": "https://www.gethelium.co/ad-stack",
+      "secondary_commercial_url": "https://www.gethelium.co/attribution",
+      "coined_terms": ["feed hygiene", "quality-weighted retargeting", "session velocity"],
+      "sheet_keywords": ["Ad creative ai", "ugc ads"],
+      "live_posts": ["/blogs/your-retargeting-audiences-are-destroying-roas-the-session-intelligence-fix", "/blogs/the-playbook-for-higher-roas-this-festive-season"],
+      "engine": "diagnostic",
+      "notes": "Agentcy-adjacent keywords (ugc ads, ad creative ai) route to app.gethelium.co per the sheet's 'where to push' column."
+    },
+    {
+      "id": "catalog-ops",
+      "name": "Catalog and merchandising operations",
+      "key_problem": "AI product tagging",
+      "personas": ["merchandising-ops", "ecommerce-leadership"],
+      "commercial_url": "https://www.gethelium.co/merchandising",
+      "coined_terms": ["feed hygiene", "product intelligence", "time-to-first-relevant-product"],
+      "sheet_keywords": ["AI ecommerce merchandising software"],
+      "live_posts": [],
+      "engine": "diagnostic",
+      "notes": "Zero live posts. The Michelle & Kenza tagging quote and the Sudathi 200+ SKU story are the strongest proof available here."
+    },
+    {
+      "id": "diagnostics-analytics",
+      "name": "Diagnostics and analytics",
+      "key_problem": "Conversion rates",
+      "personas": ["ecommerce-leadership", "growth-performance"],
+      "commercial_url": "https://www.gethelium.co/pulse",
+      "coined_terms": ["AI guardrails", "conversion likelihood score", "session intelligence", "visitor intelligence"],
+      "sheet_keywords": ["ecommerce analytics software", "A/B testing platform"],
+      "live_posts": ["/blogs/detect-buyer-signals-before-add-to-cart", "/blogs/generative-ai-personalisation-ecommerce"],
+      "engine": "diagnostic",
+      "approved_contrast_targets": ["GA4", "Microsoft Clarity", "agencies"],
+      "notes": "The only cluster where naming a competing tool is on-brand. brand-voice.md §8: name the category, draw the line, never attack a named competitor's brand."
+    },
+    {
+      "id": "india-seasonal",
+      "name": "India festive and seasonal playbooks",
+      "key_problem": "Marketing efficiency",
+      "personas": ["growth-performance", "founder-owner"],
+      "commercial_url": "https://www.gethelium.co/merchandising",
+      "coined_terms": ["quality-weighted retargeting", "session velocity"],
+      "sheet_keywords": [],
+      "live_posts": ["/blogs/d2c-apparel-calendar-2026", "/blogs/valentine's-day-2026-how-indian-d2c-brands-can-make-shoppers-spend-more", "/blogs/how-meta-itself-changes-through-the-year-in-india", "/blogs/how-indian-skincare-brands-on-shopify-can-lift-pdp-to-atc-rate"],
+      "engine": "seasonal",
+      "audience_guard": {
+        "reason": "Measured failure. /blogs/d2c-apparel-calendar-2026 drew 1,511 impressions in 28 days at position 7.3 for 5 clicks, because it ranks for consumer retail-sale queries, not operator queries. GSC 90d, 2026-08-26.",
+        "negative_intent_terms": ["upcoming sale", "sale dates", "end of season sale", "best time to buy", "sale 2026", "offers today", "discount code"],
+        "rule": "A draft in this cluster must target the brand-side operator ('how should my brand plan for X'), never the shopper side ('when is X sale'). Gate 1 fails the draft if the title or H1 matches a negative_intent term."
+      },
+      "notes": "Strongest local moat and highest volume, but the only cluster with a demonstrated wrong-audience failure mode. Treat the guard as mandatory."
+    }
+  ],
+
+  "excluded_keywords": [
+    {
+      "keyword": "helium recommendations",
+      "reason": "SERP is helium the chemical element — Cleveland Clinic, American Physical Society, helium canister retailers. The keyword sheet itself records an entity-intent mismatch.",
+      "action": "never target"
+    },
+    {
+      "keyword": "Helium AI",
+      "reason": "SERP belongs to a different company (ai.helium.com, he2.ai, iOS/Android apps). 1,334 impressions at position 4.1 in GSC are Helium being found despite the collision, not because of ranking strategy.",
+      "action": "never target as a blog primary keyword; belongs to brand/entity work, not content"
+    },
+    {
+      "keyword": "helium ecommerce",
+      "reason": "Contested by gethelium.com, a different company on a near-identical domain, which currently outranks gethelium.co.",
+      "action": "allowed but flagged — requires a required qualifier in title and H1"
+    }
+  ]
+}
