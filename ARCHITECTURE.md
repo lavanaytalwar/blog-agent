@@ -245,10 +245,21 @@ Two things come out of it:
 The hard gate floor does **not** move with the SERP. A gate whose threshold
 depends on a network fetch passes different drafts on different days.
 
-Search is pluggable (`BRAVE_SEARCH_KEY` or `SERPER_API_KEY`) and never a scrape
-of an engine's results page. With no key, the URLs are supplied by hand and the
-cache records `source: supplied` so a sheet-derived reading is never mistaken
-for a live one. Cached in `config/serp-analysis.json` with the date taken.
+Search is pluggable — `APIFY_TOKEN`, `BRAVE_SEARCH_KEY` or `SERPER_API_KEY`, checked in that
+order — and this codebase never scrapes an engine's results page itself. Not out of
+squeamishness: Google blocks datacenter IP ranges, which is exactly what Vercel serverless
+egress is, so a direct scrape would fail on roughly the first request and break again
+whenever the markup changed. All three providers exist because they run the proxy
+infrastructure that makes it work.
+
+Note the division of labour. The provider answers one question, *which six URLs rank*, and
+nothing else. Fetching those pages is a plain `fetch()` in `lib/serp/analyze.ts` with no key
+involved, and reading them is arithmetic. A model may legitimately choose the URLs, because
+what happens to them afterwards is deterministic; a model may not decide why they rank.
+
+With no key the URLs are passed on the command line and the cache records
+`source: supplied`, so a hand-fed or sheet-derived reading is never mistaken for a live one.
+Cached in `config/serp-analysis.json` with the date taken.
 
 ### 4.3 The five gates
 

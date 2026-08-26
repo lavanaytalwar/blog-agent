@@ -1,6 +1,7 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { lessonFrom, type PageAnalysis } from './analyze.js';
+import { organicFrom, SearchError } from './search.js';
 
 const page = (over: Partial<PageAnalysis> = {}): PageAnalysis => ({
   url: 'https://example.com/blog/x', host: 'example.com', kind: 'article',
@@ -85,5 +86,45 @@ describe('word target', () => {
     const brief = assembleBrief({ primaryKeyword: 'ugc ads' });
     const prompt = renderSystemPrompt(brief);
     assert.ok(prompt.includes(`${brief.wordTarget[0]} to ${brief.wordTarget[1]} words`));
+  });
+});
+
+
+describe('Apify result parsing', () => {
+  // One dataset row per result page, organic results nested. Tested without a
+  // live account because this is the only part of the provider that is not a
+  // plain fetch, and the part that breaks if the actor changes its output.
+  const row = (urls: string[]) => [{
+    searchQuery: { term: 'ugc ads' },
+    organicResults: urls.map((url, i) => ({ url, title: `Result ${i}`, position: i + 1 })),
+  }];
+
+  test('flattens organic results and ranks them', () => {
+    const hits = organicFrom(row(['https://a.com', 'https://b.com']), 6);
+    assert.deepEqual(hits.map((h) => h.rank), [1, 2]);
+    assert.equal(hits[0]!.url, 'https://a.com');
+  });
+
+  test('takes only the requested count', () => {
+    const hits = organicFrom(row(Array.from({ length: 10 }, (_, i) => `https://x${i}.com`)), 6);
+    assert.equal(hits.length, 6);
+  });
+
+  test('rows without organic results are skipped, not counted as hits', () => {
+    const hits = organicFrom([{ paidResults: [] }, ...row(['https://a.com'])], 6);
+    assert.equal(hits.length, 1);
+  });
+
+  test('an empty run is an error, not silently zero results', () => {
+    // Silence here would produce a brief with no SERP lesson and no explanation,
+    // which is the one outcome worse than failing.
+    assert.throws(() => organicFrom([], 6), SearchError);
+    assert.throws(() => organicFrom({ error: 'actor failed' }, 6), SearchError);
+  });
+
+  test('a malformed entry does not take the whole run down', () => {
+    const hits = organicFrom([{ organicResults: [{ title: 'no url' }, { url: 'https://a.com' }] }], 6);
+    assert.equal(hits.length, 1);
+    assert.equal(hits[0]!.url, 'https://a.com');
   });
 });

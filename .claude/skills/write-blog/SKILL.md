@@ -49,8 +49,8 @@ If the prompt has no "Why the pages above you are winning" section, or its date
 is more than about two months old, take a fresh reading. A SERP moves in weeks,
 so a stale reading is worse than an honest absence.
 
-**With a search key** (`BRAVE_SEARCH_KEY` or `SERPER_API_KEY` in `.env`), one
-command does the whole thing:
+**With a search key** (`APIFY_TOKEN`, `BRAVE_SEARCH_KEY` or `SERPER_API_KEY` in
+`.env`, checked in that order), one command does the whole thing:
 
 ```
 npm run serp:analyze -- "<keyword>"
