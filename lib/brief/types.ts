@@ -60,17 +60,18 @@ export type Brief = {
    */
   serpLesson?: { takenOn: string; source: string; lesson: SerpLesson };
   /**
-   * Word target stated in the prompt. Tracks the SERP median where one has been
-   * measured, so a keyword whose SERP is 2,000-word guides is not answered with
-   * a 700-word post.
+   * The character floor gate 2 enforces. Imported from the gate so the prompt
+   * states the same number it will be judged against rather than a parallel one
+   * that can drift.
+   */
+  lengthFloor: number;
+  /**
+   * Advisory word range stated in the prompt, tracking the SERP median where one
+   * has been measured. A target, never a threshold: a keyword whose SERP is
+   * 2,000-word guides should not be answered with a 700-word post, but no draft
+   * is failed for missing this.
    */
   wordTarget: [number, number];
-  /**
-   * The character bounds gate 2 will actually enforce, from lib/serp/cache.ts.
-   * Carried on the brief so the prompt states the same number the gate checks
-   * rather than a parallel one that can drift from it.
-   */
-  lengthBounds: { min: number; max: number | null; from: 'serp' | 'default'; median?: number };
   /** Titles already published, so the draft does not restate one. */
   existingTitles: string[];
 

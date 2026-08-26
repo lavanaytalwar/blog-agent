@@ -1,6 +1,6 @@
 import { loadConfig } from '../config/load.js';
 import { serpLessonFor } from './serp.js';
-import { lengthBoundsFor } from '../serp/cache.js';
+import { lengthFloor } from '../gates/structure.js';
 import type { Brief, BriefClaim, BriefTarget, KeywordBudget, SerpCoverage } from './types.js';
 
 /**
@@ -177,7 +177,7 @@ export function assembleBrief(input: AssembleInput): Brief {
       ? { serpLesson: { takenOn: measured.takenOn, source: measured.source, lesson: measured.lesson } }
       : {}),
     wordTarget: wordTargetFor(measured?.lesson.medianWords, additionalTargets.length),
-    lengthBounds: lengthBoundsFor(keyword.keyword, additionalTargets.length),
+    lengthFloor: lengthFloor(additionalTargets.length),
     existingTitles: input.existingTitles ?? [],
     ...(cluster.audience_guard
       ? { audienceGuard: { rule: cluster.audience_guard.rule, avoid: cluster.audience_guard.negative_intent_terms } }

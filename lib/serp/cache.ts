@@ -36,33 +36,3 @@ export function serpLessonFor(keyword: string): SerpReading | null {
 export function resetSerpCache(): void {
   cache = null;
 }
-
-/**
- * Characters of prose the draft must clear, and must not wildly exceed.
- *
- * Derived from the pages that actually hold the positions rather than from a
- * number someone picked. A post at 70% of the median can still win on angle; a
- * post at 30% of it is not competing. The ceiling is generous because length is
- * not the enemy, padding is, and 2x the median is padding.
- */
-export const ABSOLUTE_MIN_CHARS = 3_000;
-export const CHARS_PER_ADDITIONAL_TARGET = 1_500;
-const FLOOR_SHARE = 0.7;
-const CEILING_MULTIPLE = 2;
-
-export function lengthBoundsFor(
-  keyword: string,
-  additionalTargets: number,
-): { min: number; max: number | null; from: 'serp' | 'default'; median?: number } {
-  const bump = additionalTargets * CHARS_PER_ADDITIONAL_TARGET;
-  const median = serpLessonFor(keyword)?.lesson.medianChars ?? 0;
-
-  if (!median) return { min: ABSOLUTE_MIN_CHARS + bump, max: null, from: 'default' };
-
-  return {
-    min: Math.max(ABSOLUTE_MIN_CHARS, Math.round(median * FLOOR_SHARE)) + bump,
-    max: Math.round(median * CEILING_MULTIPLE) + bump,
-    from: 'serp',
-    median,
-  };
-}

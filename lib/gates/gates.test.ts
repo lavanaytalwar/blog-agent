@@ -315,7 +315,7 @@ describe('multi-target selection', () => {
     const floorOf = (extra: string[]) => {
       const r = structureGate(draft({ additionalKeywords: extra }));
       const m = r.failures.find((f) => f.rule === 'length.floor')?.message ?? '';
-      return Number(m.match(/floor here is (\d+)/)?.[1] ?? 0);
+      return Number(m.match(/the floor is (\d+)/)?.[1] ?? 0);
     };
     // 1,500 characters per additional target, matching CHARS_PER_ADDITIONAL_TARGET.
     assert.equal(floorOf(['a', 'b', 'c']) - floorOf(['a', 'b']), 1500);

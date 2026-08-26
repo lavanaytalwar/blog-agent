@@ -2,7 +2,6 @@ import { loadConfig } from '../config/load.js';
 import {
   bodyProse, containsPhrase, countNonOverlapping, firstWords, headings, sentences, wordCount,
 } from './text.js';
-import { lengthBoundsFor } from '../serp/cache.js';
 import { result, type Draft, type Failure, type GateResult } from './types.js';
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -12,21 +11,33 @@ const LONG_SENTENCE_WORDS = 15;
 const MAX_LONG_SENTENCE_SHARE = 0.4; // brand-voice §9: "mostly under 15 words"
 
 /**
- * Length is enforced in characters of prose, and the threshold comes from the
- * pages that actually hold the positions.
+ * Length floor, in characters of prose. Flat, and deliberately not derived from
+ * the SERP.
  *
- * A flat floor could only ever be wrong in one direction or the other: 500
- * words is generous against a SERP of 800-word posts and absurd against one of
- * 2,000-word buying guides. The original 500 came from exactly that failure, a
- * 233-word draft for a keyword whose SERP was all long guides.
+ * A previous revision read the measured SERP median here. The determinism
+ * argument for that was sound, `config/serp-analysis.json` is a committed file
+ * like any other config, but determinism was never the whole objection. A gate
+ * is the fixed standard a draft is held to. Once its threshold is a function of
+ * whatever six pages happened to rank the last time someone ran a script, the
+ * same post passes or fails depending on a measurement nobody re-read, and two
+ * drafts of the same quality get different verdicts. The SERP median is
+ * genuinely useful and it belongs in the prompt as a target, which is where it
+ * now lives exclusively.
  *
- * Characters rather than words because a word count depends on how you split it
- * and can be padded with short filler while saying less. Characters are counted
- * the same way on their pages and on ours.
+ * Characters rather than words is kept, and is a separate question: a word
+ * count depends on how you split it and can be padded with short filler while
+ * saying less. 3,000 characters is roughly the 500 words this floor has always
+ * been.
  *
- * The bounds live in lib/serp/cache.ts and read a committed file, never the
- * network. See the note there on why that is safe for a gate.
+ * Nothing in lib/gates imports from lib/serp. That is the point, and it is
+ * enforced by a test rather than left as an intention.
  */
+export const MIN_CHARS = 3_000;
+export const CHARS_PER_ADDITIONAL_TARGET = 1_500;
+
+/** No ceiling. The only principled one was a multiple of the SERP median. */
+export const lengthFloor = (additionalTargets: number) =>
+  MIN_CHARS + additionalTargets * CHARS_PER_ADDITIONAL_TARGET;
 
 /**
  * An additional target earns its place by carrying a section, not by appearing
@@ -166,23 +177,15 @@ export function structureGate(draft: Draft): GateResult {
   const extra = draft.additionalKeywords;
   const words = wordCount(prose);
   const chars = prose.length;
-  const bounds = lengthBoundsFor(draft.primaryKeyword, extra.length);
-  const basis = bounds.from === 'serp'
-    ? `the pages ranking for this keyword run a median of ${bounds.median} characters`
-    : 'no SERP reading exists for this keyword, so the default floor applies';
+  const floor = lengthFloor(extra.length);
 
-  if (chars < bounds.min) {
+  if (chars < floor) {
     failures.push({
       rule: 'length.floor',
-      message: `Post is ${chars} characters (about ${words} words). The floor here is ${bounds.min}: ${basis}.`
-        + (extra.length ? ` ${extra.length} additional target(s) raise it by ${extra.length * 1500}.` : ''),
-      evidence: `${chars} chars`,
-    });
-  } else if (bounds.max !== null && chars > bounds.max) {
-    // Length is not the enemy; padding is. Twice the median is padding.
-    failures.push({
-      rule: 'length.ceiling',
-      message: `Post is ${chars} characters against a SERP median of ${bounds.median}. Twice the median is padding, not depth. Cut to under ${bounds.max}.`,
+      message: `Post is ${chars} characters (about ${words} words); the floor is ${floor}.`
+        + (extra.length
+          ? ` ${extra.length} additional target(s) raise it by ${extra.length * CHARS_PER_ADDITIONAL_TARGET}.`
+          : ''),
       evidence: `${chars} chars`,
     });
   }

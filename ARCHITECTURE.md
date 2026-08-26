@@ -210,8 +210,8 @@ keywords in the same cluster.
 - The **lead** owns the slug, title, H1, meta description and first 100 words.
 - Every **additional** target is enforced exactly like the lead everywhere else:
   its own H2, at least three uses, and its secondary keywords required.
-- The word floor rises 250 per additional target, and the combined secondary
-  budget rises with it.
+- The length floor rises 1,500 characters per additional target, and the combined
+  secondary budget rises with it.
 - The selection is stored in `posts.additional_keywords` and re-validated
   against `config/` on every gate run, so a re-ingest can never silently change
   what a published post claimed.
@@ -236,33 +236,32 @@ confident essay, which is what the gates exist to reject. Shape is countable.
 
 Two things come out of it:
 
-- **Length is enforced from the measured median**, in characters, replacing the flat
-  500-word floor. `ugc ads` measures a median of 9,254 characters across the four written
-  pages in its top 6, so gate 2 requires 6,478 to 18,508 and the prompt states exactly those
-  numbers. A draft against that keyword landed at 9,414, within 2% of the pages it is
-  competing with; the same keyword before this change produced 924 words.
-- **The observations go into the prompt verbatim**, under an instruction not to
-  copy the shape.
+- **The word target tracks the measured median**, replacing the flat 700 to 1,200
+  default. `ugc ads` measures a median of 9,254 characters across the written pages in its
+  top 6, so its target is 1,741 to 2,263 words. This is guidance in the prompt and nothing
+  more: no draft is failed for missing it.
+- **The observations go into the prompt verbatim**, under an instruction not to copy
+  the shape.
 
-**Why a gate may depend on this.** An earlier revision of this document argued the floor
-must stay flat, because "a gate whose threshold depends on a network fetch passes different
-drafts on different days". That conflated two things. The reading is not fetched at gate
-time: it is `config/serp-analysis.json`, a committed file, read exactly the way the gates
-already read `keywords.json` and `claim-ledger.json`. Given the same config the verdict is
-identical, which is the property that actually matters. A gate that called a search API
-would be the thing that objection describes, and there is none.
+**The enforced length floor does not depend on the SERP.** A revision of this document
+argued the opposite, on the grounds that `config/serp-analysis.json` is a committed file
+like `keywords.json` and therefore deterministic. That is true and it was not the whole
+objection. A gate is the fixed standard a draft is held to. Once its threshold is a
+function of whichever six pages ranked the last time someone ran a script, two drafts of
+identical quality get different verdicts because a measurement was or was not refreshed.
+The floor is flat: 3,000 characters of prose, plus 1,500 per additional target.
+
+Nothing in `lib/gates` imports from `lib/serp`, and a test asserts it. The independence is
+structural rather than a convention, so a gate cannot come to depend on the SERP again by
+accident.
 
 **Why characters rather than words.** A word count depends on how you split it, and a draft
 can pad its way to a word target with short filler while saying less. Characters are counted
-the same way on their pages and on ours, so the comparison is direct.
+the same way on their pages and on ours. 3,000 is roughly the 500 words this floor has
+always been.
 
-Bounds are `max(3,000, 0.7 x median)` to `2 x median`, plus 1,500 characters per additional
-target. Seventy percent because a shorter post can still win on angle; twice the median
-because at that point it is padding rather than depth. With no reading, the floor falls back
-to 3,000 characters and there is no ceiling, since there is nothing to derive one from.
-
-Search is pluggable — `APIFY_TOKEN`, `BRAVE_SEARCH_KEY` or `SERPER_API_KEY`, checked in that
-order — and this codebase never scrapes an engine's results page itself. Not out of
+Search is pluggable, `APIFY_TOKEN`, `BRAVE_SEARCH_KEY` or `SERPER_API_KEY`, checked in that
+order, and this codebase never scrapes an engine's results page itself. Not out of
 squeamishness: Google blocks datacenter IP ranges, which is exactly what Vercel serverless
 egress is, so a direct scrape would fail on roughly the first request and break again
 whenever the markup changed. All three providers exist because they run the proxy
@@ -301,11 +300,11 @@ swapping the drafting model changes output quality but can never change what pas
 - at least one H2; lead keyword present in title, H1, meta, and first 100 words
 - each additional selected keyword has an H2 containing it and at least three uses
   (`keyword.additional_unheaded`, `keyword.additional_underused`)
-- length in **characters of prose**, floor and ceiling both derived from the measured
-  SERP median for this keyword (§4.2c), plus 1,500 characters per additional target.
-  `length.floor` rejects a draft too thin to compete; `length.ceiling` rejects padding.
-  The bounds are carried on the brief, so the number the writer is given and the number
-  the gate checks cannot drift apart
+- length in **characters of prose**: a flat floor of 3,000, plus 1,500 per additional
+  target. Deliberately independent of the SERP (§4.2c). The floor is carried on the
+  brief from the gate's own constant, so the number the writer is given and the number
+  the gate checks cannot drift apart. There is no ceiling: the only principled one was
+  a multiple of the SERP median
 - primary keyword used at least 3 times and at most one per 100 words, capped at 8.
   Expressed in occurrences rather than word-share: standard keyword density,
   (keyword words x uses) / total words, scores a five-word long-tail phrase at 4.5%

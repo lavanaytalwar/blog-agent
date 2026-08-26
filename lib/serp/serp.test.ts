@@ -87,24 +87,42 @@ describe('word target', () => {
     const prompt = renderSystemPrompt(brief);
     // The whole point of carrying the bounds on the brief: the number the writer
     // is given and the number gate 2 checks cannot drift apart.
-    assert.ok(prompt.includes(String(brief.lengthBounds.min)), 'floor missing from prompt');
-    if (brief.lengthBounds.max !== null) {
-      assert.ok(prompt.includes(String(brief.lengthBounds.max)), 'ceiling missing from prompt');
-    }
+    assert.ok(prompt.includes(String(brief.lengthFloor)), 'floor missing from prompt');
   });
 
-  test('the bounds come from the measured median, not a constant', async () => {
-    const { lengthBoundsFor, ABSOLUTE_MIN_CHARS } = await import('./cache.js');
-    const measured = lengthBoundsFor('ugc ads', 0);
-    assert.equal(measured.from, 'serp');
-    assert.ok(measured.median! > 0);
-    assert.equal(measured.min, Math.max(ABSOLUTE_MIN_CHARS, Math.round(measured.median! * 0.7)));
-    assert.equal(measured.max, measured.median! * 2);
+  test('the enforced floor is flat, whether or not a SERP reading exists', async () => {
+    const { assembleBrief } = await import('../brief/assemble.js');
+    const { MIN_CHARS } = await import('../gates/structure.js');
+    // "ugc ads" has a measured reading; "How to improve product discovery" has
+    // none. The gate must not be able to tell them apart.
+    const measured = assembleBrief({ primaryKeyword: 'ugc ads' });
+    const unmeasured = assembleBrief({ primaryKeyword: 'How to improve product discovery' });
+    assert.ok(measured.serpLesson, 'fixture expects a reading for this keyword');
+    assert.equal(measured.lengthFloor, MIN_CHARS);
+    assert.equal(unmeasured.lengthFloor, MIN_CHARS);
+  });
 
-    const unmeasured = lengthBoundsFor('How to improve product discovery', 0);
-    assert.equal(unmeasured.from, 'default');
-    assert.equal(unmeasured.min, ABSOLUTE_MIN_CHARS);
-    assert.equal(unmeasured.max, null, 'no ceiling without a reading to derive one from');
+  test('the SERP still moves the advisory target', async () => {
+    const { assembleBrief } = await import('../brief/assemble.js');
+    const measured = assembleBrief({ primaryKeyword: 'ugc ads' });
+    const unmeasured = assembleBrief({ primaryKeyword: 'How to improve product discovery' });
+    // Guidance, not a threshold: this is the half that is allowed to vary.
+    assert.notDeepEqual(measured.wordTarget, unmeasured.wordTarget);
+    assert.deepEqual(unmeasured.wordTarget, [700, 1200]);
+  });
+
+  test('no gate imports from the SERP layer', async () => {
+    // The independence is structural rather than a convention. A gate that
+    // cannot reach lib/serp cannot come to depend on it again by accident.
+    const { readdirSync, readFileSync } = await import('node:fs');
+    const offenders: string[] = [];
+    for (const file of readdirSync('lib/gates')) {
+      if (!file.endsWith('.ts')) continue;
+      if (/from '\.\.\/serp\//.test(readFileSync(`lib/gates/${file}`, 'utf8'))) {
+        offenders.push(file);
+      }
+    }
+    assert.deepEqual(offenders, [], `lib/gates must not import from lib/serp: ${offenders.join(', ')}`);
   });
 });
 

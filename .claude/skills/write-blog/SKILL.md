@@ -89,13 +89,17 @@ a median of 9,254 characters across the four written pages in its top 6, so gate
 2 requires 6,478 to 18,508 for that post. Before this existed the same keyword
 produced 924 words and passed.
 
-Characters rather than words because a word count can be padded with short
-filler, and because characters are measured identically on their pages and ours.
+**That target is guidance and nothing more. No draft is failed for missing it.**
 
-Bounds are `max(3,000, 0.7 x median)` to `2 x median`, plus 1,500 per additional
-target. With no reading taken, the floor is a flat 3,000 characters and there is
-no ceiling. That fallback is the reason to take a reading: without one the post
-is written against a default rather than against its competition.
+The enforced floor is flat: **3,000 characters of prose, plus 1,500 per
+additional target**, and it does not move with the SERP. A gate is the fixed
+standard a draft is held to, and a threshold that depends on when someone last
+ran a script gives two drafts of the same quality different verdicts. Nothing in
+`lib/gates` imports from `lib/serp`, and a test asserts it.
+
+Characters rather than words is a separate question, and that part stands: a word
+count depends on how you split it and can be padded with short filler while
+saying less. 3,000 is roughly the 500 words this floor has always been.
 
 The observations go into the prompt verbatim, under an instruction not to copy
 the shape: they tell the writer what the reader has already been shown five
@@ -121,7 +125,7 @@ npm run draft -- "<keyword>" ["<also cover this>" ...]
 One generation, all five gates, written to `content/drafts/`. Quote every
 keyword separately, because each argument is one target. A single-target post takes
 40-60 seconds on glm-5.2 at max reasoning; each extra target adds roughly a
-minute, because it adds 250 words to the floor and a section to write.
+minute, because it adds 1,500 characters to the floor and a section to write.
 
 For several keywords at once, and to see which rules fail across a set:
 
@@ -154,7 +158,7 @@ the same standard as the lead:
 | Its own H2 | not required | **required** (`keyword.additional_unheaded`) |
 | Minimum uses | 3 | **3** (`keyword.additional_underused`) |
 | Its secondaries enforced | yes | **yes** |
-| Word floor | 500 | **+250 each** |
+| Length floor | 3,000 chars | **+1,500 chars each** |
 
 Two rules follow from this and neither is negotiable:
 
@@ -168,8 +172,9 @@ Two rules follow from this and neither is negotiable:
   the gates and still be worthless.
 
 If the user selects four or five keywords, say plainly that the floor is now
-1,250-1,500 words and ask whether they want that one post or several. Do not
-silently drop targets to make the draft easier.
+7,500 to 9,000 characters, roughly 1,250 to 1,500 words, and ask whether they
+want that one post or several. Do not silently drop targets to make the draft
+easier.
 
 ## How the post has to read
 

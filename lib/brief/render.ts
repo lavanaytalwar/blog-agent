@@ -166,17 +166,14 @@ ${list(voice.coinedTerms)}`);
 
   sections.push(`## Structure
 
-${brief.lengthBounds.from === 'serp'
-    ? `- **Write ${brief.lengthBounds.min} to ${brief.lengthBounds.max} characters of prose.** That is roughly ${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.
-  The number is not a preference: the pages currently ranking for this keyword run a
-  median of ${brief.lengthBounds.median} characters, and the draft is measured against them.
-  Under ${brief.lengthBounds.min} it is rejected as too thin to compete. Over
-  ${brief.lengthBounds.max} it is rejected as padding.`
-    : `- **Write at least ${brief.lengthBounds.min} characters of prose**, roughly ${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.
-  No reading has been taken of the pages ranking for this keyword, so this is the
-  default floor rather than a measured one.`}
-  Characters are counted on prose only. Headings, front matter and the TL;DR label
-  do not count toward it.
+- **Aim for ${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.**${brief.serpLesson
+    ? ` That range tracks the pages currently ranking for this keyword, which run a
+  median of ${brief.serpLesson.lesson.medianChars} characters. It is a target, not a
+  threshold: nothing fails for missing it.`
+    : ''}
+- **The hard floor is ${brief.lengthFloor} characters of prose**, and that one is
+  enforced. Under it the draft is rejected outright. Characters are counted on prose
+  only: headings, front matter and the TL;DR label do not count toward it.
 - Open with a labelled TL;DR, written "**TL;DR:**" with a colon and no dash.
 - Three or four H2 sections.
 - Meta description **140 to 160 characters including spaces**, containing the primary

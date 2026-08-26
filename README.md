@@ -34,7 +34,7 @@ On Vercel, pass the same JSON as the `GSC_KEY_JSON` env var instead of a file pa
 | `npm run gate -- <file.md>` | Runs all five gates against a draft file (`--offline` skips the live slug check) | no |
 | `npm run draft -- "<kw>" ["<also>" ...]` | One real generation, gated, written to `content/drafts/` | no |
 | `npm run serp:analyze -- "<kw>" [urls...]` | Measures the top 6 ranking pages and sets the word target from them | no |
-| `npm test` | 116 gate, brief, SERP and pipeline tests | no |
+| `npm test` | 134 gate, brief, SERP and pipeline tests | no |
 | `npm run status` | Row counts, branded split, keyword coverage | yes |
 | `npm run dev` | Dashboard on :3000 | yes |
 | `npm run seed:demo` | Creates a deliberately failing draft, for exercising the review screen | yes |
@@ -147,9 +147,15 @@ and what the currently-ranking pages cover. The model's only job is to write.
 
 A post can be generated for several keywords at once. The first leads — it owns the
 slug, title, H1 and meta — and every other selected keyword is enforced the same way
-everywhere else: its own H2, at least three uses, and its secondaries required. The word
-floor rises 250 per additional target. All selected keywords must share a cluster,
-because the persona, commercial URL and audience guard all hang off it.
+everywhere else: its own H2, at least three uses, and its secondaries required. The length
+floor rises 1,500 characters per additional target. All selected keywords must share a
+cluster, because the persona, commercial URL and audience guard all hang off it.
+
+Length is enforced in characters of prose against a **flat** floor of 3,000, plus 1,500 per
+additional target. The SERP reading moves the *target* stated in the prompt, never the
+threshold the gate enforces: a gate whose bar depends on when someone last ran a script
+gives two drafts of the same quality different verdicts. Nothing in `lib/gates` imports from
+`lib/serp`, and a test asserts it.
 
 ```bash
 npm run draft -- "how to improve revenue per visitor" "how to personalise a shopify store"
