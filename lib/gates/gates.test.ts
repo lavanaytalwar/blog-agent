@@ -192,6 +192,15 @@ describe('gate 3 — provenance', () => {
     assert.ok(!rules(r).includes('customer.confidential'), JSON.stringify(r.failures));
   });
 
+  test('two customers in adjacent sentences do not cross-contaminate', () => {
+    // Real GLM-5.2 output. Both attributions are correct; the first version of
+    // this gate raised three failures on it.
+    const r = provenanceGate(draft({
+      bodyMd: `${passingDraft.bodyMd}\n\nW for Woman saw revenue per visit up 27% in 4 weeks. Sudathi saw a 25% conversion uplift.`,
+    }));
+    assert.ok(!rules(r).includes('claim.misattributed'), JSON.stringify(r.failures));
+  });
+
   test('ignores a bare year', () => {
     const r = provenanceGate(draft({ bodyMd: `${passingDraft.bodyMd}\n\nThis changed in 2026.` }));
     assert.ok(!rules(r).includes('claim.untraceable'), JSON.stringify(r.failures));

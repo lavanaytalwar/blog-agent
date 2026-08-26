@@ -4,11 +4,11 @@ import { LlmError } from './types.js';
 /**
  * Ollama Cloud, OpenAI-compatible chat completions.
  *
- * Untested against a live endpoint — no key exists yet. Present so the swap is
- * a config change rather than a rewrite. Expect weaker long-form drafting and
- * weaker multi-constraint instruction following than Sonnet; the gates are
- * deterministic precisely so that difference shows up as visible quality rather
- * than as something slipping through.
+ * Verified against the native /api/chat route on 2026-08-26 with glm-5.2.
+ *
+ * Reasoning models here return a separate `thinking` field alongside `content`;
+ * only `content` is the draft. Note that thinking is billed in eval_count, so a
+ * short answer can still cost a lot of tokens.
  */
 export class OllamaProvider implements LlmProvider {
   readonly name = 'ollama';
@@ -37,10 +37,19 @@ export class OllamaProvider implements LlmProvider {
 
     if (!res.ok) throw new LlmError(`Ollama ${res.status}: ${(await res.text()).slice(0, 400)}`);
 
-    const json = (await res.json()) as { message?: { content?: string } };
+    const json = (await res.json()) as {
+      message?: { content?: string };
+      prompt_eval_count?: number;
+      eval_count?: number;
+    };
     const text = json.message?.content ?? '';
     if (!text.trim()) throw new LlmError('Ollama returned no text.');
 
-    return { text, model: this.model };
+    return {
+      text,
+      model: this.model,
+      inputTokens: json.prompt_eval_count,
+      outputTokens: json.eval_count,
+    };
   }
 }

@@ -1,11 +1,8 @@
 import { loadConfig } from '../config/load.js';
 import { confidentialNamesIn } from '../linear/merchants.js';
-import { bodyProse, containsPhrase } from './text.js';
+import { bodyProse, containsPhrase, sentences } from './text.js';
 import { extractNumerals, ledgerForms } from './numerals.js';
 import { result, type Draft, type Failure, type GateResult } from './types.js';
-
-/** How close a customer name has to be to a metric to count as attribution. */
-const ATTRIBUTION_WINDOW = 120;
 
 /**
  * Gate 3 — Claim provenance.
@@ -66,33 +63,37 @@ export function provenanceGate(draft: Draft): GateResult {
     }
   }
 
-  // Misattribution: a metric sitting next to a customer name must belong to
-  // that customer. Catches a real figure moved onto the wrong brand, which the
-  // ledger check alone would wave through.
+  // Misattribution: a figure belongs to the customer named in its own sentence.
+  //
+  // Character distance is the wrong model. In "W for Woman saw revenue per visit
+  // up 27% in 4 weeks. Sudathi saw a 25% conversion uplift." the 27% is nearer to
+  // "Sudathi" than to the start of "W for Woman", so a proximity rule blames the
+  // wrong brand on a correct draft. Sentences are how attribution actually reads.
+  const owners = new Map<string, Set<string>>();
+  for (const claim of ledger.claims) {
+    if (!claim.customer) continue;
+    const set = owners.get(claim.customer) ?? new Set<string>();
+    for (const f of ledgerForms(claim.numerals)) set.add(f);
+    owners.set(claim.customer, set);
+  }
+  const attributable = new Set([...owners.values()].flatMap((set) => [...set]));
   const customers = blocklist.approved_public_customers.names;
-  for (const name of customers) {
-    if (!containsPhrase(searchable, name)) continue;
 
-    const owned = new Set<string>();
-    for (const claim of ledger.claims) {
-      if (claim.customer === name) for (const f of ledgerForms(claim.numerals)) owned.add(f);
-    }
+  for (const sentence of sentences(searchable)) {
+    const named = customers.filter((name) => containsPhrase(sentence, name));
+    if (named.length === 0) continue;
 
-    let from = searchable.toLowerCase().indexOf(name.toLowerCase());
-    while (from !== -1) {
-      const near = numerals.filter(
-        (n) => Math.abs(n.index - from) <= ATTRIBUTION_WINDOW && allowed.has(n.normalized),
-      );
-      for (const n of near) {
-        if (!owned.has(n.normalized)) {
-          failures.push({
-            rule: 'claim.misattributed',
-            message: `"${n.raw}" appears next to ${name}, but no ledger claim assigns that figure to ${name}. Attribute it explicitly or move it away from the brand name.`,
-            evidence: `${name} … ${n.raw}`,
-          });
-        }
-      }
-      from = searchable.toLowerCase().indexOf(name.toLowerCase(), from + 1);
+    for (const n of extractNumerals(sentence)) {
+      // Only figures some customer owns are attributable at all. A platform
+      // stat in the same sentence as a brand is context, not a claim about it.
+      if (!attributable.has(n.normalized)) continue;
+      if (named.some((name) => owners.get(name)?.has(n.normalized))) continue;
+
+      failures.push({
+        rule: 'claim.misattributed',
+        message: `"${n.raw}" is stated in the same sentence as ${named.join(' and ')}, but no ledger claim assigns that figure to ${named.length > 1 ? 'either' : named[0]}. Attribute it to the brand that earned it.`,
+        evidence: `${named.join(', ')} … ${n.raw}`,
+      });
     }
   }
 

@@ -9,3 +9,4 @@ node_modules/
 .env*
 .vercel
 *.tsbuildinfo
+content/drafts/_attempt-*
