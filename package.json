@@ -14,7 +14,9 @@
     "sitemap:crawl": "tsx scripts/crawl-sitemap.ts",
     "keywords:ingest": "tsx scripts/ingest-keywords.ts",
     "typecheck": "tsc --noEmit",
-    "status": "tsx scripts/status.ts"
+    "status": "tsx scripts/status.ts",
+    "test": "node --import tsx --test lib/gates/*.test.ts",
+    "gate": "tsx scripts/gate.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4"

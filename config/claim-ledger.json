@@ -2,68 +2,298 @@
   "_source": "entity-record.md §5 'Canonical claim set' — 'Use these numbers and only these numbers. Anything not listed here needs a source before it ships.' Conflicts from §6 ratified 2026-08-26.",
   "_rule": "Gate 3 extracts every numeral from a draft and fails the draft on any numeral not present in an unblocked entry's `numerals`. Entries with blocked:true exist so the gate can explain WHY a number is refused rather than reporting it as unknown.",
   "ratified_at": "2026-08-26",
-
   "claims": [
-    { "key": "platform.conversion", "value": "30% higher conversion", "numerals": ["30"], "tier": "platform", "source_ref": "entity-record §5 headline trio" },
-    { "key": "platform.aov", "value": "18% higher AOV", "numerals": ["18"], "tier": "platform", "source_ref": "entity-record §5 headline trio" },
-    { "key": "platform.retention", "value": "20% better retention", "numerals": ["20"], "tier": "platform", "source_ref": "entity-record §5 headline trio" },
-    { "key": "platform.brands_served", "value": "100+ brands", "numerals": ["100"], "tier": "platform", "source_ref": "entity-record §6 conflict 1 — ratified to 100+" },
-    { "key": "platform.revenue", "value": "₹45 crore+ in new revenue", "numerals": ["45"], "tier": "platform", "source_ref": "entity-record §6 conflict 2 — ratified, currency always explicit" },
-
-    { "key": "product.signals", "value": "reads 40+ site-level signals", "numerals": ["40"], "tier": "product", "source_ref": "entity-record §5" },
-    { "key": "product.visitor_variables", "value": "~20 variables per visitor", "numerals": ["20"], "tier": "product", "source_ref": "entity-record §5" },
-    { "key": "product.pulse_funnel_fix", "value": "+27% lift in funnel fix rates", "numerals": ["27"], "tier": "product", "source_ref": "entity-record §5 (Pulse)" },
-    { "key": "product.pulse_analyst_time", "value": "~80% reduction in analyst investigation time", "numerals": ["80"], "tier": "product", "source_ref": "entity-record §5 (Pulse)" },
-    { "key": "product.attribution_roas", "value": "+20% ROAS in 30 days", "numerals": ["20", "30"], "tier": "product", "source_ref": "entity-record §6 conflict 8 — ratified to the 30-day window" },
-
-    { "key": "onboarding.script_install", "value": "~2-minute script install, no developer required", "numerals": ["2"], "tier": "onboarding", "source_ref": "entity-record §5" },
-    { "key": "onboarding.time_to_value", "value": "personalization begins in 15 days", "numerals": ["15"], "tier": "onboarding", "source_ref": "entity-record §5" },
-
-    { "key": "agentcy.first_pack", "value": "first ad pack in under 1 to 4 minutes", "numerals": ["1", "4"], "tier": "agentcy", "source_ref": "entity-record §5" },
-    { "key": "agentcy.creatives", "value": "1,140,000+ creatives generated", "numerals": ["1140000", "1.14"], "tier": "agentcy", "source_ref": "entity-record §5" },
-    { "key": "agentcy.brands", "value": "2,300+ brands on Agentcy", "numerals": ["2300"], "tier": "agentcy", "source_ref": "entity-record §5" },
-    { "key": "agentcy.price_image", "value": "₹20 per image", "numerals": ["20"], "tier": "agentcy", "source_ref": "entity-record §5 — unconflicted, published in one place only" },
-    { "key": "agentcy.price_video", "value": "₹100 per video", "numerals": ["100"], "tier": "agentcy", "source_ref": "entity-record §5 — unconflicted" },
-    { "key": "agentcy.free_trial", "value": "first 5 creatives free, no subscription", "numerals": ["5"], "tier": "agentcy", "source_ref": "entity-record §5" },
-
-    { "key": "customer.w_for_woman", "value": "W for Woman: revenue per visit up 27% in 4 weeks", "numerals": ["27", "4"], "tier": "named_customer", "source_ref": "entity-record §5 strongest three" },
-    { "key": "customer.sudathi_cvr", "value": "Sudathi: 25% conversion uplift", "numerals": ["25"], "tier": "named_customer", "source_ref": "entity-record §6 conflict 4 — ratified to case-study figures" },
-    { "key": "customer.sudathi_cac", "value": "Sudathi: CAC reduction up to 5×", "numerals": ["5"], "tier": "named_customer", "source_ref": "entity-record §6 conflict 4" },
-    { "key": "customer.sudathi_roas", "value": "Sudathi: Meta ROAS doubled from 5× to 10× on the same budget", "numerals": ["5", "10"], "tier": "named_customer", "source_ref": "entity-record §6 conflict 4" },
-    { "key": "customer.akiso", "value": "Akiso: +31% CVR, +17% AOV", "numerals": ["31", "17"], "tier": "named_customer", "source_ref": "entity-record §6 conflict 3 — ratified to the conservative figure by explicit instruction 2026-08-26" },
-    { "key": "customer.lifelong", "value": "Lifelong: CVR up to ~40% in the Valentine window (~0.5% to ~0.7%)", "numerals": ["40", "0.5", "0.7"], "tier": "named_customer", "source_ref": "entity-record §5" }
+    {
+      "key": "platform.conversion",
+      "value": "30% higher conversion",
+      "numerals": [
+        "30"
+      ],
+      "tier": "platform",
+      "source_ref": "entity-record §5 headline trio"
+    },
+    {
+      "key": "platform.aov",
+      "value": "18% higher AOV",
+      "numerals": [
+        "18"
+      ],
+      "tier": "platform",
+      "source_ref": "entity-record §5 headline trio"
+    },
+    {
+      "key": "platform.retention",
+      "value": "20% better retention",
+      "numerals": [
+        "20"
+      ],
+      "tier": "platform",
+      "source_ref": "entity-record §5 headline trio"
+    },
+    {
+      "key": "platform.brands_served",
+      "value": "100+ brands",
+      "numerals": [
+        "100"
+      ],
+      "tier": "platform",
+      "source_ref": "entity-record §6 conflict 1 — ratified to 100+"
+    },
+    {
+      "key": "platform.revenue",
+      "value": "₹45 crore+ in new revenue",
+      "numerals": [
+        "45"
+      ],
+      "tier": "platform",
+      "source_ref": "entity-record §6 conflict 2 — ratified, currency always explicit"
+    },
+    {
+      "key": "product.signals",
+      "value": "reads 40+ site-level signals",
+      "numerals": [
+        "40"
+      ],
+      "tier": "product",
+      "source_ref": "entity-record §5"
+    },
+    {
+      "key": "product.visitor_variables",
+      "value": "~20 variables per visitor",
+      "numerals": [
+        "20"
+      ],
+      "tier": "product",
+      "source_ref": "entity-record §5"
+    },
+    {
+      "key": "product.pulse_funnel_fix",
+      "value": "+27% lift in funnel fix rates",
+      "numerals": [
+        "27"
+      ],
+      "tier": "product",
+      "source_ref": "entity-record §5 (Pulse)"
+    },
+    {
+      "key": "product.pulse_analyst_time",
+      "value": "~80% reduction in analyst investigation time",
+      "numerals": [
+        "80"
+      ],
+      "tier": "product",
+      "source_ref": "entity-record §5 (Pulse)"
+    },
+    {
+      "key": "product.attribution_roas",
+      "value": "+20% ROAS in 30 days",
+      "numerals": [
+        "20",
+        "30"
+      ],
+      "tier": "product",
+      "source_ref": "entity-record §6 conflict 8 — ratified to the 30-day window"
+    },
+    {
+      "key": "onboarding.script_install",
+      "value": "~2-minute script install, no developer required",
+      "numerals": [
+        "2"
+      ],
+      "tier": "onboarding",
+      "source_ref": "entity-record §5"
+    },
+    {
+      "key": "onboarding.time_to_value",
+      "value": "personalization begins in 15 days",
+      "numerals": [
+        "15"
+      ],
+      "tier": "onboarding",
+      "source_ref": "entity-record §5"
+    },
+    {
+      "key": "agentcy.first_pack",
+      "value": "first ad pack in under 1 to 4 minutes",
+      "numerals": [
+        "1",
+        "4"
+      ],
+      "tier": "agentcy",
+      "source_ref": "entity-record §5"
+    },
+    {
+      "key": "agentcy.creatives",
+      "value": "1,140,000+ creatives generated",
+      "numerals": [
+        "1140000",
+        "1.14"
+      ],
+      "tier": "agentcy",
+      "source_ref": "entity-record §5"
+    },
+    {
+      "key": "agentcy.brands",
+      "value": "2,300+ brands on Agentcy",
+      "numerals": [
+        "2300"
+      ],
+      "tier": "agentcy",
+      "source_ref": "entity-record §5"
+    },
+    {
+      "key": "agentcy.price_image",
+      "value": "₹20 per image",
+      "numerals": [
+        "20"
+      ],
+      "tier": "agentcy",
+      "source_ref": "entity-record §5 — unconflicted, published in one place only"
+    },
+    {
+      "key": "agentcy.price_video",
+      "value": "₹100 per video",
+      "numerals": [
+        "100"
+      ],
+      "tier": "agentcy",
+      "source_ref": "entity-record §5 — unconflicted"
+    },
+    {
+      "key": "agentcy.free_trial",
+      "value": "first 5 creatives free, no subscription",
+      "numerals": [
+        "5"
+      ],
+      "tier": "agentcy",
+      "source_ref": "entity-record §5"
+    },
+    {
+      "key": "customer.w_for_woman",
+      "value": "W for Woman: revenue per visit up 27% in 4 weeks",
+      "numerals": [
+        "27",
+        "4"
+      ],
+      "tier": "named_customer",
+      "source_ref": "entity-record §5 strongest three",
+      "customer": "W for Woman"
+    },
+    {
+      "key": "customer.sudathi_cvr",
+      "value": "Sudathi: 25% conversion uplift",
+      "numerals": [
+        "25"
+      ],
+      "tier": "named_customer",
+      "source_ref": "entity-record §6 conflict 4 — ratified to case-study figures",
+      "customer": "Sudathi"
+    },
+    {
+      "key": "customer.sudathi_cac",
+      "value": "Sudathi: CAC reduction up to 5×",
+      "numerals": [
+        "5"
+      ],
+      "tier": "named_customer",
+      "source_ref": "entity-record §6 conflict 4",
+      "customer": "Sudathi"
+    },
+    {
+      "key": "customer.sudathi_roas",
+      "value": "Sudathi: Meta ROAS doubled from 5× to 10× on the same budget",
+      "numerals": [
+        "5",
+        "10"
+      ],
+      "tier": "named_customer",
+      "source_ref": "entity-record §6 conflict 4",
+      "customer": "Sudathi"
+    },
+    {
+      "key": "customer.akiso",
+      "value": "Akiso: +31% CVR, +17% AOV",
+      "numerals": [
+        "31",
+        "17"
+      ],
+      "tier": "named_customer",
+      "source_ref": "entity-record §6 conflict 3 — ratified to the conservative figure by explicit instruction 2026-08-26",
+      "customer": "Akiso"
+    },
+    {
+      "key": "customer.lifelong",
+      "value": "Lifelong: CVR up to ~40% in the Valentine window (~0.5% to ~0.7%)",
+      "numerals": [
+        "40",
+        "0.5",
+        "0.7"
+      ],
+      "tier": "named_customer",
+      "source_ref": "entity-record §5",
+      "customer": "Lifelong"
+    }
   ],
-
   "blocked": [
     {
       "key": "pricing.ad_stack_kickstart",
       "value": "₹2,000/month up to 50K monthly traffic",
-      "numerals": ["2000", "50000", "50"],
+      "numerals": [
+        "2000",
+        "50000",
+        "50"
+      ],
       "tier": "platform",
-      "blocked_reason": "entity-record §6 conflict 10 unresolved. The site says ₹2,000/month (~$24) while the Shopify App Store entry tier is $100/month — roughly a 10× gap on overlapping functionality. Any prospect comparing the two sees it."
+      "blocked_reason": "entity-record §6 conflict 10 unresolved. The site says ₹2,000/month (~$24) while the Shopify App Store entry tier is $100/month — roughly a 10× gap on overlapping functionality. Any prospect comparing the two sees it.",
+      "patterns": [
+        "₹2,000",
+        "₹2000",
+        "Rs 2,000",
+        "Rs 2000",
+        "50K monthly",
+        "50,000 monthly"
+      ]
     },
     {
       "key": "pricing.shopify_app_tiers",
       "value": "Free / $100 / $300 / $500 per month",
-      "numerals": ["100", "300", "500"],
+      "numerals": [
+        "100",
+        "300",
+        "500"
+      ],
       "tier": "platform",
-      "blocked_reason": "entity-record §6 conflict 10 unresolved — same conflict, other side."
+      "blocked_reason": "entity-record §6 conflict 10 unresolved — same conflict, other side.",
+      "patterns": [
+        "$100",
+        "$300",
+        "$500",
+        "$100/month",
+        "$300/month",
+        "$500/month"
+      ]
     },
     {
       "key": "founder.shray_arora",
       "value": "Shray Arora, Co-founder & CEO",
       "numerals": [],
       "tier": "platform",
-      "blocked_reason": "entity-record §6 conflict 11 — business databases say Co-founder & CEO, the funding release says Co-founder, Product & Strategy. Publish one title first."
+      "blocked_reason": "entity-record §6 conflict 11 — business databases say Co-founder & CEO, the funding release says Co-founder, Product & Strategy. Publish one title first.",
+      "patterns": [
+        "Shray Arora"
+      ]
     },
     {
       "key": "founder.deepak_kapoor",
       "value": "Deepak Kapoor, Co-founder",
       "numerals": [],
       "tier": "platform",
-      "blocked_reason": "entity-record §6 conflict 12 — named only in the July 2024 pre-seed release, absent from Forbes and from the site. Confirm current status before naming him publicly."
+      "blocked_reason": "entity-record §6 conflict 12 — named only in the July 2024 pre-seed release, absent from Forbes and from the site. Confirm current status before naming him publicly.",
+      "patterns": [
+        "Deepak Kapoor"
+      ]
     }
   ],
-
-  "_note_agentcy_pricing": "Agentcy usage pricing (₹20 / ₹100 / 5 free) is NOT blocked. Conflict 10 concerns Ad Stack and the Shopify App tiers only. Blocking all pricing would have been over-broad."
+  "_note_agentcy_pricing": "Agentcy usage pricing (₹20 / ₹100 / 5 free) is NOT blocked. Conflict 10 concerns Ad Stack and the Shopify App tiers only. Blocking all pricing would have been over-broad.",
+  "_note_matching": "Gate 3 checks two things. (1) Every claim-bearing numeral in a draft must appear in some unblocked claim's `numerals`. This proves the number exists in the approved set; it does NOT prove it is used in the right context — that is the reviewer's job. (2) Blocked entries are matched on literal `patterns`, not numerals, because ₹100 (Agentcy, allowed) and $100 (Shopify tier, blocked) share a numeral."
 }
