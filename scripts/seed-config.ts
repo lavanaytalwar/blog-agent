@@ -17,6 +17,7 @@ type Keyword = {
   keyword: string; cluster_id: string | null; outline: string | null;
   serp_competitors: string[]; push_target: string | null; status: string;
   entity_risk?: string; exclusion_reason?: string;
+  secondary_keywords?: unknown[]; secondary_source?: string;
 };
 type Claim = { key: string; value: string; numerals: string[]; tier: string; source_ref: string };
 type Blocked = Claim & { blocked_reason: string };
@@ -60,15 +61,19 @@ async function main() {
 
   for (const k of keywordsDoc.keywords) {
     await db`insert into keywords (keyword, cluster_id, outline, serp_competitors,
-                                   push_target, status, entity_risk, exclusion_reason)
+                                   push_target, status, entity_risk, exclusion_reason,
+                                   secondary_keywords, secondary_source)
              values (${k.keyword}, ${k.cluster_id}, ${k.outline}, ${k.serp_competitors ?? []},
                      ${k.push_target}, ${k.status}, ${k.entity_risk ?? null},
-                     ${k.exclusion_reason ?? null})
+                     ${k.exclusion_reason ?? null},
+                     ${JSON.stringify(k.secondary_keywords ?? [])}, ${k.secondary_source ?? null})
              on conflict (keyword) do update set
                cluster_id = excluded.cluster_id, outline = excluded.outline,
                serp_competitors = excluded.serp_competitors, push_target = excluded.push_target,
                status = excluded.status, entity_risk = excluded.entity_risk,
-               exclusion_reason = excluded.exclusion_reason, updated_at = now()`;
+               exclusion_reason = excluded.exclusion_reason,
+               secondary_keywords = excluded.secondary_keywords,
+               secondary_source = excluded.secondary_source, updated_at = now()`;
   }
   console.log(`  keywords   ${keywordsDoc.keywords.length}`);
 

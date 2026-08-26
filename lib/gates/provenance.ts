@@ -1,4 +1,5 @@
 import { loadConfig } from '../config/load.js';
+import { confidentialNamesIn } from '../linear/merchants.js';
 import { bodyProse, containsPhrase } from './text.js';
 import { extractNumerals, ledgerForms } from './numerals.js';
 import { result, type Draft, type Failure, type GateResult } from './types.js';
@@ -17,6 +18,10 @@ const ATTRIBUTION_WINDOW = 120;
  *      numeral but only one of them is blocked.
  *   2. Untraceable numerals — any result-shaped number with no ledger entry.
  *   3. Misattribution — a real number bolted onto the wrong brand.
+ *   4. A confidential merchant name. Forty of Helium's fifty-four Linear
+ *      merchants are not publicly namable, and several — Ted Baker, Sandro,
+ *      Watsons, Swiss Beauty — would matter if they leaked. This check fails
+ *      closed against the roster rather than trusting the draft.
  */
 export function provenanceGate(draft: Draft): GateResult {
   const { ledger, blocklist } = loadConfig();
@@ -34,6 +39,15 @@ export function provenanceGate(draft: Draft): GateResult {
         evidence: blocked.key,
       });
     }
+  }
+
+  const leaked = confidentialNamesIn(searchable);
+  if (leaked.length) {
+    failures.push({
+      rule: 'customer.confidential',
+      message: `"${leaked.join('", "')}" is a Helium merchant that is not public. Only brands already named in Helium's own marketing may appear in a post.`,
+      evidence: leaked.join(', '),
+    });
   }
 
   const allowed = new Set<string>();

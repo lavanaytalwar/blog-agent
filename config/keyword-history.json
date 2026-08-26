@@ -1,0 +1,277 @@
+{
+  "_rule": "Every keyword ever seen keeps its fingerprint here forever. A rejected candidate never resurfaces. Committed on purpose, so the memory survives the database.",
+  "entries": [
+    {
+      "keyword": "A/B testing platform",
+      "fingerprint": "b platform testing",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "Ad creative ai",
+      "fingerprint": "ad ai creative",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "AI concierge / AI chatbot for website / AI shopping assistant",
+      "fingerprint": "ai assistant chatbot concierge shopping website",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "AI ecommerce merchandising software",
+      "fingerprint": "ai ecommerce merchandizing software",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ai personalisation ecommerce",
+      "fingerprint": "ai ecommerce personalization",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce personalization / personalization for ecommerce\" · 14 impressions",
+      "source": "gsc",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "customer agent",
+      "fingerprint": "agent customer",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce analytics software",
+      "fingerprint": "analytic ecommerce software",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce personalization / personalization for ecommerce",
+      "fingerprint": "ecommerce personalization",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce personalization engine",
+      "fingerprint": "ecommerce engine personalization",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce personalization / personalization for ecommerce\" · 7 impressions",
+      "source": "gsc",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce personalization platform",
+      "fingerprint": "ecommerce personalization platform",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce personalization / personalization for ecommerce\" · 76 impressions",
+      "source": "gsc",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce personalization tool",
+      "fingerprint": "ecommerce personalization tool",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce personalization / personalization for ecommerce\" · 26 impressions",
+      "source": "gsc",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ecommerce product recommendation chatbot",
+      "fingerprint": "chatbot ecommerce product recommendation",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "Helium AI",
+      "fingerprint": "ai helium",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "helium chatbot",
+      "fingerprint": "chatbot helium",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "helium ecommerce",
+      "fingerprint": "ecommerce helium",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "helium recommendations",
+      "fingerprint": "helium recommendation",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to fix mismatched ad and landing-page experiences",
+      "fingerprint": "ad experience fix how landing mismatched page",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to improve product discovery",
+      "fingerprint": "discovery how improve product",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to improve revenue per visitor",
+      "fingerprint": "how improve per revenue visitor",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to increase AOV without excessive discounts",
+      "fingerprint": "aov discount excessive how increase without",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to increase cart attach rate",
+      "fingerprint": "attach cart how increase rate",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to increase ecommerce revenue without increasing ad spend",
+      "fingerprint": "ad ecommerce how increase increasing revenue spend without",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to personalise a Shopify store",
+      "fingerprint": "how personalize shopify store",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to reduce ecommerce bounce rate",
+      "fingerprint": "bounce ecommerce how rate reduce",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "How to reduce wasted catalog ad spend",
+      "fingerprint": "ad catalog how reduce spend wasted",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "Our Apps – Shopify Solutions by Helium",
+      "fingerprint": "app helium shopify solution",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "post purchase upsell",
+      "fingerprint": "post purchase upsell",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "product landing page",
+      "fingerprint": "landing page product",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "shopify product recommendations",
+      "fingerprint": "product recommendation shopify",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "shopify search & discovery",
+      "fingerprint": "discovery search shopify",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "ugc ads",
+      "fingerprint": "ads ugc",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "website ecommerce personalization platform",
+      "fingerprint": "ecommerce personalization platform website",
+      "verdict": "accepted",
+      "reason": "secondary of \"ecommerce personalization / personalization for ecommerce\" · 4 impressions",
+      "source": "gsc",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "why aren't my product recommendations converting health supplement customers?",
+      "fingerprint": "arent converting customer health product recommendation supplement why",
+      "verdict": "accepted",
+      "reason": "secondary of \"shopify product recommendations\" · 25 impressions",
+      "source": "gsc",
+      "first_seen": "2026-08-26"
+    },
+    {
+      "keyword": "Why Shopify conversion rate has stopped growing",
+      "fingerprint": "conversion growing has rate shopify stopped why",
+      "verdict": "accepted",
+      "reason": "in the curated sheet",
+      "source": "sheet",
+      "first_seen": "2026-08-26"
+    }
+  ]
+}

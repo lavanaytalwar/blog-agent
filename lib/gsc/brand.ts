@@ -1,19 +1,43 @@
 /**
  * Splits Search Console queries into branded and non-brand.
  *
- * This matters more than it looks: 97.6% of Helium's impressions are branded,
- * so any metric that doesn't exclude them measures nothing about the content
- * programme. The misspelling set is drawn from real GSC rows — hilium, hellium,
- * heliam, gelium, ehelium all resolve to people looking for Helium.
+ * This matters more than it looks: the overwhelming majority of Helium's
+ * impressions are branded, so any metric that fails to exclude them measures
+ * nothing about the content programme.
  *
- * he2 / he.2 / ai.helium are the *other* Helium AI. They are branded traffic
- * for someone else, but they are not non-brand demand for us either, so they
- * are classified as branded and excluded from content metrics.
+ * Three things count as branded here:
+ *
+ *   1. Helium and its misspellings. Real GSC rows include hilium, hellium,
+ *      heliam, halium, aehlium, gelium, gallium, ehelium — searchers are bad at
+ *      this word, and every one of them is someone looking for Helium.
+ *   2. Helium's product names — Pulse, Agentcy, Ad Stack. A search for "pulse
+ *      ecommerce" is navigational, not category demand. Some of these rows are
+ *      other companies' products with the same name, which is equally not
+ *      demand we can win with a blog post.
+ *   3. The other Helium AI (he2.ai, ai.helium.com). Branded traffic for someone
+ *      else, and not non-brand demand for us either.
  */
-const BRAND = /heli|hell?ium|heliam|hilium|gelium|ehelium|geth[ea]lium|\bhe2\b|\bhe\.2\b|oxpecker|agentcy/i;
+
+/** helium · halium · hilium · hellium · gelium · gallium · hlium · aehlium */
+const HELIUM_FUZZY = /[hg][aeiou]{0,2}l{1,2}[aeiou]{0,2}um/i;
+
+const BRAND_TERMS = [
+  'helium', 'gethelium', 'get helium', 'oxpecker',
+  'agentcy', 'ad stack', 'adstack',
+  'he2', 'he.2', 'hai d2c',
+];
+
+// Helium's own product name. Common word, so it is matched as a whole word
+// only, and this is the one rule here that could in principle catch an
+// unrelated query — accepted deliberately, because "pulse" traffic is
+// navigational either way.
+const PRODUCT_WORDS = /\b(pulse)\b/i;
 
 export function isBranded(query: string): boolean {
-  return BRAND.test(query);
+  const q = query.toLowerCase();
+  if (HELIUM_FUZZY.test(q)) return true;
+  if (PRODUCT_WORDS.test(q)) return true;
+  return BRAND_TERMS.some((t) => q.includes(t));
 }
 
 export function splitBranded<T extends { key: string }>(rows: T[]) {

@@ -1,7 +1,7 @@
 # blogEO — Helium content engine
 
 **Status:** design, pre-implementation
-**Date:** 2026-08-26 (rev. 2 — interface moved from Discord bot to dashboard + webhook)
+**Date:** 2026-08-26 (rev. 3 — keyword intelligence; Linear promoted out of Phase 5)
 **Scope:** generator only. The audit half of the original design is explicitly deferred — see §2.
 
 ---
@@ -90,7 +90,7 @@ Sources, in priority order:
 | Manual request | active | dashboard: keyword picker or free-text topic |
 | Curated keyword sheet | active | primary engine — see §5.1 |
 | GSC striking distance | **dormant** | code present; yields nothing today, self-activates when it returns rows |
-| Linear | phase 5 | shipped capabilities as story seeds, gated on being live on gethelium.co |
+| Linear | **active** | capability seeds from internal projects; vertical signal from merchant projects. See §4.6 |
 
 Selection rejects a keyword when: an existing post already targets it (§4.3 gate 4), the
 keyword has no cluster/persona mapping, or it is on the entity-mismatch list.
@@ -99,6 +99,55 @@ keyword has no cluster/persona mapping, or it is on the entity-mismatch list.
 targeted: `helium recommendations` (SERP is helium the gas) and `Helium AI` (SERP belongs
 to a different company at ai.helium.com). `helium ecommerce` is contested by `gethelium.com`,
 a different company on a near-identical domain — allowed but flagged.
+
+### 4.6 Keyword intelligence
+
+Topic selection is only as good as the target list, and the sheet holds 24 usable
+keywords — roughly three months of output. Resupply comes from three sources, in
+descending order of trust, run by a skill (§6).
+
+| Source | Yields | Trust |
+|---|---|---|
+| **Search Console** | striking-distance primaries; secondaries with real impressions | highest — the candidate carries its own evidence |
+| **Sheet expansion** | related terms from the top-5 SERP URLs tab 1 records per keyword | those pages rank; what they cover is evidence about the intent cluster |
+| **Linear** | capability seeds from internal projects; verticals from merchant projects | seeds only — never a keyword on its own |
+
+**What Search Console can actually supply.** Of 217 non-brand queries, roughly 15–20
+are genuinely minable and they cluster almost entirely around personalization. It can
+supply secondaries for three or four primaries. For the rest it holds nothing, because
+Helium does not rank in those spaces. The skill records `secondary_source: "none"`
+rather than padding to a count — inventing keywords is the same failure as inventing a
+metric.
+
+**Linear, split three ways.** The 64 projects divide into 10 internal (`Ad Stack`,
+`Core Platform`, `Agents`, `Data & Analytics`, `Growth`) and 54 merchants. Only ~13
+merchants are on the approved public list; the other ~41 — Ted Baker, Sandro, Maje,
+Watsons, Swiss Beauty, Wrogn, BBlunt, Kisah among them — are confidential.
+
+- Internal projects and their issues → capability seeds. No client name is present, so
+  nothing has to be stripped.
+- Merchant projects → a brand-to-vertical map in `config/merchants.json`. The name never
+  leaves that file; only the vertical does.
+- ENG issues → capability detail, after the project prefix is removed.
+
+**The extractor fails closed.** Because the merchant roster is known and complete, any
+token matching a project name is refused unless that exact name is on the approved
+public list. This is a deterministic check, not a judgment the model re-makes each run.
+
+**Never propose the same keyword twice.** Every keyword ever proposed, accepted,
+rejected, or excluded keeps a normalised fingerprint in `config/keyword-history.json`
+— lowercased, hyphens stripped, British/American spelling folded, singularised, tokens
+sorted. So `ecommerce personalization`, `e-commerce personalisation`, and
+`personalization for ecommerce` collapse to one entry. Rejected candidates carry their
+reason and never resurface.
+
+One distinction matters: those variants are blocked as separate **primaries** and
+allowed as **secondaries** of one primary. Folding without that distinction would throw
+away the exact terms the mining exists to collect.
+
+**Secondary keywords.** Every primary carries up to five, each with the impressions,
+average position and date window it came from. A post's keyword budget then follows the
+original brief — primary four to five times, secondaries four to five combined.
 
 ### 4.2 Drafting
 
@@ -262,7 +311,21 @@ Two tiers, because `brand-voice.md` §8 distinguishes them:
 
 Plus the phrase blocklists from Gate 5, and the unapproved-customer-name rule.
 
-### 5.4 `config/clusters.json`
+### 5.4 `config/merchants.json`
+Generated from Linear projects. Every merchant, its vertical, and whether it is publicly
+namable. Doubles as the vertical lookup and the leak-prevention list — gate 3 checks
+customer names against it, so a confidential brand cannot reach a draft even if it
+enters by some other route.
+
+### 5.5 `config/keyword-history.json`
+The permanent seen-set described in §4.6. Committed, so the memory survives the database.
+
+### 5.6 `config/query-noise.json`
+Recurring junk from Search Console — other companies' brands (`unlimited design agency`,
+`vivid ai`, `xyrix pulse ai`) and shopper-intent queries. Appended to by each mining run
+so the next one starts from what previous runs already ruled out.
+
+### 5.7 `config/clusters.json`
 Not yet written. Derived from the Key Problem taxonomy in `offers.md` §9 — Conversion
 rates · AOV improvement · Marketing efficiency · AI product tagging — and the two working
 content engines identified in `customer-language.md` §6b: diagnostic/mechanism posts, and
@@ -380,7 +443,8 @@ Still open, and gated shut until resolved:
 | 2 | Dashboard: generate · draft view · gate report · approve → markdown · history | phase 0 |
 | 3 | Draft pipeline, `seo-strategy` + `helium-writing` skills | phase 1 |
 | 4 | Discord webhook notifier · measurement views on the dashboard | channel webhook URL |
-| 5 | Stubs: auto-publish handler, Linear topic source, GSC striking-distance activation | — |
+| 5 | Keyword intelligence: GSC mining, Linear extraction, the skill, secondary keywords | Linear API key |
+| 6 | Stubs: auto-publish handler | — |
 
 Phase 0 starts immediately and is the piece that is unrecoverable if deferred — the
 measurement baseline can only be captured going forward.

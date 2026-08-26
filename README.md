@@ -4,7 +4,8 @@ Gated blog generation for `www.gethelium.co/blogs`. See [ARCHITECTURE.md](ARCHIT
 for the design and the reasoning behind it.
 
 **Built:** Phase 0 (schema, config, Search Console, measurement spine),
-Phase 1 (the five gates, 46 tests), Phase 2 (the dashboard).
+Phase 1 (the five gates), Phase 2 (the dashboard), Phase 5 (keyword intelligence).
+59 tests.
 
 ## Setup
 
@@ -26,6 +27,10 @@ On Vercel, pass the same JSON as the `GSC_KEY_JSON` env var instead of a file pa
 | `npm run migrate` | Applies `migrations/*.sql` | yes |
 | `npm run seed` | Loads `config/*.json` into Postgres | yes |
 | `npm run keywords:ingest` | Refreshes `config/keywords.json` from the Google Sheet | no |
+| `npm run gsc:mine` | Striking-distance primaries and secondary candidates, with evidence | yes |
+| `npm run gsc:reclassify` | Re-runs the branded/non-brand split over stored rows | yes |
+| `npm run linear:merchants` | Rebuilds the merchant roster from Linear projects | no |
+| `npm run keywords:secondaries` | Applies mined secondaries to the config | yes |
 | `npm run gate -- <file.md>` | Runs all five gates against a draft file (`--offline` skips the live slug check) | no |
 | `npm test` | 46 gate tests | no |
 | `npm run status` | Row counts, branded split, keyword coverage | yes |
@@ -50,6 +55,9 @@ seeded from them — never the other way round.
 | File | Feeds | Derived from |
 |---|---|---|
 | `clusters.json` | gate 1 — cluster and persona mapping | offers §9, customer-language §1 and §6b |
+| `merchants.json` | gate 3 — refuses confidential brand names | Linear projects |
+| `keyword-history.json` | mining — never propose the same keyword twice | every mining run |
+| `query-noise.json` | mining — recurring junk queries | every mining run |
 | `keywords.json` | topic selection | the Google Sheet, both tabs |
 | `claim-ledger.json` | gate 3 — every number a draft may state | entity-record §5, conflicts ratified 2026-08-26 |
 | `blocklist.json` | gates 1, 2, 5 — competitors, hedges, CTAs, coined terms | brand-voice §6 and §8, entity-record §10 and §11 |
@@ -118,6 +126,21 @@ persona: ecommerce-leadership
 - 14 live posts, 3 with slug hygiene problems
 - Search Console: `sc-domain:gethelium.co`, full history loaded from 2025-06-03
 - Across 447 days: 1,112 branded clicks, **1 non-brand click**
+
+## Keyword intelligence
+
+`npm run gsc:mine` finds new primaries and secondaries; the `gsc-keywords` skill decides
+which are real and writes them back. Everything that ships carries its evidence —
+impressions, average position, and the window it was seen in.
+
+Today the honest yield is **6 secondaries across 2 of 24 primaries**. The other 22 are
+recorded as `secondary_source: "none"` rather than padded, because Helium does not yet
+rank in those spaces. Striking distance returns zero, which is the correct answer, not a
+broken script.
+
+**Merchant confidentiality.** 54 merchants appear in Linear and only 14 are publicly
+namable. `config/merchants.json` is the roster, and gate 3 fails closed against it — a
+confidential brand cannot reach a draft even if it enters by some other route.
 
 ## Known blockers
 

@@ -177,6 +177,21 @@ describe('gate 3 — provenance', () => {
     assert.ok(!rules(r).includes('claim.misattributed'), JSON.stringify(r.failures));
   });
 
+  test('rejects a confidential merchant name', () => {
+    const r = provenanceGate(draft({
+      bodyMd: `${passingDraft.bodyMd}\n\nTed Baker rebuilt their collection pages with us.`,
+    }));
+    assert.ok(rules(r).includes('customer.confidential'),
+      'a merchant not on the approved public list must never reach a draft');
+  });
+
+  test('allows a merchant that is publicly named already', () => {
+    const r = provenanceGate(draft({
+      bodyMd: `${passingDraft.bodyMd}\n\nLenskart rebuilt their collection pages with us.`,
+    }));
+    assert.ok(!rules(r).includes('customer.confidential'), JSON.stringify(r.failures));
+  });
+
   test('ignores a bare year', () => {
     const r = provenanceGate(draft({ bodyMd: `${passingDraft.bodyMd}\n\nThis changed in 2026.` }));
     assert.ok(!rules(r).includes('claim.untraceable'), JSON.stringify(r.failures));

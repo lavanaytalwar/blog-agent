@@ -33,6 +33,15 @@ export type ClustersConfig = {
 
 export type KeywordStatus = 'available' | 'flagged' | 'unmapped' | 'in_progress' | 'covered' | 'excluded';
 
+export type Secondary = {
+  keyword: string;
+  source: 'gsc' | 'serp' | 'proposed';
+  impressions: number;
+  position: number;
+  window: string;
+  variants?: string[];
+};
+
 export type Keyword = {
   keyword: string;
   cluster_id: string | null;
@@ -45,6 +54,8 @@ export type Keyword = {
   exclusion_reason?: string;
   note?: string;
   source?: string;
+  secondary_keywords?: Secondary[];
+  secondary_source?: 'gsc' | 'serp' | 'proposed' | 'none' | 'excluded';
 };
 
 export type KeywordsConfig = { keywords: Keyword[] };

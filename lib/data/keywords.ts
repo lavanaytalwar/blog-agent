@@ -21,6 +21,8 @@ export type Coverage = {
   covered: number;
   remaining: number;
   excluded: number;
+  withSecondaries: number;
+  secondariesTotal: number;
 };
 
 /**
@@ -60,6 +62,8 @@ export async function keywordCoverage(): Promise<{ groups: ClusterGroup[]; cover
     covered: usableRows.filter((r) => r.postId !== null).length,
     remaining: usableRows.filter((r) => r.postId === null).length,
     excluded: rows.length - usableRows.length,
+    withSecondaries: usableRows.filter((r) => (r.secondary_keywords?.length ?? 0) > 0).length,
+    secondariesTotal: usableRows.reduce((n, r) => n + (r.secondary_keywords?.length ?? 0), 0),
   };
 
   const order = clusters.clusters.map((c) => c.id);

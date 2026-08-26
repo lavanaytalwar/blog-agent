@@ -15,12 +15,16 @@
     "keywords:ingest": "tsx scripts/ingest-keywords.ts",
     "typecheck": "tsc --noEmit",
     "status": "tsx scripts/status.ts",
-    "test": "node --import tsx --test lib/gates/*.test.ts",
+    "test": "node --import tsx --test lib/gates/*.test.ts lib/keywords/*.test.ts",
     "gate": "tsx scripts/gate.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed:demo": "tsx scripts/seed-demo.ts"
+    "seed:demo": "tsx scripts/seed-demo.ts",
+    "gsc:reclassify": "tsx scripts/reclassify.ts",
+    "linear:merchants": "tsx scripts/sync-merchants.ts",
+    "gsc:mine": "tsx scripts/gsc-mine.ts",
+    "keywords:secondaries": "tsx scripts/apply-secondaries.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",

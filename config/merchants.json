@@ -1,0 +1,397 @@
+{
+  "_source": "Linear projects. Regenerate with npm run linear:merchants.",
+  "_rule": "Gate 3 refuses any merchant name where public is false. Set vertical_source to \"confirmed\" to stop a re-run overwriting a vertical you fixed by hand.",
+  "_generated_at": "2026-08-26",
+  "internal_projects": [
+    "Ad Stack",
+    "Admin",
+    "Agency",
+    "Agents",
+    "Core Platform",
+    "Data & Analytics",
+    "Growth",
+    "Infra & Others",
+    "Overall",
+    "Team Leaves"
+  ],
+  "merchants": [
+    {
+      "name": "Akiso",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Aqualogica",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Aurelia",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "BBlunt",
+      "vertical": "haircare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "BlnkEyewear",
+      "vertical": "eyewear",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Boss Bella",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Bruno Milano",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Bumberry",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "DailyWoman",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Deconstruct",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Dermaco",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Dr Facts",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Dr. Sheth's",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Dressfolks",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Fangoral",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Fikkins",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Fraghill",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "planned"
+    },
+    {
+      "name": "Ghar Soaps",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "canceled"
+    },
+    {
+      "name": "Gully Labs",
+      "vertical": "wellness and supplements",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "IFFCO Garden",
+      "vertical": "home and consumer durables",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "canceled"
+    },
+    {
+      "name": "Innovist",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Joker & Witch",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Kisah",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Leaf",
+      "vertical": "wellness and supplements",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Lenskart",
+      "vertical": "eyewear",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Lifelong",
+      "vertical": "home and consumer durables",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Lumineve",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "M&S",
+      "vertical": "multi-category retail",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Maje",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "MamaEarth",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "My Designation",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "planned"
+    },
+    {
+      "name": "Neosapien",
+      "vertical": "wellness and supplements",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "backlog"
+    },
+    {
+      "name": "Nirmalaya",
+      "vertical": "wellness and supplements",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "planned"
+    },
+    {
+      "name": "Noise",
+      "vertical": "electronics and wearables",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Pairietales",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Pantproject",
+      "vertical": "home and consumer durables",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "canceled"
+    },
+    {
+      "name": "Pebble",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "backlog"
+    },
+    {
+      "name": "Promunch",
+      "vertical": "wellness and supplements",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Qazmi",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "backlog"
+    },
+    {
+      "name": "Rini Roy Beauty",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Salty Fashion",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Sandro",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Sereko",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Shopflo",
+      "vertical": "commerce infrastructure",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Soullively",
+      "vertical": "wellness and supplements",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Staze",
+      "vertical": "wellness and supplements",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Subtract",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Sudathi",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Swiss Beauty",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Ted Baker",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Teejh",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "W for woman",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": true,
+      "linear_state": "started"
+    },
+    {
+      "name": "Watsons",
+      "vertical": "beauty and skincare",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    },
+    {
+      "name": "Wrogn",
+      "vertical": "apparel and fashion",
+      "vertical_source": "inferred",
+      "public": false,
+      "linear_state": "started"
+    }
+  ]
+}
