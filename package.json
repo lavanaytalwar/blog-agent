@@ -15,7 +15,7 @@
     "keywords:ingest": "tsx scripts/ingest-keywords.ts",
     "typecheck": "tsc --noEmit",
     "status": "tsx scripts/status.ts",
-    "test": "node --import tsx --test lib/gates/*.test.ts lib/keywords/*.test.ts",
+    "test": "node --import tsx --test lib/gates/*.test.ts lib/keywords/*.test.ts lib/brief/*.test.ts lib/draft/*.test.ts",
     "gate": "tsx scripts/gate.ts",
     "dev": "next dev",
     "build": "next build",
@@ -26,7 +26,8 @@
     "gsc:mine": "tsx scripts/gsc-mine.ts",
     "keywords:secondaries": "tsx scripts/apply-secondaries.ts",
     "serp:headings": "tsx scripts/serp-headings.ts",
-    "keywords:serp": "tsx scripts/apply-serp-secondaries.ts"
+    "keywords:serp": "tsx scripts/apply-serp-secondaries.ts",
+    "brief": "tsx scripts/brief.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",

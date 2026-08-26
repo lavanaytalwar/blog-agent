@@ -92,13 +92,29 @@ function buildMeta(keyword: string): string {
   return base.slice(0, 157).replace(/[\s,.]+$/, '') + '.';
 }
 
-let source: DraftSource = new StubDraftSource();
+let source: DraftSource | null = null;
 
+/**
+ * Real pipeline when a provider key exists, stub otherwise.
+ *
+ * Automatic rather than configured: a deployment with no key produces obviously
+ * placeholder drafts instead of failing every generation, and one with a key
+ * never silently falls back to the stub.
+ */
 export function getDraftSource(): DraftSource {
-  return source;
+  if (source) return source;
+  const hasKey = Boolean(process.env.ANTHROPIC_API_KEY || process.env.OLLAMA_API_KEY);
+  return hasKey ? lazyPipeline() : new StubDraftSource();
 }
 
-/** Phase 3 calls this once at startup. */
-export function setDraftSource(next: DraftSource): void {
+export function setDraftSource(next: DraftSource | null): void {
   source = next;
+}
+
+// Imported lazily so the stub path never pulls in the provider modules.
+function lazyPipeline(): DraftSource {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { PipelineDraftSource } = require('./pipeline.js') as typeof import('./pipeline.js');
+  const { serpCoverageFor } = require('../brief/serp.js') as typeof import('../brief/serp.js');
+  return new PipelineDraftSource(async (kw) => serpCoverageFor(kw));
 }

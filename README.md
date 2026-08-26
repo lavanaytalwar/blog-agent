@@ -4,8 +4,8 @@ Gated blog generation for `www.gethelium.co/blogs`. See [ARCHITECTURE.md](ARCHIT
 for the design and the reasoning behind it.
 
 **Built:** Phase 0 (schema, config, Search Console, measurement spine),
-Phase 1 (the five gates), Phase 2 (the dashboard), Phase 5 (keyword intelligence).
-59 tests.
+Phase 1 (the five gates), Phase 2 (the dashboard), Phase 5 (keyword intelligence),
+Phase 3 (the writing pipeline, minus a provider key). 79 tests.
 
 ## Setup
 
@@ -36,6 +36,8 @@ On Vercel, pass the same JSON as the `GSC_KEY_JSON` env var instead of a file pa
 | `npm run status` | Row counts, branded split, keyword coverage | yes |
 | `npm run dev` | Dashboard on :3000 | yes |
 | `npm run seed:demo` | Creates a deliberately failing draft, for exercising the review screen | yes |
+| `npm run brief -- "<keyword>"` | The brief a keyword produces; `--prompt` prints the full system prompt | no |
+| `npm run serp:headings` | Extracts H1–H3 from the pages that currently rank | no |
 | `npm run typecheck` | `tsc --noEmit` | no |
 
 ## Getting a database
@@ -126,6 +128,28 @@ persona: ecommerce-leadership
 - 14 live posts, 3 with slug hygiene problems
 - Search Console: `sc-domain:gethelium.co`, full history loaded from 2025-06-03
 - Across 447 days: 1,112 branded clicks, **1 non-brand click**
+
+## The writing pipeline
+
+Everything decided before the model runs is decided deterministically. `assembleBrief`
+turns a keyword into the cluster, persona, secondaries, keyword budget, the exact list of
+numbers the draft may state, the customers it may name, the voice rules, and what the
+currently-ranking pages cover. The model's only job is to write.
+
+```bash
+npm run brief -- "AI ecommerce merchandising software" --prompt
+```
+
+**The prompt carries the allowlist, never the confidential roster.** Handing a model the
+list of names it must not use is handing it the secret. There is a test asserting no
+confidential merchant ever reaches a prompt.
+
+**Blocked claims are named rather than omitted.** A model that doesn't know pricing is
+unsettled will invent a number, and gate 3 will then reject the whole draft for it.
+
+`getDraftSource()` returns the real pipeline when a provider key exists and the stub
+otherwise — automatic, so a keyless deployment produces obviously placeholder drafts
+instead of failing every generation, and a keyed one never silently falls back.
 
 ## Keyword intelligence
 
