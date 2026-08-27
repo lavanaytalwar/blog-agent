@@ -56,7 +56,7 @@ fixtures, which is the only way to get that screen right.
 | `/api/posts/[id]/status` | GET | Poll target while a draft is generating |
 | `/api/cron/gsc-sync` | GET | Nightly Search Console pull |
 | `/api/cron/measure` | GET | Nightly +7 / +14 / +28 / +56 readings |
-| `/api/cron/drain` | GET | Every minute; picks up jobs stuck in `queued` |
+| `/api/cron/drain` | GET | Daily; re-runs drafts orphaned mid-generation. Safe to hit by hand |
 
 ---
 
@@ -198,8 +198,13 @@ killed along with anything still running inside it. So:
 2. The same invocation continues the work using `after()` from `next/server`, which runs
    after the response is flushed but inside the same function lifetime
 3. `maxDuration` is set to 300s on that route — comfortably above a draft run
-4. `/api/cron/drain` runs every minute and picks up any `jobs` row still `queued` past a
-   grace period, which covers a cold-start death or a deploy mid-run
+4. `/api/cron/drain` sweeps for `posts` rows still `drafted` with a null `body_md` ten
+   minutes on, which covers a cold-start death or a deploy mid-run
+
+The drain runs **daily**, not every minute: the Hobby plan allows no finer cadence. That
+cadence is the recovery latency and nothing else — on a healthy day every run recovers
+zero — but it does mean an orphaned draft reads as stuck until the sweep. It is a plain
+GET, so hitting the route by hand recovers one immediately.
 
 No queue service, no polling worker, no extra infrastructure.
 

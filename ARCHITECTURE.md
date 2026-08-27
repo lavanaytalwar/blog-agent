@@ -475,10 +475,11 @@ is ready or approved:
 Draft ready — "How to increase revenue per visitor" — 5/5 gates passed → <link>
 ```
 
-**Long-running work.** Generation exceeds a serverless request, so `/api/generate` enqueues
-a `jobs` row and returns immediately; a worker function drains the queue and the dashboard
-polls for status. A returning Vercel function is killed along with anything still running
-inside it, so work is never left in a dangling promise.
+**Long-running work.** Generation exceeds a serverless request, so `/api/generate` inserts
+the `posts` row and returns immediately, then continues the draft in `after()` inside the
+same invocation while the dashboard polls for status. A returning Vercel function is killed
+along with anything still running inside it, so work is never left in a dangling promise.
+A daily `drain` cron re-runs whatever that path dropped.
 
 **Auth.** Vercel deployment protection (confirmed Pro) — the whole deployment sits behind
 the Vercel team login, zero application code. Every decision records the actor, so per-user
@@ -645,7 +646,7 @@ app/
   api/posts/[id]/decision/route.ts     approve | discard | regenerate
   api/posts/[id]/markdown/route.ts     the approved post as a downloadable file
   api/keywords/mine/route.ts           GSC mining from the dashboard
-  api/cron/gsc-sync · measure · drain  nightly
+  api/cron/gsc-sync · measure · drain  nightly (drain: orphan recovery)
 lib/
   brief/        assemble (deterministic spec) · render (system prompt) · serp (caches)
   gates/        one pure function per gate + rules.ts, the single rule table
