@@ -10,7 +10,18 @@
 const UA = 'Mozilla/5.0 (compatible; blogEO/0.1; +https://www.gethelium.co)';
 const TIMEOUT_MS = 15_000;
 
-export type PageKind = 'article' | 'listing' | 'product' | 'other';
+export type PageKind = 'article' | 'listing' | 'product' | 'other' | 'unreadable';
+
+/**
+ * Below this, the fetch did not get the content.
+ *
+ * A page that returns 21 words of prose is a consent wall, a JS-rendered shell
+ * or a paywall, not a short article. It was being classified as an article on
+ * the strength of its schema and then counted in the median as though someone
+ * ranks with 21 words. Excluding it is the difference between measuring the
+ * competition and measuring our own failures to read it.
+ */
+const MIN_READABLE_WORDS = 250;
 
 export type PageAnalysis = {
   url: string;
@@ -106,6 +117,7 @@ function dateOf(html: string): string | null {
  * so it has to be separable from an article rather than averaged in with one.
  */
 function classify(url: string, html: string, schema: string[], words: number, title: string): PageKind {
+  if (words < MIN_READABLE_WORDS) return 'unreadable';
   const host = new URL(url).hostname.replace(/^www\./, '');
   if (/apps\.shopify\.com|\.myshopify\.com|\/products?\//.test(url)) return 'product';
   if (schema.some((t) => /^(Product|SoftwareApplication|Offer)$/i.test(t))) return 'product';
@@ -125,7 +137,21 @@ export async function analyzePage(url: string): Promise<PageAnalysis | null> {
     const res = await fetch(url, { headers: { 'user-agent': UA }, signal: control.signal });
     if (!res.ok) return null;
     const html = await res.text();
-    const host = new URL(url).hostname.replace(/^www\./, '');
+
+    // Where the fetch actually landed, not what was asked for. Search providers
+    // hand back redirect wrappers rather than destinations: Apify's Google actor
+    // returns https://www.google.com/goto?url=<opaque>, whose payload cannot be
+    // decoded locally. Reading the input URL here reported every result as
+    // google.com and classified real articles as "other", because classify()
+    // keys off the path.
+    const landed = res.url || url;
+    const host = new URL(landed).hostname.replace(/^www\./, '');
+
+    // A redirect that never left the search engine did not resolve. Analysing
+    // the interstitial would silently contribute a 3-word "page" to the median.
+    if (/(^|\.)google\.[a-z.]+$|(^|\.)bing\.com$|(^|\.)duckduckgo\.com$/.test(host)) {
+      return null;
+    }
 
     const body = html.match(/<article[\s\S]*?<\/article>/i)?.[0] ?? html;
     const text = strip(body);
@@ -146,8 +172,8 @@ export async function analyzePage(url: string): Promise<PageAnalysis | null> {
       : words;
 
     return {
-      url, host, title, words, chars, h2s, updated, schema, outbound, introWords,
-      kind: classify(url, html, schema, words, title),
+      url: landed, host, title, words, chars, h2s, updated, schema, outbound, introWords,
+      kind: classify(landed, html, schema, words, title),
       ageDays: updated ? Math.round((Date.now() - Date.parse(updated)) / 86_400_000) : null,
       lists: (body.match(/<[uo]l[\s>]/gi) ?? []).length,
       tables: (body.match(/<table[\s>]/gi) ?? []).length,
@@ -229,8 +255,15 @@ export function lessonFrom(pages: PageAnalysis[]): SerpLesson {
     if (medianOutbound >= 5) obs.push(`They cite a median of ${medianOutbound} external sources.`);
     obs.push(`They answer in a median of ${medianIntroWords} words before the first H2.`);
   }
-  if (skipped.length) {
-    obs.push(`${skipped.length} of the top results are not written pages (${[...new Set(skipped.map((s) => s.kind))].join(', ')}), so the SERP is not purely editorial.`);
+  const unreadable = skipped.filter((s) => s.kind === 'unreadable').length;
+  const nonEditorial = skipped.filter((s) => s.kind !== 'unreadable');
+  if (nonEditorial.length) {
+    obs.push(`${nonEditorial.length} of the top results are not written pages (${[...new Set(nonEditorial.map((s) => s.kind))].join(', ')}), so the SERP is not purely editorial.`);
+  }
+  // Said out loud rather than silently narrowing the sample: a lesson drawn
+  // from two of six pages is a weaker lesson and the reader should know.
+  if (unreadable) {
+    obs.push(`${unreadable} page(s) could not be read (consent wall, paywall or JS-rendered) and are excluded from these numbers.`);
   }
 
   return {

@@ -466,6 +466,207 @@
           "1 of the top results are not written pages (other), so the SERP is not purely editorial."
         ]
       }
+    },
+    "shopify product recommendations": {
+      "takenOn": "2026-08-27",
+      "source": "search",
+      "pages": [
+        {
+          "url": "https://shopify.dev/docs/storefronts/themes/product-merchandising/recommendations",
+          "host": "shopify.dev",
+          "title": "Product recommendations",
+          "words": 297,
+          "chars": 2012,
+          "h2s": [
+            "Anchor to Recommendation intents Recommendation intents",
+            "Anchor to Track recommendations Track recommendations"
+          ],
+          "updated": null,
+          "schema": [
+            "Corporation",
+            "WebSite"
+          ],
+          "outbound": 17,
+          "introWords": 82,
+          "kind": "other",
+          "ageDays": null,
+          "lists": 2,
+          "tables": 0,
+          "questions": 0,
+          "images": 0,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://www.shopifyacademy.com/article-driving-sales-with-smart-product-recommendations/2201799",
+          "host": "shopifyacademy.com",
+          "title": "Driving sales with smart product recommendations",
+          "words": 3,
+          "chars": 14,
+          "h2s": [],
+          "updated": null,
+          "schema": [],
+          "outbound": 0,
+          "introWords": 3,
+          "kind": "other",
+          "ageDays": null,
+          "lists": 0,
+          "tables": 0,
+          "questions": 0,
+          "images": 0,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://help.shopify.com/en/manual/online-store/themes/customizing-themes/common-customizations/add-product-recommendations",
+          "host": "help.shopify.com",
+          "title": "Shopify Help Center | Adding a related products section",
+          "words": 523,
+          "chars": 3187,
+          "h2s": [
+            "On this page",
+            "Understanding related products",
+            "Customizing the appearance of related products"
+          ],
+          "updated": null,
+          "schema": [],
+          "outbound": 5,
+          "introWords": 81,
+          "kind": "other",
+          "ageDays": null,
+          "lists": 5,
+          "tables": 0,
+          "questions": 0,
+          "images": 1,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://www.shopify.com/blog/ai-recommendation-system",
+          "host": "shopify.com",
+          "title": "AI Recommendation Systems: A Complete Guide (2026) - Shopify",
+          "words": 1986,
+          "chars": 13649,
+          "h2s": [
+            "What is an AI recommendation system?",
+            "How an AI recommendation system can increase your sales",
+            "Types of AI recommendation systems",
+            "Put your AI recommendation system into action",
+            "Frequently Asked Questions"
+          ],
+          "updated": "2026-04-03",
+          "schema": [],
+          "outbound": 25,
+          "introWords": 203,
+          "kind": "article",
+          "ageDays": 146,
+          "lists": 7,
+          "tables": 1,
+          "questions": 6,
+          "images": 6,
+          "hasAuthor": false,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://www.omnisend.com/blog/shopify-product-recommendations/",
+          "host": "omnisend.com",
+          "title": "Shopify Product Recommendations: Setup Guide Best Practices",
+          "words": 21,
+          "chars": 134,
+          "h2s": [],
+          "updated": "2026-07-17",
+          "schema": [
+            "FAQPage",
+            "Question",
+            "Answer",
+            "BreadcrumbList",
+            "ListItem",
+            "HowTo",
+            "ImageObject",
+            "Article",
+            "Person",
+            "Organization"
+          ],
+          "outbound": 28,
+          "introWords": 21,
+          "kind": "article",
+          "ageDays": 41,
+          "lists": 0,
+          "tables": 0,
+          "questions": 0,
+          "images": 2,
+          "hasAuthor": true,
+          "isNumberedList": false
+        },
+        {
+          "url": "https://wisepops.com/blog/product-recommendations-for-shopify",
+          "host": "wisepops.com",
+          "title": "Product Recommendations for Shopify: 4 Ways to Implement",
+          "words": 3322,
+          "chars": 20773,
+          "h2s": [
+            "Product recommendations available on Shopify",
+            "How to implement product recommendations in your Shopify store",
+            "Keep learning"
+          ],
+          "updated": "2026-04-10",
+          "schema": [
+            "BreadcrumbList",
+            "ListItem",
+            "WebPage",
+            "Article",
+            "Person",
+            "Organization",
+            "ImageObject"
+          ],
+          "outbound": 17,
+          "introWords": 185,
+          "kind": "article",
+          "ageDays": 139,
+          "lists": 8,
+          "tables": 2,
+          "questions": 0,
+          "images": 51,
+          "hasAuthor": true,
+          "isNumberedList": false
+        }
+      ],
+      "lesson": {
+        "analysed": 3,
+        "skipped": [
+          {
+            "url": "https://shopify.dev/docs/storefronts/themes/product-merchandising/recommendations",
+            "kind": "other"
+          },
+          {
+            "url": "https://www.shopifyacademy.com/article-driving-sales-with-smart-product-recommendations/2201799",
+            "kind": "other"
+          },
+          {
+            "url": "https://help.shopify.com/en/manual/online-store/themes/customizing-themes/common-customizations/add-product-recommendations",
+            "kind": "other"
+          }
+        ],
+        "medianWords": 1986,
+        "medianChars": 13649,
+        "medianH2s": 3,
+        "roundups": 0,
+        "withQuestions": 1,
+        "withTables": 2,
+        "freshWithin12Months": 3,
+        "medianOutbound": 25,
+        "medianIntroWords": 185,
+        "observations": [
+          "The 3 written pages run a median of 13649 characters (about 1986 words) across 3 H2 sections.",
+          "Only 0 of 3 are numbered roundups, so a single-argument piece competes here.",
+          "1 of 3 carry question-shaped headings. Answer the question in the sentence under the heading.",
+          "2 of 3 use a comparison table.",
+          "3 of 3 were updated in the last 12 months. This is a keyword where freshness is being rewarded.",
+          "They cite a median of 25 external sources.",
+          "They answer in a median of 185 words before the first H2.",
+          "3 of the top results are not written pages (other), so the SERP is not purely editorial."
+        ]
+      }
     }
   }
 }

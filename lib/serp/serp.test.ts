@@ -51,6 +51,15 @@ describe('SERP lesson', () => {
     assert.ok(fresh.observations.some((o) => o.includes('freshness is being rewarded')));
   });
 
+  test('a page too thin to have been read is excluded and reported', () => {
+    // 21 words behind a consent wall is a failed fetch, not a short article.
+    const l = lessonFrom([page(), page({ words: 21, chars: 130, kind: 'unreadable' })]);
+    assert.equal(l.analysed, 1);
+    assert.ok(l.observations.some((o) => o.includes('could not be read')), JSON.stringify(l.observations));
+    // And it must not be reported as the SERP being non-editorial.
+    assert.ok(!l.observations.some((o) => o.includes('not purely editorial')));
+  });
+
   test('an empty SERP produces no observations rather than invented ones', () => {
     const l = lessonFrom([]);
     assert.equal(l.analysed, 0);
