@@ -55,7 +55,7 @@ fixtures, which is the only way to get that screen right.
 | `/api/posts/[id]/decision` | POST | `approve` \| `discard` \| `regenerate` |
 | `/api/posts/[id]/status` | GET | Poll target while a draft is generating |
 | `/api/cron/gsc-sync` | GET | Nightly Search Console pull |
-| `/api/cron/measure` | GET | Nightly +28 / +56 readings |
+| `/api/cron/measure` | GET | Nightly +7 / +14 / +28 / +56 readings |
 | `/api/cron/drain` | GET | Every minute; picks up jobs stuck in `queued` |
 
 ---
@@ -177,7 +177,7 @@ Render the blog-wide non-brand line across the full 447 days of history — it s
 zero, with a single click on it. That is the before-picture, and it is the entire basis
 on which this programme will later be judged.
 
-Once posts exist, add per-post rows: publish date, +28 and +56 readings, each beside the
+Once posts exist, add per-post rows: publish date, +7, +14, +28 and +56 readings, each beside the
 blog-wide control for the same window. A reading without its control is not shown at
 all — it would imply an attribution the data cannot support.
 

@@ -51,17 +51,29 @@ export default async function MeasurementPage() {
         {rows.length === 0 ? (
           <Empty>
             Nothing published through the system yet, so there is nothing to measure.
-            Readings appear here at +28 and +56 days, each beside the blog-wide control
-            for the same window. A reading without its control is not shown at all — it
-            would imply an attribution the data cannot support.
+            Readings appear here at +7, +14, +28 and +56 days, each beside the blog-wide
+            control for the same window. A reading without its control is not shown at
+            all — it would imply an attribution the data cannot support. Read the
+            impressions column first: at +7 and +14 a click count is noise, while
+            impressions say whether Google is willing to rank the page at all.
           </Empty>
         ) : (
-          <Table head={['Post', 'Published', 'Window', 'Post non-brand clicks', 'Blog-wide control']}>
+          <Table
+            head={['Post', 'Published', 'Window', 'Impressions', 'Avg position',
+                   'Clicks', 'Blog-wide control']}
+          >
             {rows.map((r) => (
               <tr key={`${r.post_id}-${r.window_label}`}>
                 <td>{r.title}</td>
                 <td className={ui.sec}>{r.published_at?.slice(0, 10) ?? '—'}</td>
                 <td className={ui.mono}>{r.window_label}</td>
+                {/* Impressions lead, because they are what a short window can
+                    actually tell you. Zero here is a different problem from a
+                    zero in the clicks column, and the two used to look alike. */}
+                <td className={`${ui.mono} ${ui.num}`}>{r.post_nonbrand_impressions ?? '—'}</td>
+                <td className={`${ui.mono} ${ui.num}`}>
+                  {r.post_position == null ? '—' : r.post_position.toFixed(1)}
+                </td>
                 <td className={`${ui.mono} ${ui.num}`}>{r.post_nonbrand_clicks ?? '—'}</td>
                 <td className={`${ui.mono} ${ui.num}`}>{r.blogwide_nonbrand_clicks ?? '—'}</td>
               </tr>

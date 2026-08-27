@@ -97,7 +97,7 @@ Generate <lead keyword> [+ same-cluster keywords]   (dashboard, on demand)
         └── dashboard review ────── [Approve] → markdown file + Discord ping in #seo
                                     [Discard] → recorded, no file
                                              │
-                        nightly cron ────────┴── GSC sync → measurement at +28d / +56d
+                        nightly cron ────────┴── GSC sync → measurement at +7/+14/+28/+56d
 ```
 
 ---
@@ -464,7 +464,7 @@ that justifies a chat-first interface in the first place.
 | Draft | rendered post beside its gate report, failing rules highlighted inline |
 | Decision | Approve → records the decision and offers the markdown for download; Discard → recorded |
 | History | every post, status, gate outcomes, who decided and when |
-| Measurement | non-brand impressions/clicks per post at +28 / +56 days vs blog-wide baseline |
+| Measurement | non-brand impressions/clicks/position per post at +7 / +14 / +28 / +56 days vs blog-wide baseline |
 | Keywords | coverage map — which sheet keywords have a post, which are untouched; GSC mining button |
 
 **Discord** is a one-way channel webhook. No bot, no application, no signature verification,
@@ -489,9 +489,17 @@ permissions later are a config change, not a migration.
 Nightly cron pulls GSC into `gsc_snapshots` at site and page level, split branded vs
 non-brand by regex on the query.
 
-Every published post gets readings at **+28** and **+56 days**, each stored alongside a
-**blog-wide baseline for the identical date range** — without the control, a reading only
-tells you the site changed, not that the post worked.
+Every published post gets readings at **+7**, **+14**, **+28** and **+56 days**, each
+stored alongside a **blog-wide baseline for the identical date range** — without the
+control, a reading only tells you the site changed, not that the post worked.
+
+The short windows exist so the verdict is not the first thing anyone learns. At +7 and +14
+a click count is noise, but **impressions** say whether Google is willing to rank the page
+at all, and **impression-weighted position** separates ranking deep from not ranking. Those
+two are the readings that decide whether draft quality is even the binding constraint. A
+window is held until Search Console has reported through its last day, not merely until
+that day has passed: three days of reporting lag is noise across 56 and nearly half the
+reading across 7.
 
 Given the zero baseline, headline metrics are leading indicators, not clicks:
 
@@ -606,7 +614,7 @@ posts             slug, title, h1, meta_description,
 gate_results      post_id, gate, passed, failures[], run_index
 gsc_snapshots     date, dimension(site|page|query), key, clicks, impressions, ctr,
                   position, is_branded
-measurements      post_id, window_label(publish|d28|d56), captured_at,
+measurements      post_id, window_label(publish|d7|d14|d28|d56), captured_at,
                   post_clicks, post_impressions, post_position,
                   blogwide_clicks, blogwide_impressions
 review_results    post_id, run_index, status(reviewed|unavailable), model, notes, reason

@@ -8,12 +8,12 @@
 import '../lib/env.js';
 import { query } from '../lib/gsc/client.js';
 import { isBranded } from '../lib/gsc/brand.js';
+import { LAG_DAYS } from '../lib/gsc/lag.js';
 import { sql, hasDatabase } from '../lib/db/index.js';
 
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 const daysAgo = (n: number) => iso(new Date(Date.now() - n * 86400_000));
 
-const LAG_DAYS = 3; // GSC does not have complete data for the last ~3 days
 
 type Snapshot = {
   date: string; dimension: 'site' | 'page' | 'query'; key: string;
