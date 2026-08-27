@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { getPost, MAX_ATTEMPTS } from '../../../lib/data/posts.js';
+import { getPost, latestReview, MAX_ATTEMPTS } from '../../../lib/data/posts.js';
 import { loadConfig } from '../../../lib/config/load.js';
 import { Screen, ui } from '../../ui.js';
 import { blocks } from './highlight.js';
 import { GateReportPanel } from './gate-report.js';
+import { ReviewPanel } from './review-panel.js';
 import { DecisionPanel } from './decision.js';
 import { Poller } from './poller.js';
 import styles from './detail.module.css';
@@ -20,6 +21,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   const cluster = clusters.clusters.find((c) => c.id === post.cluster_id);
   const keyword = keywords.keywords.find((k) => k.keyword === post.primary_keyword);
   const actor = (await cookies()).get('blogeo_actor')?.value ?? null;
+  const review = await latestReview(post.id);
 
   const generating = post.status === 'drafted' && !post.body_md;
   const body = blocks(post.body_md ?? '', post.gate_report);
@@ -63,6 +65,9 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
 
         <aside className={styles.rail}>
           <GateReportPanel report={post.gate_report} />
+
+          <div className={styles.railDivider} />
+          <ReviewPanel review={review} />
 
           <div className={styles.railDivider} />
           <h2 className={styles.railHeading}>Target</h2>

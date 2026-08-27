@@ -83,3 +83,22 @@
   border-radius: var(--radius); background: var(--accent); color: #fff;
   font-size: 13px; font-weight: 500; text-decoration: none;
 }
+
+/* The advisory review. No --fail anywhere in here: a note that looks like a
+   gate failure will be treated as one. */
+.railAside {
+  font-size: 11px; color: var(--text-sec); font-style: italic;
+  margin: -8px 0 10px;
+}
+.reviewRow { margin: 10px 0 12px; }
+.reviewCheckFlagged {
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--accent);
+}
+.reviewCheckMuted {
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--text-sec);
+}
+.reviewNote { font-size: 12.5px; line-height: 1.5; margin-top: 3px; }
+.reviewQuote {
+  font-size: 11.5px; color: var(--text-sec); line-height: 1.5;
+  margin-top: 4px; padding-left: 8px; border-left: 2px solid var(--border);
+}

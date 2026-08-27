@@ -4,6 +4,7 @@
 import { sql } from '../db/index.js';
 import { serializeDraft } from '../gates/parse.js';
 import type { GateReport } from '../gates/types.js';
+import type { Review, ReviewNote } from '../review/types.js';
 
 export type PostStatus =
   | 'drafted' | 'failed_gates' | 'awaiting_approval'
@@ -143,4 +144,64 @@ export function draftMarkdown(post: PostRow): string {
     personaId: post.persona_id,
     bodyMd: post.body_md ?? '',
   });
+}
+
+/**
+ * Stores one advisory review, keyed to the attempt it read.
+ *
+ * Upserted on (post_id, run_index) so a re-run of the same attempt replaces its
+ * review rather than accumulating readings of a draft that no longer exists.
+ */
+export async function saveReview(
+  postId: number,
+  review: Review,
+  runIndex: number,
+): Promise<void> {
+  const db = sql();
+  const notes = review.status === 'reviewed' ? review.notes : [];
+  const reason = review.status === 'unavailable' ? review.reason : null;
+  await db`
+    insert into review_results (post_id, run_index, status, model, notes, reason)
+    values (${postId}, ${runIndex}, ${review.status}, ${review.model},
+            ${JSON.stringify(notes)}, ${reason})
+    on conflict (post_id, run_index) do update set
+      status = excluded.status, model = excluded.model,
+      notes = excluded.notes, reason = excluded.reason,
+      created_at = now()
+  `;
+}
+
+export async function getReview(postId: number, runIndex: number): Promise<Review | null> {
+  const db = sql();
+  const rows = await db`
+    select status, model, notes, reason from review_results
+    where post_id = ${postId} and run_index = ${runIndex}
+  `;
+  return rowToReview(rows[0]);
+}
+
+/** The review of whatever the current draft is, for the review screen. */
+export async function latestReview(postId: number): Promise<Review | null> {
+  const db = sql();
+  const rows = await db`
+    select status, model, notes, reason from review_results
+    where post_id = ${postId} order by run_index desc limit 1
+  `;
+  return rowToReview(rows[0]);
+}
+
+function rowToReview(row: Record<string, unknown> | undefined): Review | null {
+  if (!row) return null;
+  if (row.status === 'unavailable') {
+    return {
+      status: 'unavailable',
+      model: row.model ? String(row.model) : null,
+      reason: String(row.reason ?? 'No reason recorded.'),
+    };
+  }
+  return {
+    status: 'reviewed',
+    model: String(row.model ?? 'unknown'),
+    notes: (row.notes as ReviewNote[] | null) ?? [],
+  };
 }

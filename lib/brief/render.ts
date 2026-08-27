@@ -1,4 +1,5 @@
 import { promptRules } from '../gates/rules.js';
+import { promptChecks } from '../review/checks.js';
 import type { Brief } from './types.js';
 
 const list = (items: string[]) => items.map((i) => `- ${i}`).join('\n');
@@ -10,6 +11,15 @@ const list = (items: string[]) => items.map((i) => `- ${i}`).join('\n');
  * drift `lib/gates/rules.ts` exists to stop.
  */
 const undash = (s: string) => s.replace(/\s*[—–]\s*/g, ', ').replace(/(?<=\S)--(?=\S)/g, ', ');
+
+/**
+ * Anything scraped from someone else's page goes through `undash` on the way in.
+ *
+ * Competitor H2s are full of them ("ReConvert, Best for Post-Purchase" was
+ * "ReConvert — Best for Post-Purchase"), and the prompt bans dashes outright.
+ * Eight of them were reaching the writer inside the SERP-coverage section while
+ * the rules table two screens later said never to type one.
+ */
 
 /**
  * Renders a brief into a system prompt.
@@ -166,11 +176,13 @@ ${list(voice.coinedTerms)}`);
 
   sections.push(`## Structure
 
-- **Aim for ${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.**${brief.serpLesson
+- **Aim for ${brief.wordTarget[0]} to ${brief.wordTarget[1]} words.**${brief.serpLesson && brief.serpLesson.lesson.analysed >= 3
     ? ` That range tracks the pages currently ranking for this keyword, which run a
   median of ${brief.serpLesson.lesson.medianChars} characters. It is a target, not a
   threshold: nothing fails for missing it.`
-    : ''}
+    : ` Only ${brief.serpLesson?.lesson.analysed ?? 0} readable article(s) were found in
+  this keyword's top results, too few to take a median from, so this is the default range
+  rather than a measured one.`}
 - **The hard floor is ${brief.lengthFloor} characters of prose**, and that one is
   enforced. Under it the draft is rejected outright. Characters are counted on prose
   only: headings, front matter and the TL;DR label do not count toward it.
@@ -220,14 +232,22 @@ them said.`);
 Not a template to copy. Cover what is genuinely useful here and say something
 they do not.
 
-${brief.serpCoverage.map((s) => `${s.url}\n${list(s.headings.slice(0, 8))}`).join('\n\n')}`);
+${brief.serpCoverage.map((s) => `${s.url}\n${list(s.headings.slice(0, 8).map(undash))}`).join('\n\n')}`);
   }
 
   if (brief.existingTitles.length) {
     sections.push(`## Already published, so do not restate these
 
-${list(brief.existingTitles)}`);
+${list(brief.existingTitles.map(undash))}`);
   }
+
+  sections.push(`## What a reader will judge that no check can
+
+After the code checks below, a reviewer reads the draft for these nine. None of
+them can fail the post, and all nine are why a post that passes every rule can
+still be worth nothing. Write for these first; the rules are the floor.
+
+${promptChecks()}`);
 
   sections.push(`## Every check that will run on what you write
 

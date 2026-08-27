@@ -73,13 +73,23 @@ describe('SERP lesson', () => {
 });
 
 describe('word target', () => {
-  test('tracks the measured median when one exists', async () => {
-    const { assembleBrief } = await import('../brief/assemble.js');
-    const brief = assembleBrief({ primaryKeyword: 'ugc ads' });
-    // config/serp-analysis.json carries a real measurement for this keyword.
-    if (brief.serpLesson) {
-      assert.equal(brief.wordTarget[0], Math.min(brief.serpLesson.lesson.medianWords, 2400));
-      assert.ok(brief.wordTarget[1] > brief.wordTarget[0]);
+  test('every cached reading yields a target consistent with its own sample', async () => {
+    const { assembleBrief, wordTargetFor } = await import('../brief/assemble.js');
+    const { loadConfig } = await import('../config/load.js');
+    // Over every real keyword rather than one hand-picked example. Two earlier
+    // versions of this test named a specific keyword as its control and went
+    // stale the moment that keyword's SERP was re-read.
+    for (const k of loadConfig().keywords.keywords) {
+      if (k.status === 'excluded' || !k.cluster_id) continue;
+      const brief = assembleBrief({ primaryKeyword: k.keyword });
+      const lesson = brief.serpLesson?.lesson;
+      assert.deepEqual(
+        brief.wordTarget,
+        wordTargetFor(lesson?.medianWords, 0, lesson?.analysed ?? 0),
+        `${k.keyword} target disagrees with its own reading`,
+      );
+      assert.ok(brief.wordTarget[1] >= brief.wordTarget[0], k.keyword);
+      assert.ok(brief.wordTarget[1] <= 2400, `${k.keyword} exceeds the cap`);
     }
   });
 
@@ -111,13 +121,22 @@ describe('word target', () => {
     assert.equal(unmeasured.lengthFloor, MIN_CHARS);
   });
 
-  test('the SERP still moves the advisory target', async () => {
-    const { assembleBrief } = await import('../brief/assemble.js');
-    const measured = assembleBrief({ primaryKeyword: 'ugc ads' });
-    const unmeasured = assembleBrief({ primaryKeyword: 'How to improve product discovery' });
-    // Guidance, not a threshold: this is the half that is allowed to vary.
-    assert.notDeepEqual(measured.wordTarget, unmeasured.wordTarget);
-    assert.deepEqual(unmeasured.wordTarget, [700, 1200]);
+  test('the SERP moves the advisory target, but only with a real sample', async () => {
+    const { wordTargetFor } = await import('../brief/assemble.js');
+    // Tested as a pure function rather than through whichever keywords happen
+    // to be in the cache, which made this assertion go stale the moment a
+    // reading was taken for the keyword it used as its control.
+    assert.deepEqual(wordTargetFor(1800, 0, 4), [1800, 2340]);
+    assert.deepEqual(wordTargetFor(1800, 0, 2), [700, 1200], 'two pages is not a median');
+    assert.deepEqual(wordTargetFor(1800, 0, 0), [700, 1200]);
+    assert.deepEqual(wordTargetFor(undefined, 0, 5), [700, 1200]);
+  });
+
+  test('the target is capped however long the SERP runs', async () => {
+    const { wordTargetFor } = await import('../brief/assemble.js');
+    const [lo, hi] = wordTargetFor(9000, 0, 5);
+    assert.equal(lo, 2400);
+    assert.equal(hi, 2400);
   });
 
   test('no gate imports from the SERP layer', async () => {

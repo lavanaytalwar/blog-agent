@@ -3,7 +3,9 @@
 // Next's bundler. No client component imports this module.
 import { sql } from '../db/index.js';
 import { runGates } from '../gates/index.js';
-import { cannibalizationContext, saveGateResults } from '../data/posts.js';
+import { cannibalizationContext, saveGateResults, saveReview, getReview } from '../data/posts.js';
+import { reviewDraft } from '../review/run.js';
+import { weaknesses } from '../review/types.js';
 import { getDraftSource } from './source.js';
 
 /**
@@ -28,7 +30,7 @@ export async function generateForPost(postId: number, note?: string): Promise<vo
         : [],
       clusterId: post.cluster_id ? String(post.cluster_id) : null,
       personaId: post.persona_id ? String(post.persona_id) : null,
-      note,
+      note: await composeNote(postId, attempt, note),
       attempt,
     });
 
@@ -55,6 +57,12 @@ export async function generateForPost(postId: number, note?: string): Promise<vo
       where id = ${postId}
     `;
     await saveGateResults(postId, report, attempt);
+
+    // After the gates, always, and never able to change what they decided. The
+    // status above is already written. This reads the nine things a gate cannot
+    // check and stores notes beside the report: feedback for the human on a
+    // passing draft, and feedback for the next attempt on a failing one.
+    await saveReview(postId, await reviewDraft(draft), attempt);
   } catch (error) {
     await db`
       update posts set status = 'failed_gates',
@@ -71,4 +79,33 @@ export async function generateForPost(postId: number, note?: string): Promise<vo
       where id = ${postId}
     `;
   }
+}
+
+/**
+ * The note the writer actually sees on a redraft.
+ *
+ * A regenerate carries a human note, which is the instruction. The previous
+ * attempt's review findings are appended to it because that attempt is already
+ * being spent: withholding prose feedback until some later attempt that the
+ * two-attempt budget does not allow would just throw it away. Gate failures are
+ * not repeated here, they are already in the note the reviewer wrote them into.
+ */
+async function composeNote(
+  postId: number,
+  attempt: number,
+  note?: string,
+): Promise<string | undefined> {
+  if (!note || attempt < 2) return note;
+
+  const prior = weaknesses(await getReview(postId, attempt - 1));
+  if (!prior.length) return note;
+
+  const lines = prior.map((n) => `- ${n.check}: ${n.note}`).join('\n');
+  return `${note}
+
+A reviewer read the previous draft and found these, none of them mechanical:
+${lines}
+
+Fix the note above first. These are the reasons the post did not read like a
+person wrote it.`;
 }

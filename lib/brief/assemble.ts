@@ -32,10 +32,22 @@ const DEFAULT_TARGET: [number, number] = [700, 1200];
 /** Above this the post stops being a blog post, whatever the SERP is doing. */
 const TARGET_CEILING = 2400;
 
-function wordTargetFor(
+/**
+ * Written pages needed before their median is allowed to set the target.
+ *
+ * A median over one page is that page. Over two it is their mean. Ten of the
+ * first twenty-four keywords returned two or fewer readable articles in their
+ * top six, because SERPs for commercial terms are mostly store listings and
+ * product pages. Below this, the default is the honest answer.
+ */
+const MIN_SAMPLE = 3;
+
+export function wordTargetFor(
   medianWords: number | undefined,
   extraTargets: number,
+  sampleSize = MIN_SAMPLE,
 ): [number, number] {
+  if (sampleSize < MIN_SAMPLE) medianWords = undefined;
   const bump = extraTargets * 400;
   if (!medianWords || medianWords < DEFAULT_TARGET[0]) {
     return [DEFAULT_TARGET[0] + bump, DEFAULT_TARGET[1] + bump];
@@ -176,7 +188,11 @@ export function assembleBrief(input: AssembleInput): Brief {
     ...(measured
       ? { serpLesson: { takenOn: measured.takenOn, source: measured.source, lesson: measured.lesson } }
       : {}),
-    wordTarget: wordTargetFor(measured?.lesson.medianWords, additionalTargets.length),
+    wordTarget: wordTargetFor(
+      measured?.lesson.medianWords,
+      additionalTargets.length,
+      measured?.lesson.analysed ?? 0,
+    ),
     lengthFloor: lengthFloor(additionalTargets.length),
     existingTitles: input.existingTitles ?? [],
     ...(cluster.audience_guard

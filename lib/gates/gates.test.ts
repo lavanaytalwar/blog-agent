@@ -529,11 +529,29 @@ describe('dashes and cadence', () => {
   test('the prompt contains no dash it tells the writer not to use', async () => {
     const { assembleBrief } = await import('../brief/assemble.js');
     const { renderSystemPrompt } = await import('../brief/render.js');
+    const { serpCoverageFor } = await import('../brief/serp.js');
     for (const kw of ['post purchase upsell', 'ugc ads', 'ecommerce analytics software']) {
-      const prompt = renderSystemPrompt(assembleBrief({ primaryKeyword: kw }));
+      // Populated exactly as the pipeline populates it. The earlier version of
+      // this test left serpCoverage empty, so the whole section was omitted and
+      // eight dashes from scraped competitor headings went unnoticed.
+      const prompt = renderSystemPrompt(assembleBrief({
+        primaryKeyword: kw,
+        serpCoverage: serpCoverageFor(kw),
+        existingTitles: ['A live post — with a dash in its title'],
+      }));
       const found = prompt.match(/[—–]/g);
       assert.equal(found, null, `prompt for "${kw}" contains ${found?.length} dash(es)`);
     }
+  });
+
+  test('scraped competitor headings are stripped, not passed through', async () => {
+    const { assembleBrief } = await import('../brief/assemble.js');
+    const { renderSystemPrompt } = await import('../brief/render.js');
+    const prompt = renderSystemPrompt(assembleBrief({
+      primaryKeyword: 'post purchase upsell',
+      serpCoverage: [{ url: 'https://example.com', headings: ['ReConvert — Best for Post-Purchase'] }],
+    }));
+    assert.ok(prompt.includes('ReConvert, Best for Post-Purchase'), 'heading should survive, dash should not');
   });
 });
 

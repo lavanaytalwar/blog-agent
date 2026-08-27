@@ -56,17 +56,51 @@ export type PageAnalysis = {
   isNumberedList: boolean;
 };
 
+/**
+ * Elements named by their class or id as page furniture rather than content.
+ * Measured against real pages, removing these takes 15 to 20% off a typical
+ * marketing blog post: related-post rails, share bars and newsletter blocks are
+ * text, and counting them inflates every page's length equally.
+ */
+const CHROME_NAMES =
+  'nav|menu|sidebar|related|recommend|comment|footer|header|cookie|consent'
+  + '|banner|subscribe|newsletter|breadcrumb|table-of-contents|share|social|popup|modal';
+
 const strip = (html: string) =>
   html
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<nav[\s\S]*?<\/nav>/gi, ' ')
     .replace(/<footer[\s\S]*?<\/footer>/gi, ' ')
+    .replace(/<aside[\s\S]*?<\/aside>/gi, ' ')
+    .replace(/<header[\s\S]*?<\/header>/gi, ' ')
+    .replace(/<form[\s\S]*?<\/form>/gi, ' ')
+    .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
+    .replace(/<svg[\s\S]*?<\/svg>/gi, ' ')
+    .replace(
+      new RegExp(`<(div|section|ul)[^>]*(?:class|id)="[^"]*(?:${CHROME_NAMES})[^"]*"[\\s\\S]{0,30000}?</\\1>`, 'gi'),
+      ' ',
+    )
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;|&#160;/gi, ' ')
     .replace(/&[a-z]+;|&#\d+;/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+
+/**
+ * The narrowest container that holds the actual writing.
+ *
+ * `<article>` first, then `<main>`, then the whole document. Falling straight
+ * from article to whole-document meant any page without an article tag was
+ * measured including its entire chrome.
+ */
+function contentScope(html: string): string {
+  for (const tag of ['article', 'main'] as const) {
+    const m = html.match(new RegExp(`<${tag}[\\s\\S]*?</${tag}>`, 'i'));
+    if (m?.[0] && m[0].length > 500) return m[0];
+  }
+  return html;
+}
 
 const clean = (s: string) =>
   s.replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;|&#\d+;/gi, ' ').replace(/\s+/g, ' ').trim();
@@ -118,7 +152,14 @@ function dateOf(html: string): string | null {
  */
 function classify(url: string, html: string, schema: string[], words: number, title: string): PageKind {
   if (words < MIN_READABLE_WORDS) return 'unreadable';
-  const host = new URL(url).hostname.replace(/^www\./, '');
+  const { hostname, pathname } = new URL(url);
+  const host = hostname.replace(/^www\./, '');
+
+  // A homepage is a product page however much copy it carries. adcreative.ai's
+  // front page reads as 4,616 words of feature marketing and was the only
+  // "article" found for its keyword, which would have set that post's target
+  // from a landing page.
+  if (pathname === '/' || pathname === '') return 'product';
   if (/apps\.shopify\.com|\.myshopify\.com|\/products?\//.test(url)) return 'product';
   if (schema.some((t) => /^(Product|SoftwareApplication|Offer)$/i.test(t))) return 'product';
   if (schema.some((t) => /Article|BlogPosting|NewsArticle/i.test(t))) return 'article';
@@ -153,7 +194,7 @@ export async function analyzePage(url: string): Promise<PageAnalysis | null> {
       return null;
     }
 
-    const body = html.match(/<article[\s\S]*?<\/article>/i)?.[0] ?? html;
+    const body = contentScope(html);
     const text = strip(body);
     const words = text.split(/\s+/).filter(Boolean).length;
     const chars = text.length;

@@ -1,7 +1,7 @@
 # blogEO — Helium content engine
 
 **Status:** built and running. Phases 0, 1, 2, 3 and 5 are in `main`; phase 4 (Discord) is not.
-**Date:** 2026-08-26 (rev. 4: multi-keyword posts, SERP reading, the voice rules)
+**Date:** 2026-08-27 (rev. 5: the advisory review pass)
 **Scope:** generator only. The audit half of the original design is explicitly deferred, see §2.
 
 ---
@@ -11,7 +11,8 @@
 A blog generation engine for `www.gethelium.co/blogs`, driven from a web dashboard. On
 demand it takes a **selection** of target keywords, measures the pages currently outranking
 us for them, drafts a post in Helium's voice against what that measurement showed, runs five
-deterministic quality gates, and renders the draft alongside its gate report for review. Approval writes a
+deterministic quality gates, has a model read it for the nine things a gate cannot check, and
+renders the draft alongside both reports for review. Approval writes a
 markdown file for a human to paste into the CMS, and a Discord webhook announces it in `#seo`.
 
 It also runs a nightly Search Console sync so that every post published from today forward
@@ -236,10 +237,25 @@ confident essay, which is what the gates exist to reject. Shape is countable.
 
 Two things come out of it:
 
-- **The word target tracks the measured median**, replacing the flat 700 to 1,200
-  default. `ugc ads` measures a median of 9,254 characters across the written pages in its
-  top 6, so its target is 1,741 to 2,263 words. This is guidance in the prompt and nothing
-  more: no draft is failed for missing it.
+- **The word target tracks the measured median** when there is a real sample behind it,
+  replacing the flat 700 to 1,200 default. Guidance in the prompt and nothing more: no
+  draft is failed for missing it.
+- **Three readable articles minimum.** A median over one page is that page. Across the 24
+  usable keywords, 11 top-sixes contain fewer than three readable articles, because SERPs
+  for commercial terms are mostly store listings, product pages and social. Those keywords
+  state the default and say why, rather than inventing a target from a sample of one.
+  `Ad creative ai` returns zero readable articles, which is itself a finding: a blog post
+  may be the wrong asset for that keyword.
+- **A homepage is a product page**, whatever its word count. `adcreative.ai`'s front page
+  reads as 4,616 words of feature marketing and was briefly the only "article" found for
+  its keyword.
+- **Chrome is stripped before counting.** `<article>`, then `<main>`, then the document,
+  minus asides, headers, forms and anything whose class or id names it as navigation,
+  related posts, share bars or newsletter blocks. Worth 15 to 20% on a typical marketing
+  post, and the first pass without it put 14 of 24 keywords on the 2,400 cap, which is a
+  measurement telling you nothing.
+- **Anything scraped goes through `undash` on the way into the prompt.** Competitor H2s are
+  full of em dashes, and the prompt bans them outright.
 - **The observations go into the prompt verbatim**, under an instruction not to copy
   the shape.
 
@@ -352,13 +368,84 @@ swapping the drafting model changes output quality but can never change what pas
 
 Storytelling is required by the prompt but not gated: one thread through the post, opening
 in a scene, namable customers as the characters. It is not mechanically checkable, and a
-gate that needs a model to judge it would be a model judging a model.
+gate that needs a model to judge it would be a model judging a model. It is read by the
+advisory pass in §4.3b, which cannot fail a draft.
 
 **Redraft policy:** two attempts on failure, then stop and report. No unbounded loops. The
 failing rule ids are passed forward in the note, because the writer responds far better to
 `tone.coined_term_undefined: define session velocity in the sentence you first use it` than
 to "make it better". If the same rule fails twice the problem is the prompt or the gate, not
 the model.
+
+### 4.3b The advisory review pass
+
+A model reads every gated draft and **cannot fail it**. The objection in §4.3 is about
+gates and it stands: a gate whose verdict comes from a model is a model judging a model.
+This is not a gate. `posts.status` is decided by `runGates` before the reviewer is called,
+and nothing the reviewer returns can change it.
+
+Enforced structurally rather than by convention. Nothing in `lib/gates` imports from
+`lib/review`, and a test asserts it, the same way the SERP independence in §4.2c is
+asserted. `ReviewNote` is deliberately not the gates' `Failure` type even though the two
+are shaped identically, because sharing the type is how the second would quietly become
+the first.
+
+**What it reads for.** Nine checks, and the table is defined by subtraction from
+`lib/gates/rules.ts`: anything a machine can decide is a rule there, and only what needs
+judgment is here. A test asserts no check id is also a rule id, because a check that
+duplicates a mechanical rule recreates the drift `rules.ts` exists to stop, in a place
+where nothing fails to catch it.
+
+| Check | What it asks |
+|---|---|
+| `story.thread` | one thread through the post, or nine sections that could be lifted into other posts |
+| `story.scene` | the opening is a situation with someone in it, not a definition dressed as one |
+| `story.characters` | the namable customers act, rather than appearing attached to numbers in a list |
+| `serp.lesson_applied` | covers what the ranking pages cover and says one thing none of them said |
+| `claim.earns_place` | each permitted number does work in an argument instead of sounding credible |
+| `coined.definition_lands` | gate 5 proves a coined term is defined in a clause; this asks whether the clause explains anything |
+| `argument.no_restatement` | no two sections make the same point twice. The real failure mode at the 1,700+ word targets SERP medians now produce |
+| `persona.fit` | written to the mapped persona and the number they own |
+| `cta.earned` | the one approved CTA follows from the argument just made |
+
+**Same anti-drift mechanism as the gates.** The nine live once in
+`lib/review/checks.ts`, and both prompts render from that object: the writer is told what
+a reviewer will read for, and the reviewer is asked about the same nine in the same words.
+Two tests assert both. The reviewer is **not** shown `rules.ts`, and a test asserts that
+too, so it cannot re-litigate mechanics it has never seen.
+
+**Where it runs.** After the gates, on every attempt, never before. Browserbase's
+equivalent runs its checklist before its code gates; copying that here would spend a
+review on prose that a structure failure is about to have rewritten. Running it after
+means a redraft that was happening anyway carries prose feedback for free: on a failing
+draft the findings are appended to the human's regenerate note, and on a passing one they
+render on the review screen for whoever decides.
+
+**Criticism has to be evidenced.** Model reviewers default to praise and, pushed for
+criticism, to confident invention. So a `weak` or `missing` verdict must quote at least
+ten characters of the draft, and the quote is checked against the body with whitespace
+collapsed and smart punctuation folded. A quote that is not in the draft discards the
+finding. An unsupported `ok` is just an `ok` and keeps its place. Every rule in the parser
+costs the reviewer a finding and none of them can cost the draft anything.
+
+A review reporting on fewer than five of the nine is recorded as `unavailable` rather than
+presented as a thin verdict, because a panel cannot tell a short review from a lenient one.
+
+**Failure isolation.** `reviewDraft` never throws. A provider error, a timeout, a keyword
+missing from `config/`, or unparseable output all store a `review_results` row with
+`status: 'unavailable'` and the reason. So "the reviewer found nothing" and "the reviewer
+did not run" are never the same thing on screen, and neither one touches the post.
+
+**What it is not.** Not a route to gating later. If one of the nine turns out to be
+mechanically decidable it belongs in `rules.ts` as a real gate, authored there, not
+promoted from here. And not a self-review step inside the writer: a model that just wrote
+the draft approves the draft, so it is a separate call that does not know it wrote it.
+
+Measured on one real draft, `glm-5.2` at temperature 0 reported all nine checks, quoted
+the body accurately on every one, and flagged seven. Two of the seven are things no gate
+in §4.3 could ever have caught: an opening that defines a metric instead of showing a
+merchant, and a CTA asking for a sales call two sentences after arguing the install takes
+two minutes and needs no developer.
 
 ### 4.4 Interface — dashboard, with Discord as notifier
 
@@ -522,6 +609,7 @@ gsc_snapshots     date, dimension(site|page|query), key, clicks, impressions, ct
 measurements      post_id, window_label(publish|d28|d56), captured_at,
                   post_clicks, post_impressions, post_position,
                   blogwide_clicks, blogwide_impressions
+review_results    post_id, run_index, status(reviewed|unavailable), model, notes, reason
 jobs              type, payload, status, attempts, started_at, finished_at, error
 decisions         post_id, actor, action, created_at
 ```
@@ -553,6 +641,7 @@ app/
 lib/
   brief/        assemble (deterministic spec) · render (system prompt) · serp (caches)
   gates/        one pure function per gate + rules.ts, the single rule table
+  review/       checks.ts, the nine judgment checks, plus the advisory pass (§4.3b)
   serp/         analyze (measure a ranking page) · search (pluggable provider)
   draft/        pipeline (brief in, prose out) · source (seam) · run (post row)
   llm/          provider abstraction: anthropic | ollama
@@ -654,6 +743,7 @@ Still open, and gated shut until resolved:
 | 2 | Dashboard: generate · draft view · gate report · approve → markdown · history | **done** |
 | 3 | Draft pipeline and the `write-blog` skill | **done** |
 | 3.1 | Multi-keyword posts, SERP reading, the voice rules | **done** |
+| 3.2 | The advisory review pass: nine judgment checks, evidenced, non-gating (§4.3b) | **done** |
 | 5 | Keyword intelligence: GSC mining, Linear extraction, the skill, secondary keywords | **done** |
 | 4 | Discord webhook notifier | code done and no-ops safely without a URL; **needs `DISCORD_WEBHOOK_URL`** |
 | 6 | Stubs: auto-publish handler | open |
