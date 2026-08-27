@@ -14,6 +14,15 @@ const config: NextConfig = {
   turbopack: {
     resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
   },
+  // config/*.json is the source of truth for the keyword list and every gate,
+  // and loadConfig() reads it at runtime through a path built from an env var.
+  // The tracer cannot follow that, so on Vercel the files were simply absent
+  // and every screen touching the keyword list returned a 500. Tracing is per
+  // route, and the loaders reach the gates from enough entry points that
+  // naming them individually would rot; '/**' covers the lot.
+  outputFileTracingIncludes: {
+    '/**': ['./config/*.json'],
+  },
 };
 
 export default config;
