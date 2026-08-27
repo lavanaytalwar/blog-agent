@@ -2,6 +2,7 @@
 // components and the CLI scripts in scripts/, and that package throws outside
 // Next's bundler. No client component imports this module.
 import { sql } from '../db/index.js';
+import { serializeDraft } from '../gates/parse.js';
 import type { GateReport } from '../gates/types.js';
 
 export type PostStatus =
@@ -15,6 +16,7 @@ export type PostRow = {
   h1: string | null;
   meta_description: string | null;
   primary_keyword: string | null;
+  additional_keywords: string[];
   cluster_id: string | null;
   persona_id: string | null;
   status: PostStatus;
@@ -117,4 +119,28 @@ export async function saveGateResults(
     `;
   }
   await db`update posts set gate_report = ${JSON.stringify(report)} where id = ${postId}`;
+}
+
+
+/**
+ * The markdown a post exports as, from the database row.
+ *
+ * One function, used by the approve handler and by the download route, so the
+ * file written on disk and the file a reviewer downloads cannot disagree. The
+ * previous version of this lived inline in the approve handler and hardcoded
+ * `additionalKeywords: []`, which silently dropped every target but the lead
+ * from a multi-keyword post's front matter.
+ */
+export function draftMarkdown(post: PostRow): string {
+  return serializeDraft({
+    slug: post.slug,
+    title: post.title,
+    h1: post.h1 ?? post.title,
+    metaDescription: post.meta_description ?? '',
+    primaryKeyword: post.primary_keyword ?? '',
+    additionalKeywords: post.additional_keywords ?? [],
+    clusterId: post.cluster_id,
+    personaId: post.persona_id,
+    bodyMd: post.body_md ?? '',
+  });
 }

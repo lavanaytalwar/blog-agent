@@ -49,7 +49,21 @@ export function DecisionPanel({ postId, status, attempt, maxAttempts, gatesPasse
   }
 
   if (settled) {
-    return <p className={styles.railNote}>This post is {status.replace(/_/g, ' ')}. No further decision.</p>;
+    const approved = ['approved', 'published', 'measured'].includes(status);
+    return (
+      <div className={styles.decision}>
+        <p className={styles.railNote}>
+          This post is {status.replace(/_/g, ' ')}. No further decision.
+        </p>
+        {/* The markdown is rendered from the database row, so it is available
+            whether or not the filesystem accepted a copy at approval time. */}
+        {approved ? (
+          <a className={styles.download} href={`/api/posts/${postId}/markdown`} download>
+            Download markdown
+          </a>
+        ) : null}
+      </div>
+    );
   }
 
   return (

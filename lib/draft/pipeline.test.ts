@@ -122,3 +122,80 @@ describe('the draft pipeline', () => {
     assert.ok(fake.lastSystem.includes('A distinctive heading here'));
   });
 });
+
+
+describe('exported markdown', () => {
+  test('carries every target, not just the lead', async () => {
+    const { draftMarkdown } = await import('../data/posts.js');
+    const md = draftMarkdown({
+      id: 1, slug: 'x', title: 'T', h1: 'H', meta_description: 'M',
+      primary_keyword: 'lead kw',
+      additional_keywords: ['second kw', 'third kw'],
+      cluster_id: 'conversion-rate', persona_id: 'ecommerce-leadership',
+      status: 'approved', body_md: '**TL;DR:** body.', gate_report: null,
+      model: null, attempt: 1, created_at: '', approved_at: null,
+      published_url: null, published_at: null,
+    });
+    // The approve handler used to hardcode [] here, so a three-target post
+    // exported with only its lead and `npm run gate` on the file checked the
+    // wrong thing.
+    assert.match(md, /additional_keywords: second kw, third kw/);
+  });
+
+  test('round-trips back through the parser', async () => {
+    const { draftMarkdown } = await import('../data/posts.js');
+    const { parseDraft } = await import('../gates/parse.js');
+    const row = {
+      id: 1, slug: 'x', title: 'T', h1: 'H', meta_description: 'M',
+      primary_keyword: 'lead kw', additional_keywords: ['second kw'],
+      cluster_id: 'conversion-rate', persona_id: 'ecommerce-leadership',
+      status: 'approved' as const, body_md: '**TL;DR:** body.', gate_report: null,
+      model: null, attempt: 1, created_at: '', approved_at: null,
+      published_url: null, published_at: null,
+    };
+    const back = parseDraft(draftMarkdown(row));
+    assert.deepEqual(back.additionalKeywords, ['second kw']);
+    assert.equal(back.primaryKeyword, 'lead kw');
+  });
+
+  test('a single-target post writes no additional_keywords line', async () => {
+    const { draftMarkdown } = await import('../data/posts.js');
+    const md = draftMarkdown({
+      id: 1, slug: 'x', title: 'T', h1: 'H', meta_description: 'M',
+      primary_keyword: 'lead kw', additional_keywords: [],
+      cluster_id: 'conversion-rate', persona_id: 'ecommerce-leadership',
+      status: 'approved', body_md: 'b', gate_report: null, model: null,
+      attempt: 1, created_at: '', approved_at: null,
+      published_url: null, published_at: null,
+    });
+    assert.ok(!md.includes('additional_keywords'));
+  });
+});
+
+
+describe('download filename encoding', () => {
+  // A slug with a curly apostrophe threw a ByteString error and returned 500
+  // instead of a file. Three live posts have exactly that in their slugs, and
+  // gate 2's slug.ascii only stops new ones being created.
+  const header = (name: string) => {
+    const ascii = name.replace(/[^\x20-\x7e]/g, '-').replace(/["\\]/g, '');
+    return `attachment; filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(name)}`;
+  };
+
+  test('a non-ASCII slug produces a latin-1 safe header', () => {
+    const h = header('why-product-recommendations-don\u2019t-convert.md');
+    // The whole header must survive being written as a ByteString.
+    assert.doesNotThrow(() => Buffer.from(h, 'latin1').toString('latin1'));
+    assert.ok(!/[^\x00-\xff]/.test(h), h);
+  });
+
+  test('the UTF-8 form still carries the real name', () => {
+    const h = header('caf\u00e9-guide.md');
+    assert.match(h, /filename\*=UTF-8''caf%C3%A9-guide\.md/);
+  });
+
+  test('quotes and backslashes cannot break out of the quoted form', () => {
+    const h = header('a"b\\c.md');
+    assert.match(h, /filename="abc\.md"/);
+  });
+});

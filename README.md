@@ -34,7 +34,7 @@ On Vercel, pass the same JSON as the `GSC_KEY_JSON` env var instead of a file pa
 | `npm run gate -- <file.md>` | Runs all five gates against a draft file (`--offline` skips the live slug check) | no |
 | `npm run draft -- "<kw>" ["<also>" ...]` | One real generation, gated, written to `content/drafts/` | no |
 | `npm run serp:analyze -- "<kw>" [urls...]` | Measures the top 6 ranking pages and sets the word target from them | no |
-| `npm test` | 134 gate, brief, SERP and pipeline tests | no |
+| `npm test` | 140 gate, brief, SERP and pipeline tests | no |
 | `npm run status` | Row counts, branded split, keyword coverage | yes |
 | `npm run dev` | Dashboard on :3000 | yes |
 | `npm run seed:demo` | Creates a deliberately failing draft, for exercising the review screen | yes |

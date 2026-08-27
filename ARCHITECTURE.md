@@ -375,7 +375,7 @@ that justifies a chat-first interface in the first place.
 |---|---|
 | Generate | a lead keyword from `keywords`, checkboxes for other untouched keywords in the same cluster, persona; kicks off a draft via `after()` |
 | Draft | rendered post beside its gate report, failing rules highlighted inline |
-| Decision | Approve → writes `content/drafts/{slug}.md`; Discard → recorded, no file |
+| Decision | Approve → records the decision and offers the markdown for download; Discard → recorded |
 | History | every post, status, gate outcomes, who decided and when |
 | Measurement | non-brand impressions/clicks per post at +28 / +56 days vs blog-wide baseline |
 | Keywords | coverage map — which sheet keywords have a post, which are untouched; GSC mining button |
@@ -547,6 +547,7 @@ app/
   keywords/ · measurement/             coverage map, non-brand baseline
   api/generate/route.ts                creates the post row, drafts via after()
   api/posts/[id]/decision/route.ts     approve | discard | regenerate
+  api/posts/[id]/markdown/route.ts     the approved post as a downloadable file
   api/keywords/mine/route.ts           GSC mining from the dashboard
   api/cron/gsc-sync · measure · drain  nightly
 lib/
@@ -585,6 +586,13 @@ The full command surface (ingest, mining, SERP reading, drafting, gating) is a t
 - **Secrets:** `.secrets/gsc.json` locally (gitignored), Vercel env vars in deployment.
   The current GSC key was exposed in a chat transcript and should be rotated before
   production.
+
+**Approval does not depend on the filesystem.** Vercel serverless is read-only outside
+`/tmp`, so a post approved in production has no file on disk to collect. The decision is
+recorded first, the local file write is best-effort inside a `try`, and the durable delivery
+path is `/api/posts/[id]/markdown`, which renders the markdown from the row. Filenames go out
+as RFC 5987: three live slugs contain curly apostrophes, and an HTTP header is a ByteString,
+so the naive form threw a 500 instead of returning a file.
 
 **GSC connection is live and verified:** service account `blog-eo@decent-answer-506707-k3`,
 property `sc-domain:gethelium.co`, permission `siteFullUser`.
@@ -647,7 +655,7 @@ Still open, and gated shut until resolved:
 | 3 | Draft pipeline and the `write-blog` skill | **done** |
 | 3.1 | Multi-keyword posts, SERP reading, the voice rules | **done** |
 | 5 | Keyword intelligence: GSC mining, Linear extraction, the skill, secondary keywords | **done** |
-| 4 | Discord webhook notifier · wiring the dashboard Generate button to the live pipeline | **open**, needs the channel webhook URL |
+| 4 | Discord webhook notifier | code done and no-ops safely without a URL; **needs `DISCORD_WEBHOOK_URL`** |
 | 6 | Stubs: auto-publish handler | open |
 
 Phase 0 ran first and was the piece that would have been unrecoverable if deferred: the

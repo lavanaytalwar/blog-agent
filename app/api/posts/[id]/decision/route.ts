@@ -2,8 +2,7 @@ import { after, NextResponse } from 'next/server';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { sql } from '../../../../../lib/db/index.js';
-import { getPost, recordDecision, MAX_ATTEMPTS } from '../../../../../lib/data/posts.js';
-import { serializeDraft } from '../../../../../lib/gates/parse.js';
+import { getPost, recordDecision, draftMarkdown, MAX_ATTEMPTS } from '../../../../../lib/data/posts.js';
 import { generateForPost } from '../../../../../lib/draft/run.js';
 import { notifyDiscord } from '../../../../../lib/notify/discord.js';
 
@@ -41,30 +40,33 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       );
     }
 
-    const file = join(DRAFTS_DIR, `${post.slug}.md`);
-    await mkdir(dirname(file), { recursive: true });
-    await writeFile(file, serializeDraft({
-      slug: post.slug,
-      title: post.title,
-      h1: post.h1 ?? post.title,
-      metaDescription: post.meta_description ?? '',
-      additionalKeywords: [],
-      primaryKeyword: post.primary_keyword ?? '',
-      clusterId: post.cluster_id,
-      personaId: post.persona_id,
-      bodyMd: post.body_md ?? '',
-    }));
-
+    // Approval is recorded first. The markdown is derivable from the row at any
+    // time via /api/posts/[id]/markdown, so a filesystem that will not take the
+    // file must not be able to block the decision.
     await db`update posts set status = 'approved', approved_at = now() where id = ${postId}`;
     await recordDecision(postId, actor, 'approve');
 
+    // Best effort, and only useful locally: Vercel serverless is read-only
+    // outside /tmp. Writing here is a convenience for local runs, never the
+    // delivery mechanism. `download` is.
+    const file = join(DRAFTS_DIR, `${post.slug}.md`);
+    let written: string | null = null;
+    try {
+      await mkdir(dirname(file), { recursive: true });
+      await writeFile(file, draftMarkdown(post));
+      written = file;
+    } catch {
+      written = null;
+    }
+
+    const download = `/api/posts/${postId}/markdown`;
     after(async () => {
       await notifyDiscord(
-        `Draft approved — "${post.title}" · 5/5 gates passed · ${DRAFTS_DIR}/${post.slug}.md`,
+        `Draft approved: "${post.title}" · 5/5 gates passed · ${written ?? download}`,
       );
     });
 
-    return NextResponse.json({ ok: true, file });
+    return NextResponse.json({ ok: true, file: written, download });
   }
 
   if (action === 'discard') {
