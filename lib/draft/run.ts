@@ -22,6 +22,11 @@ export async function generateForPost(postId: number, note?: string): Promise<vo
     const post = rows[0];
     if (!post) return;
 
+    // Before the first slow thing, so that a run killed inside it is
+    // distinguishable from a run that is merely still going. Nothing else in
+    // this function is guaranteed to happen; this is.
+    await db`update posts set generation_started_at = now() where id = ${postId}`;
+
     const attempt = Number(post.attempt ?? 1);
     const draft = await getDraftSource().generate({
       primaryKeyword: String(post.primary_keyword ?? ''),

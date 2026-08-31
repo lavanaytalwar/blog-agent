@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { getPost, latestReview, MAX_ATTEMPTS } from '../../../lib/data/posts.js';
+import { generationState, humanDuration, STALL_AFTER_MS } from '../../../lib/data/stall.js';
 import { loadConfig } from '../../../lib/config/load.js';
 import { Screen, ui } from '../../ui.js';
 import { blocks } from './highlight.js';
@@ -8,6 +9,8 @@ import { GateReportPanel } from './gate-report.js';
 import { ReviewPanel } from './review-panel.js';
 import { DecisionPanel } from './decision.js';
 import { Poller } from './poller.js';
+import { LocalTime } from './local-time.js';
+import { Stopwatch } from '../../stopwatch.js';
 import styles from './detail.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -23,13 +26,13 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   const actor = (await cookies()).get('blogeo_actor')?.value ?? null;
   const review = await latestReview(post.id);
 
-  const generating = post.status === 'drafted' && !post.body_md;
+  const generation = generationState(post);
   const body = blocks(post.body_md ?? '', post.gate_report);
   const metaLength = post.meta_description?.length ?? 0;
 
   return (
     <Screen title={post.title} route={`/posts/${post.id}`}>
-      {generating ? <Poller postId={post.id} /> : null}
+      {generation.state === 'running' ? <Poller postId={post.id} /> : null}
 
       <div className={styles.grid}>
         <article className={styles.draft}>
@@ -47,8 +50,18 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
             </div>
           ) : null}
 
-          {generating ? (
-            <p className={styles.generating}>Generating…</p>
+          {generation.state === 'running' ? (
+            <p className={styles.generating}>
+              Generating… started <LocalTime iso={generation.startedAt} />,{' '}
+              <Stopwatch startedAt={generation.startedAt} /> elapsed.
+            </p>
+          ) : generation.state === 'stalled' ? (
+            <p className={styles.died}>
+              <strong>Generation died.</strong> It started{' '}
+              <LocalTime iso={generation.startedAt} /> and stopped without finishing. Nothing has
+              been written for {humanDuration(generation.elapsedMs)}, so this is not still running;
+              anything over {humanDuration(STALL_AFTER_MS)} is given up on. Regenerate to try again.
+            </p>
           ) : (
             body.map((block, i) => {
               const content = block.segments.map((seg, j) =>

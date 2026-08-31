@@ -22,6 +22,14 @@
 .h3 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; }
 .generating { color: var(--text-sec); font-size: 13px; }
 
+.died {
+  color: var(--fail); font-size: 13px; line-height: 1.6;
+  background: var(--fail-wash);
+  border: 1px solid var(--fail); border-radius: 3px;
+  padding: 10px 12px;
+}
+.died strong { font-weight: 600; }
+
 .mark {
   background: var(--fail-wash); color: inherit;
   border-bottom: 1px solid var(--fail); border-radius: 2px; padding: 0 1px;

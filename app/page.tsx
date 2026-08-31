@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { awaitingDecision, listPosts } from '../lib/data/posts.js';
 import { keywordCoverage } from '../lib/data/keywords.js';
+import { generationState, humanDuration } from '../lib/data/stall.js';
 import { Screen, Section, Table, Pill, Empty, ui } from './ui.js';
+import { Stopwatch } from './stopwatch.js';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,16 +43,31 @@ export default async function QueuePage() {
           </Empty>
         ) : (
           <Table head={['Title', 'Keyword', 'Cluster', 'Status', 'Attempt', 'Created']}>
-            {queue.map((p) => (
-              <tr key={p.id}>
-                <td><Link className={ui.link} href={`/posts/${p.id}`}>{p.title}</Link></td>
-                <td className={ui.sec}>{p.primary_keyword}</td>
-                <td className={ui.mono}>{p.cluster_id}</td>
-                <td><Pill value={p.status} /></td>
-                <td className={ui.mono}>{p.attempt} / 2</td>
-                <td className={ui.sec}>{new Date(p.created_at).toLocaleDateString()}</td>
-              </tr>
-            ))}
+            {queue.map((p) => {
+              // A stalled row is still 'drafted' in the database. Showing that
+              // raw would repeat the bug this column exists to expose.
+              const gen = generationState(p);
+              return (
+                <tr key={p.id}>
+                  <td><Link className={ui.link} href={`/posts/${p.id}`}>{p.title}</Link></td>
+                  <td className={ui.sec}>{p.primary_keyword}</td>
+                  <td className={ui.mono}>{p.cluster_id}</td>
+                  <td>
+                    <Pill value={gen.state === 'stalled' ? 'stalled' : p.status} />
+                    {gen.state === 'running' ? (
+                      <span className={ui.sec}>
+                        {' '}<Stopwatch startedAt={gen.startedAt} className={ui.mono} /> in
+                      </span>
+                    ) : null}
+                    {gen.state === 'stalled' ? (
+                      <span className={ui.sec}> silent {humanDuration(gen.elapsedMs)}</span>
+                    ) : null}
+                  </td>
+                  <td className={ui.mono}>{p.attempt} / 2</td>
+                  <td className={ui.sec}>{new Date(p.created_at).toLocaleDateString()}</td>
+                </tr>
+              );
+            })}
           </Table>
         )}
       </Section>

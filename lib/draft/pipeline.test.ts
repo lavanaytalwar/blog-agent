@@ -134,7 +134,7 @@ describe('exported markdown', () => {
       cluster_id: 'conversion-rate', persona_id: 'ecommerce-leadership',
       status: 'approved', body_md: '**TL;DR:** body.', gate_report: null,
       model: null, attempt: 1, created_at: '', approved_at: null,
-      published_url: null, published_at: null,
+      published_url: null, published_at: null, generation_started_at: null,
     });
     // The approve handler used to hardcode [] here, so a three-target post
     // exported with only its lead and `npm run gate` on the file checked the
@@ -151,7 +151,7 @@ describe('exported markdown', () => {
       cluster_id: 'conversion-rate', persona_id: 'ecommerce-leadership',
       status: 'approved' as const, body_md: '**TL;DR:** body.', gate_report: null,
       model: null, attempt: 1, created_at: '', approved_at: null,
-      published_url: null, published_at: null,
+      published_url: null, published_at: null, generation_started_at: null,
     };
     const back = parseDraft(draftMarkdown(row));
     assert.deepEqual(back.additionalKeywords, ['second kw']);
@@ -166,7 +166,7 @@ describe('exported markdown', () => {
       cluster_id: 'conversion-rate', persona_id: 'ecommerce-leadership',
       status: 'approved', body_md: 'b', gate_report: null, model: null,
       attempt: 1, created_at: '', approved_at: null,
-      published_url: null, published_at: null,
+      published_url: null, published_at: null, generation_started_at: null,
     });
     assert.ok(!md.includes('additional_keywords'));
   });

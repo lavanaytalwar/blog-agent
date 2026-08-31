@@ -28,6 +28,8 @@ export type PostRow = {
   model: string | null;
   attempt: number;
   created_at: string;
+  /** When the current attempt started writing. See lib/data/stall.ts. */
+  generation_started_at: string | null;
   approved_at: string | null;
   published_url: string | null;
   published_at: string | null;
