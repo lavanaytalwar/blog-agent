@@ -15,11 +15,12 @@ deterministic quality gates, has a model read it for the nine things a gate cann
 renders the draft alongside both reports for review. Approval writes a
 markdown file for a human to paste into the CMS, and a Discord webhook announces it in `#seo`.
 
-It also runs a nightly Search Console sync so that every post published from today forward
-has a measurable before-and-after.
+It also runs a nightly Search Console sync, which keeps the blog-wide non-brand baseline
+accruing whether or not anything ships.
 
-**The agent never writes to the live site.** Publishing is a human action. A server-side
-handler exists as a stub for later.
+**The agent never writes to the live site, and no longer models a post that has shipped.**
+Publishing is a human action taken outside this system: someone pastes the approved markdown
+into the CMS. `approved` is therefore terminal (§4.5).
 
 ---
 
@@ -97,7 +98,8 @@ Generate <lead keyword> [+ same-cluster keywords]   (dashboard, on demand)
         └── dashboard review ────── [Approve] → markdown file + Discord ping in #seo
                                     [Discard] → recorded, no file
                                              │
-                        nightly cron ────────┴── GSC sync → measurement at +7/+14/+28/+56d
+                        nightly cron ────────┴── GSC sync (blog-wide baseline)
+                                                  drain sweep (orphan recovery)
 ```
 
 ---
@@ -464,7 +466,7 @@ that justifies a chat-first interface in the first place.
 | Draft | rendered post beside its gate report, failing rules highlighted inline |
 | Decision | Approve → records the decision and offers the markdown for download; Discard → recorded |
 | History | every post, status, gate outcomes, who decided and when |
-| Measurement | non-brand impressions/clicks/position per post at +7 / +14 / +28 / +56 days vs blog-wide baseline |
+| Measurement | the blog-wide non-brand baseline, daily. Per-post readings are retired — see §4.5 |
 | Keywords | coverage map — which sheet keywords have a post, which are untouched; GSC mining button |
 
 **Discord** is a one-way channel webhook. No bot, no application, no signature verification,
@@ -485,28 +487,38 @@ A daily `drain` cron re-runs whatever that path dropped.
 the Vercel team login, zero application code. Every decision records the actor, so per-user
 permissions later are a config change, not a migration.
 
-### 4.5 Measurement
+### 4.5 Measurement — blog-wide only
 
 Nightly cron pulls GSC into `gsc_snapshots` at site and page level, split branded vs
-non-brand by regex on the query.
+non-brand by regex on the query. This half runs and is the half worth having early: a
+baseline can only be captured going forward, so it accrues whether or not anything ships.
 
-Every published post gets readings at **+7**, **+14**, **+28** and **+56 days**, each
-stored alongside a **blog-wide baseline for the identical date range** — without the
-control, a reading only tells you the site changed, not that the post worked.
+**Per-post readings are retired.** The design called for +7 / +14 / +28 / +56 day readings
+per published post, each beside a blog-wide control for the identical range. It was built,
+and it could never fire: the readings were gated on `posts.status = 'published'` and
+`published_at`, and nothing in the system ever wrote either. That was not an oversight to
+fix by writing them. The engine stops at an approved draft and a human pastes it into the
+CMS, so no row here carries a live URL or a go-live date, and a +7 window has nothing to
+count from.
 
-The short windows exist so the verdict is not the first thing anyone learns. At +7 and +14
-a click count is noise, but **impressions** say whether Google is willing to rank the page
-at all, and **impression-weighted position** separates ranking deep from not ranking. Those
-two are the readings that decide whether draft quality is even the binding constraint. A
-window is held until Search Console has reported through its last day, not merely until
-that day has passed: three days of reporting lag is noise across 56 and nearly half the
-reading across 7.
+The tempting repair — treat `approved_at` as the publish date — was rejected. Approval and
+publication are separated by however long the paste takes, which is unbounded and unrecorded,
+and a window that starts on the wrong day produces a number that looks like measurement and
+is not one. Given a baseline of zero non-brand clicks, a wrong attribution is worse than an
+absent one.
+
+So the cron, its schedule and the per-post table are gone. What is deliberately kept: the
+`measurements` table, its window-label constraint, and `posts.published_at` /
+`published_url`. They hold nothing, dropping them is the one irreversible half of the
+change, and re-enabling readings once publication is recorded should be a code change rather
+than a migration. `lib/gsc/lag.ts` and its tests are kept for the same reason — holding a
+window until Search Console has reported through its last day is the part that was subtle,
+and three days of lag is noise across 56 days but nearly half the reading across 7.
 
 Given the zero baseline, headline metrics are leading indicators, not clicks:
 
 - count of non-brand queries with any impression (today: 69, mostly noise)
 - count of target keywords from the sheet with any ranking at all (today: ~0)
-- non-brand impressions and clicks per published post
 - blog-wide non-brand click total (today: 0)
 
 Clicks are the goal; they are not the near-term signal. Expect 2–3 months before anything
@@ -611,20 +623,23 @@ claim_ledger      claim_key, value, source_ref, tier, ratified_at
 posts             slug, title, h1, meta_description,
                   primary_keyword, additional_keywords[], cluster_id, persona_id,
                   status, body_md, gate_report, model, attempt, created_at,
-                  approved_at, published_url, published_at
+                  approved_at, published_url, published_at   (last two: unwritten, §4.5)
 gate_results      post_id, gate, passed, failures[], run_index
 gsc_snapshots     date, dimension(site|page|query), key, clicks, impressions, ctr,
                   position, is_branded
 measurements      post_id, window_label(publish|d7|d14|d28|d56), captured_at,
                   post_clicks, post_impressions, post_position,
-                  blogwide_clicks, blogwide_impressions
+                  blogwide_clicks, blogwide_impressions   (empty, kept — §4.5)
 review_results    post_id, run_index, status(reviewed|unavailable), model, notes, reason
 jobs              type, payload, status, attempts, started_at, finished_at, error
 decisions         post_id, actor, action, created_at
 ```
 
-`posts.status`: `drafted → gated → awaiting_approval → approved → published → measured`,
-plus terminal `discarded` and `failed_gates`.
+`posts.status`: `drafted → awaiting_approval → approved`, plus terminal `discarded` and
+`failed_gates`. `approved` is terminal too: publishing is manual and unrecorded, so
+`published` and `measured` were removed in `007_retire_published.sql` (§4.5). There is no
+`gated` status and never was — the gates decide between `awaiting_approval` and
+`failed_gates` in one write.
 
 `posts.additional_keywords` is a plain `text[]`, deliberately not a join table with a foreign
 key into `keywords`. The keyword list is versioned in `config/` and re-ingested from the
@@ -641,12 +656,12 @@ app/
   page.tsx                             queue: what is awaiting a decision
   generate/                            lead keyword + also-cover picker + persona
   posts/ · posts/[id]/                 history, review screen, gate report
-  keywords/ · measurement/             coverage map, non-brand baseline
+  keywords/ · measurement/             coverage map, blog-wide non-brand baseline
   api/generate/route.ts                creates the post row, drafts via after()
   api/posts/[id]/decision/route.ts     approve | discard | regenerate
   api/posts/[id]/markdown/route.ts     the approved post as a downloadable file
   api/keywords/mine/route.ts           GSC mining from the dashboard
-  api/cron/gsc-sync · measure · drain  nightly (drain: orphan recovery)
+  api/cron/gsc-sync · drain            nightly (drain: orphan recovery)
 lib/
   brief/        assemble (deterministic spec) · render (system prompt) · serp (caches)
   gates/        one pure function per gate + rules.ts, the single rule table
@@ -671,7 +686,9 @@ The full command surface (ingest, mining, SERP reading, drafting, gating) is a t
 `README.md` rather than duplicated here; this document describes what the pieces are for.
 
 - **Host:** Vercel. **DB:** Neon.
-- **Cron:** nightly GSC sync + measurement. No scheduled draft job — drafts are on demand.
+- **Cron:** nightly GSC sync and a drain sweep. The measurement cron was removed with the
+  per-post readings (§4.5). No scheduled draft job — drafts are on demand. Hobby rejects any
+  sub-daily schedule, which is what set the drain cadence.
 - **Models:** GLM-5.2 on Ollama Cloud at `think: max`, behind `lib/llm`. Anthropic is a
   config swap; prompts avoid provider-specific behaviour so the swap is real. Max reasoning
   was measured rather than assumed: on the same question it produced 3,898 characters of
@@ -691,6 +708,14 @@ recorded first, the local file write is best-effort inside a `try`, and the dura
 path is `/api/posts/[id]/markdown`, which renders the markdown from the row. Filenames go out
 as RFC 5987: three live slugs contain curly apostrophes, and an HTTP header is a ByteString,
 so the naive form threw a 500 instead of returning a file.
+
+**Two things the Vercel build got wrong by default.** The project imported as framework
+`Other`, which skips the Next.js build entirely, so `vercel.json` pins `"framework": "nextjs"`
+rather than trusting detection. And `loadConfig()` reads `config/*.json` at runtime through a
+path built from an env var, which the file tracer cannot follow: the files were simply absent
+from the bundle and every screen touching the keyword list returned a 500. `next.config.ts`
+traces `./config/*.json` into `/**` rather than naming routes, because the loaders reach the
+gates from enough entry points that a per-route list would rot.
 
 **GSC connection is live and verified:** service account `blog-eo@decent-answer-506707-k3`,
 property `sc-domain:gethelium.co`, permission `siteFullUser`.
@@ -747,7 +772,7 @@ Still open, and gated shut until resolved:
 
 | Phase | Deliverable | State |
 |---|---|---|
-| 0 | Schema, config ingest (sheet → keywords, entity-record → ledger), GSC sync, measurement spine | **done** |
+| 0 | Schema, config ingest (sheet → keywords, entity-record → ledger), GSC sync, blog-wide baseline | **done** |
 | 1 | Five gates as pure functions + unit tests | **done** |
 | 2 | Dashboard: generate · draft view · gate report · approve → markdown · history | **done** |
 | 3 | Draft pipeline and the `write-blog` skill | **done** |
@@ -755,11 +780,15 @@ Still open, and gated shut until resolved:
 | 3.2 | The advisory review pass: nine judgment checks, evidenced, non-gating (§4.3b) | **done** |
 | 5 | Keyword intelligence: GSC mining, Linear extraction, the skill, secondary keywords | **done** |
 | 4 | Discord webhook notifier | code done and no-ops safely without a URL; **needs `DISCORD_WEBHOOK_URL`** |
-| 6 | Stubs: auto-publish handler | open |
+| 6 | Auto-publish handler | **dropped** — publishing is manual, and nothing is stubbed for it |
 
 Phase 0 ran first and was the piece that would have been unrecoverable if deferred: the
-measurement baseline can only be captured going forward. Phase 5 overtook phase 4 because
+blog-wide baseline can only be captured going forward. Phase 5 overtook phase 4 because
 the target list, not the notifier, was what limited output.
+
+Phase 6 is not deferred, it is cut. The engine's contract now ends at an approved draft, and
+the per-post measurement that depended on a published state went with it (§4.5). Earlier
+revisions of this document claimed a publish handler existed as a stub; none ever did.
 
 **Still open beyond phase 4:**
 

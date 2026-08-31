@@ -2,7 +2,6 @@
   "framework": "nextjs",
   "crons": [
     { "path": "/api/cron/gsc-sync", "schedule": "30 2 * * *" },
-    { "path": "/api/cron/measure",  "schedule": "45 2 * * *" },
     { "path": "/api/cron/drain",    "schedule": "0 3 * * *" }
   ]
 }

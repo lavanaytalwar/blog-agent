@@ -20,7 +20,7 @@ export function DecisionPanel({ postId, status, attempt, maxAttempts, gatesPasse
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const settled = ['approved', 'discarded', 'published', 'measured'].includes(status);
+  const settled = ['approved', 'discarded'].includes(status);
   const canRegenerate = attempt < maxAttempts;
 
   async function decide(action: 'approve' | 'discard' | 'regenerate') {
@@ -49,7 +49,7 @@ export function DecisionPanel({ postId, status, attempt, maxAttempts, gatesPasse
   }
 
   if (settled) {
-    const approved = ['approved', 'published', 'measured'].includes(status);
+    const approved = status === 'approved';
     return (
       <div className={styles.decision}>
         <p className={styles.railNote}>

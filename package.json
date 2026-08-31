@@ -15,7 +15,7 @@
     "keywords:ingest": "tsx scripts/ingest-keywords.ts",
     "typecheck": "tsc --noEmit",
     "status": "tsx scripts/status.ts",
-    "test": "node --import tsx --test lib/gates/*.test.ts lib/keywords/*.test.ts lib/brief/*.test.ts lib/draft/*.test.ts lib/gsc/*.test.ts lib/serp/*.test.ts lib/review/*.test.ts",
+    "test": "node --import tsx --test lib/gates/*.test.ts lib/keywords/*.test.ts lib/data/*.test.ts lib/brief/*.test.ts lib/draft/*.test.ts lib/gsc/*.test.ts lib/serp/*.test.ts lib/review/*.test.ts",
     "gate": "tsx scripts/gate.ts",
     "review": "tsx scripts/review-once.ts",
     "dev": "next dev",

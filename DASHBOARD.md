@@ -47,7 +47,7 @@ fixtures, which is the only way to get that screen right.
 | `/posts` | Every post, filterable by status |
 | `/posts/[id]` | **The main screen.** Draft, gate report, decision |
 | `/keywords` | Coverage map — which targets have a post, which are untouched |
-| `/measurement` | Per-post readings against the blog-wide control |
+| `/measurement` | The blog-wide non-brand baseline |
 
 | API route | Method | Does |
 |---|---|---|
@@ -55,7 +55,6 @@ fixtures, which is the only way to get that screen right.
 | `/api/posts/[id]/decision` | POST | `approve` \| `discard` \| `regenerate` |
 | `/api/posts/[id]/status` | GET | Poll target while a draft is generating |
 | `/api/cron/gsc-sync` | GET | Nightly Search Console pull |
-| `/api/cron/measure` | GET | Nightly +7 / +14 / +28 / +56 readings |
 | `/api/cron/drain` | GET | Daily; re-runs drafts orphaned mid-generation. Safe to hit by hand |
 
 ---
@@ -170,16 +169,16 @@ Show the remaining-target count somewhere permanent. It is the project's real cl
 
 ## 7. `/measurement`
 
-Today this screen has no per-post data, because nothing has been published through the
-system yet. **The empty state is the most important thing on it.**
+This screen carries one thing: the blog-wide non-brand line across the full 447 days of
+history. It sits at zero, with a single click on it. That is the before-picture, and it is
+the entire basis on which this programme will later be judged. **It is the most important
+thing on the screen**, and it keeps accruing nightly whether or not anything ships.
 
-Render the blog-wide non-brand line across the full 447 days of history — it sits at
-zero, with a single click on it. That is the before-picture, and it is the entire basis
-on which this programme will later be judged.
-
-Once posts exist, add per-post rows: publish date, +7, +14, +28 and +56 readings, each beside the
-blog-wide control for the same window. A reading without its control is not shown at
-all — it would imply an attribution the data cannot support.
+Per-post readings are retired, and the section says so rather than showing an empty table.
+Publishing is a manual paste into the CMS, so no post here carries a live URL or a go-live
+date, and a +7 window has nothing to count from. Dating the windows from `approved_at`
+instead would produce a number that looks like measurement and is not one. See
+ARCHITECTURE.md §4.5.
 
 Leading indicators, displayed above the table:
 
@@ -262,6 +261,6 @@ Both light and dark, driven by `prefers-color-scheme`.
 3. Approve is impossible while any gate fails, and writes both the file and the row.
 4. Regenerate is capped at two attempts and passes the note forward.
 5. `/keywords` shows the remaining-target count.
-6. `/measurement` renders the 447-day non-brand baseline, including its empty state.
+6. `/measurement` renders the 447-day non-brand baseline.
 7. Every decision has an actor and a timestamp.
 8. The deployment is unreachable without a Vercel team login.

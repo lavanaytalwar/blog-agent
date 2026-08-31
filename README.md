@@ -3,7 +3,7 @@
 Gated blog generation for `www.gethelium.co/blogs`. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for the design and the reasoning behind it.
 
-**Built:** Phase 0 (schema, config, Search Console, measurement spine),
+**Built:** Phase 0 (schema, config, Search Console, blog-wide baseline),
 Phase 1 (the five gates), Phase 2 (the dashboard), Phase 5 (keyword intelligence),
 Phase 3 (the writing pipeline, minus a provider key). 79 tests.
 
@@ -77,7 +77,7 @@ seeded from them — never the other way round.
 | `/generate` | Pick a lead target, add same-cluster targets to cover with it, start a draft |
 | `/posts` · `/posts/[id]` | History, and the review screen |
 | `/keywords` | Coverage map and the remaining-target count |
-| `/measurement` | The non-brand baseline and per-post readings |
+| `/measurement` | The blog-wide non-brand baseline |
 
 Three things worth knowing:
 

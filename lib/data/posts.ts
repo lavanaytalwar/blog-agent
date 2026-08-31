@@ -6,9 +6,11 @@ import { serializeDraft } from '../gates/parse.js';
 import type { GateReport } from '../gates/types.js';
 import type { Review, ReviewNote } from '../review/types.js';
 
+// Publishing happens by hand, outside this system, so `approved` is terminal.
+// See migrations/007_retire_published.sql.
 export type PostStatus =
   | 'drafted' | 'failed_gates' | 'awaiting_approval'
-  | 'approved' | 'discarded' | 'published' | 'measured';
+  | 'approved' | 'discarded';
 
 export type PostRow = {
   id: number;
