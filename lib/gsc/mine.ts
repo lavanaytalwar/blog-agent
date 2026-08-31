@@ -3,6 +3,7 @@ import { loadConfig } from '../config/load.js';
 import { fingerprint, isVariantOf } from '../keywords/fingerprint.js';
 import { loadHistory, seenFingerprints } from '../keywords/history.js';
 import { rejectedFingerprints } from '../keywords/rejections.js';
+import { acceptedFingerprints } from '../keywords/acceptances.js';
 import { readFileSync, existsSync } from 'node:fs';
 
 export type Candidate = {
@@ -88,20 +89,22 @@ async function nonBrandQueries(minImpressions: number): Promise<Candidate[]> {
  * Queries Helium ranks for but does not win — candidates for a new primary.
  *
  * Excludes anything already targeted, anything the history ledger has seen,
- * and anything rejected from the dashboard, so a rejected candidate never
- * comes back.
+ * anything rejected from the dashboard, and anything already accepted from
+ * the dashboard — an accepted candidate is a decided one, awaiting
+ * `keywords:apply-accepted` rather than a fresh proposal.
  */
 export async function strikingDistance(): Promise<Candidate[]> {
   const { keywords } = loadConfig();
   const seen = seenFingerprints(loadHistory());
   const rejected = await rejectedFingerprints();
+  const accepted = await acceptedFingerprints();
   const targeted = new Set(keywords.keywords.map((k) => fingerprint(k.keyword)));
 
   const rows = await nonBrandQueries(STRIKING.minImpressions);
   return rows.filter((c) => {
     if (!inStrikingBand(c)) return false;
     const fp = fingerprint(c.query);
-    return !targeted.has(fp) && !seen.has(fp) && !rejected.has(fp);
+    return !targeted.has(fp) && !seen.has(fp) && !rejected.has(fp) && !accepted.has(fp);
   });
 }
 
@@ -115,11 +118,18 @@ export async function strikingDistance(): Promise<Candidate[]> {
  * No impression ceiling here, unlike striking distance. A secondary is a
  * supporting term inside a post about the primary, never a target we rank for
  * on its own, so "too competitive to win" does not apply to it.
+ *
+ * Also excludes anything the history ledger has already seen — striking
+ * distance always did this, but a secondary already written into a primary's
+ * `secondary_keywords` (or previously proposed/rejected as one) kept
+ * resurfacing here as if it were new, because this check was missing.
  */
 export async function secondaryCandidates(): Promise<SecondaryCandidate[]> {
   const { keywords } = loadConfig();
   const usable = keywords.keywords.filter((k) => k.status !== 'excluded');
+  const seen = seenFingerprints(loadHistory());
   const rejected = await rejectedFingerprints();
+  const accepted = await acceptedFingerprints();
   const rows = await nonBrandQueries(SECONDARY.minImpressions);
 
   // Fold surface forms before returning. "platform" and "platforms",
@@ -128,15 +138,16 @@ export async function secondaryCandidates(): Promise<SecondaryCandidate[]> {
   const folded = new Map<string, SecondaryCandidate>();
 
   for (const c of rows) {
-    if (rejected.has(fingerprint(c.query))) continue;
+    const fp = fingerprint(c.query);
+    if (seen.has(fp) || rejected.has(fp) || accepted.has(fp)) continue;
     const matches = usable.filter((k) => isVariantOf(c.query, k.keyword));
     if (!matches.length) continue;
     const best = matches.sort((a, b) => b.keyword.length - a.keyword.length)[0]!;
 
-    const fp = `${best.keyword}::${fingerprint(c.query)}`;
-    const existing = folded.get(fp);
+    const foldKey = `${best.keyword}::${fp}`;
+    const existing = folded.get(foldKey);
     if (!existing) {
-      folded.set(fp, { ...c, primary: best.keyword, variants: [] });
+      folded.set(foldKey, { ...c, primary: best.keyword, variants: [] });
       continue;
     }
     // Impressions accumulate across forms; the most-searched form represents.
@@ -151,7 +162,7 @@ export async function secondaryCandidates(): Promise<SecondaryCandidate[]> {
         .filter((v, i, a) => a.indexOf(v) === i)
         .filter((v) => v !== (c.impressions > existing.impressions ? c.query : existing.query)),
     };
-    folded.set(fp, merged);
+    folded.set(foldKey, merged);
   }
 
   return [...folded.values()].sort(

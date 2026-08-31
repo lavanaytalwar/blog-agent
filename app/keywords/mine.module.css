@@ -43,6 +43,18 @@
 .rejectOn { border-color: var(--fail); color: var(--fail); background: var(--fail-wash); }
 .reject:disabled, .rejectOn:disabled { cursor: default; opacity: 0.5; }
 
+/* The check mark beside it — same shape, opposite decision. */
+.accept, .acceptOn {
+  font-family: var(--font-mono); font-size: 12px; line-height: 1;
+  width: 16px; height: 16px; padding: 0; margin-right: 4px;
+  border-radius: 3px; cursor: pointer; flex-shrink: 0;
+  vertical-align: baseline; background: transparent;
+  border: 1px solid var(--border); color: var(--dormant);
+}
+.accept:hover { border-color: var(--pass); color: var(--pass); }
+.acceptOn { border-color: var(--pass); color: var(--pass); background: var(--accent-wash); }
+.accept:disabled, .acceptOn:disabled { cursor: default; opacity: 0.5; }
+
 .keywordRow { display: inline-flex; align-items: baseline; }
 .struck { text-decoration: line-through; color: var(--dormant); }
 

@@ -20,10 +20,11 @@ export async function GET() {
     thresholds,
     striking: striking.slice(0, 25),
     strikingCount: striking.length,
-    // Returned in full so each one can be rejected from the dashboard; mining
-    // has already subtracted anything previously rejected.
+    // Returned in full so each one can be accepted or rejected from the
+    // dashboard; mining has already subtracted anything previously decided.
     secondaries: secondaries.slice(0, 50).map((s) => ({
       query: s.query, primary: s.primary, impressions: s.impressions, position: s.position,
+      firstSeen: s.firstSeen, lastSeen: s.lastSeen, variants: s.variants,
     })),
     secondaryCount: secondaries.length,
     primariesWithCandidates: [...byPrimary.entries()].map(([primary, count]) => ({ primary, count })),
