@@ -215,11 +215,11 @@ describe('gate 4 — cannibalization', () => {
     assert.ok(rules(r).includes('slug.unique'));
   });
 
-  test('rejects a keyword an existing post already owns', () => {
+  test('allows a keyword an existing post already owns', () => {
     const r = cannibalizationGate(passingDraft, {
       existingSlugs: [], targetedKeywords: ['how to improve revenue per visitor'],
     });
-    assert.ok(rules(r).includes('keyword.untargeted'));
+    assert.ok(!rules(r).includes('keyword.untargeted'), JSON.stringify(r.failures));
   });
 
   test('matching is case-insensitive', () => {
@@ -243,12 +243,12 @@ describe('gate 4 — cannibalization', () => {
     assert.ok(!rules(r).includes('keyword.foreign'), JSON.stringify(r.failures));
   });
 
-  test('an additional target already owned by another post is rejected', () => {
+  test('an additional target already owned by another post is allowed', () => {
     const r = cannibalizationGate(
       draft({ additionalKeywords: ['How to personalise a Shopify store'] }),
       { existingSlugs: [], targetedKeywords: ['how to personalise a shopify store'] },
     );
-    assert.ok(rules(r).includes('keyword.untargeted'));
+    assert.ok(!rules(r).includes('keyword.untargeted'), JSON.stringify(r.failures));
   });
 });
 

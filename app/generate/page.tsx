@@ -20,11 +20,11 @@ export default async function GeneratePage() {
       // Shown in the picker so the cost of adding a target is visible before
       // it is added, not after the draft comes back 400 words short.
       secondaries: (k.secondary_keywords ?? []).map((sec) => sec.keyword),
-      disabled: k.status === 'excluded' || k.postId !== null || !k.cluster_id,
+      disabled: k.status === 'excluded' || !k.cluster_id,
       reason:
         k.status === 'excluded' ? (k.exclusion_reason ?? 'excluded')
-        : k.postId !== null ? `already covered by post #${k.postId}`
         : !k.cluster_id ? 'needs a cluster before it can be targeted'
+        : k.postId !== null ? `already covered by post #${k.postId} — this starts another`
         : (k.entity_risk ?? ''),
     })),
   );

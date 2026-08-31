@@ -19,10 +19,12 @@ function countPhrase(haystack: string, phrase: string): number {
 /**
  * Gate 4 — Cannibalization.
  *
- * Two posts chasing one keyword compete with each other, and the second one
- * usually wins nothing while costing the first. Pure: existing slugs and
- * targeted keywords are passed in, never fetched, so this is trivially testable
- * and cannot silently pass because a network call failed.
+ * Guards against duplicate slugs and against prose that drifts into someone
+ * else's keyword. Regenerating a post for a keyword that already has one is
+ * allowed; only foreign mentions and slug collisions are blocked. Pure:
+ * existing slugs and targeted keywords are passed in, never fetched, so this
+ * is trivially testable and cannot silently pass because a network call
+ * failed.
  */
 export function cannibalizationGate(draft: Draft, ctx: GateContext): GateResult {
   const { keywords } = loadConfig();
@@ -37,20 +39,9 @@ export function cannibalizationGate(draft: Draft, ctx: GateContext): GateResult 
     });
   }
 
-  // Every keyword this post claims — the lead and any selected alongside it —
-  // must be free. Checking only the lead would let a second post quietly absorb
-  // a target the first one already owns.
+  // A post may target a keyword that an existing post already owns — a second
+  // pass on the same target is allowed, not treated as a collision.
   const claimed = [draft.primaryKeyword, ...draft.additionalKeywords];
-  const targeted = new Set(ctx.targetedKeywords.map(norm));
-  for (const kw of claimed) {
-    if (targeted.has(norm(kw))) {
-      failures.push({
-        rule: 'keyword.untargeted',
-        message: `"${kw}" is already the primary keyword of an existing post. Improve that post instead of writing a competitor to it.`,
-        evidence: kw,
-      });
-    }
-  }
 
   // A post targets the keywords it was asked to target and their secondaries.
   // Any other primary used repeatedly means two posts chasing one query, which
